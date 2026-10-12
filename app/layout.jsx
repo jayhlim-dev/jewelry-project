@@ -1,28 +1,65 @@
+import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
+import { site } from 'data/site';
+import { InquiryProvider } from 'components/layout/InquiryProvider';
+import { Navbar } from 'components/layout/Navbar';
+import { Footer } from 'components/layout/Footer';
+import { MainShell } from 'components/layout/MainShell';
+import { SmoothScroll } from 'components/layout/SmoothScroll';
+import { SplashScreen } from 'components/layout/SplashScreen';
 import '../styles/globals.css';
-import { Footer } from '../components/footer';
-import { Header } from '../components/header';
+
+const cormorant = Cormorant_Garamond({
+    subsets: ['latin'],
+    weight: ['400', '500', '600'],
+    style: ['normal', 'italic'],
+    variable: '--font-cormorant',
+    display: 'swap'
+});
+
+const dmSans = DM_Sans({
+    subsets: ['latin'],
+    weight: ['400', '500', '600'],
+    variable: '--font-dm',
+    display: 'swap'
+});
 
 export const metadata = {
+    metadataBase: new URL(site.url),
     title: {
-        template: '%s | Netlify',
-        default: 'Netlify Starter'
+        default: `${site.name} · Fine Jewelry`,
+        template: `%s · ${site.name}`
+    },
+    description: site.description,
+    icons: { icon: '/favicon.svg' },
+    openGraph: {
+        siteName: site.name,
+        type: 'website',
+        title: `${site.name} · Fine Jewelry`,
+        description: site.description,
+        images: [{ url: '/images/hero/campaign.jpg', alt: 'Editorial jewelry campaign portrait' }]
     }
 };
 
 export default function RootLayout({ children }) {
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: site.name,
+        description: site.description,
+        url: site.url
+    };
+
     return (
-        <html lang="en">
-            <head>
-                <link rel="icon" href="/favicon.svg" sizes="any" />
-            </head>
-            <body className="antialiased text-white bg-blue-900">
-                <div className="flex flex-col min-h-screen px-6 bg-noise sm:px-12">
-                    <div className="flex flex-col w-full max-w-5xl mx-auto grow">
-                        <Header />
-                        <main className="grow">{children}</main>
-                        <Footer />
-                    </div>
-                </div>
+        <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
+            <body className="overflow-x-clip bg-ivory font-sans text-charcoal antialiased">
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+                <SplashScreen />
+                <SmoothScroll />
+                <InquiryProvider>
+                    <Navbar />
+                    <MainShell>{children}</MainShell>
+                    <Footer />
+                </InquiryProvider>
             </body>
         </html>
     );
