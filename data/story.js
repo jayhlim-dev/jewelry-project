@@ -6,40 +6,40 @@ export const pillars = [
         title: 'Diamond quality',
         summary:
             'Color, cut, clarity, and carat belong together. A single grade, including D color, is never the whole story.',
-        body: 'The house intends to talk about diamonds in full sentences: color beside cut, clarity beside carat, and the setting that holds them. Until a real standard is confirmed, this page does not claim a minimum grade, a mine, or a laboratory.',
+        body: 'The house talks about diamonds in full sentences: color beside cut, clarity beside carat, and the setting that holds them. A page does not claim a grade, a mine, or a laboratory that the piece itself does not name.',
         image: {
             src: '/images/editorial/diamond.jpg',
-            alt: 'Sample photograph of a round diamond ring used as a placeholder for quality'
+            alt: 'Round diamond ring photographed against a pale ground'
         }
     },
     {
         id: 'design',
         title: 'Thoughtful design',
         summary: 'Lines stay fine. Settings stay low enough to live beside the hand, not above it.',
-        body: 'Design, in this preview, means proportion, metal weight, and how a piece sits when the arm moves. Specific collections and signatures will be added when the brand is real. Nothing here is a registered design claim.',
+        body: 'Design means proportion, metal weight, and how a piece sits when the arm moves. The line stays fine enough to live beside the hand.',
         image: {
-            src: '/images/products/orla-1.jpg',
-            alt: 'Sample photograph of hands wearing a fine gold bracelet and rings'
+            src: '/images/products/orla-link-bracelet.jpg',
+            alt: 'Slim pale link bracelet with a small clasp'
         }
     },
     {
         id: 'craft',
         title: 'Craftsmanship',
-        summary: 'Making is visible in edges, clasps, and the way a stone is held. The workshop story is not written yet.',
-        body: 'This section is a place for process: who makes a piece, where, and how a setting is finished. Those facts are unknown. Please read any future note about artisans, local making, or hand finishing as empty until it is replaced with a confirmed account.',
+        summary: 'Making is visible in edges, clasps, and the way a stone is held.',
+        body: 'Craft is read in the edge of a band, the clasp, and the way a stone is held. A photograph should be able to defend those details.',
         image: {
             src: '/images/editorial/craft.jpg',
-            alt: 'Sample photograph of a bracelet with detailed scroll links'
+            alt: 'Bracelet with detailed scroll links'
         }
     },
     {
         id: 'service',
         title: 'Personal service',
         summary: 'A person should be able to ask a plain question and get a plain answer before they decide.',
-        body: 'Service, for this preview, means time: looking at a piece together, explaining a report, and saying when a detail is not known. Appointments, repairs, and aftercare are not offered here because no boutique is operating behind this site.',
+        body: 'Service means time: looking at a piece together, explaining a report, and saying when a detail is not known.',
         image: {
             src: '/images/collections/bracelets.jpg',
-            alt: 'Sample photograph of a person wearing delicate gold necklaces and rings'
+            alt: 'A person wearing delicate gold necklaces and rings'
         }
     }
 ];
@@ -48,10 +48,10 @@ export const story = {
     hero: {
         eyebrow: 'The house',
         title: 'Jewelry with a reason to stay.',
-        text: 'A philosophy page for a house that is still fictional. The structure is ready. The business claims are not.',
+        text: 'A standard for color, proportion, and a plain answer before a piece is chosen.',
         image: {
             src: '/images/hero/campaign.jpg',
-            alt: 'Sample campaign portrait of a person wearing a ring, hand resting near the face'
+            alt: 'Campaign portrait of a person wearing a ring, hand resting near the face'
         }
     },
     philosophy: {
@@ -59,11 +59,11 @@ export const story = {
         title: 'Beyond brilliance. Into meaning.',
         paragraphs: [
             'Brilliance is the first thing a diamond does. Meaning is what happens after someone keeps the piece.',
-            `${site.name} would rather make fewer jewels, with a clear account of what they are, than surround a stone with adjectives. That preference is a design intention for this preview. It is not a verified production standard.`
+            `${site.name} would rather make fewer jewels, with a clear account of what they are, than surround a stone with adjectives.`
         ],
         image: {
             src: '/images/articles/color.jpg',
-            alt: 'Sample still life of gold jewelry arranged on a book'
+            alt: 'Still life of gold jewelry arranged on a book'
         }
     },
     quality: {
@@ -71,12 +71,12 @@ export const story = {
         title: 'A standard you can read.',
         paragraphs: [
             'A useful standard names what is graded, who graded it, and what was not graded. It does not stop at one flattering letter.',
-            'When this brand is real, this section should list the actual diamond criteria, metal karat, and any laboratory partners. Until then it stays a heading with room underneath.'
+            'A piece page names the metal and the stones that are known. What is not known is left unsaid.'
         ],
         points: [
             'Color is read on the D-to-Z scale. D is the least color, not a complete verdict.',
             'Cut governs how light leaves the stone. It can matter more to the eye than a small step in color.',
-            'Clarity and carat complete the description. They are not implied by the photography here.'
+            'Clarity and carat complete the description. They are named when they are known.'
         ],
         image: pillars[0].image
     },
@@ -84,12 +84,12 @@ export const story = {
         eyebrow: 'Design',
         title: 'Quiet lines, considered up close.',
         paragraphs: [
-            'The preview favors pieces that photograph honestly: metal that is allowed to be thin, stones that are not asked to shout, and compositions with space around them.'
+            'The house favors pieces that photograph honestly: metal that is allowed to be thin, stones that are not asked to shout, and compositions with space around them.'
         ],
         principles: [
             { title: 'Proportion', text: 'The stone, the metal, and the finger should agree. Height is kept in check unless a design truly needs it.' },
             { title: 'Pace', text: 'A collection should feel edited. Not every shape needs a matching suite on day one.' },
-            { title: 'Honesty', text: 'Photographs in this preview are temporary. Final jewels should be shown as they are, without borrowed sparkle.' }
+            { title: 'Honesty', text: 'A jewel should be shown as it is, without borrowed sparkle.' }
         ],
         image: {
             src: '/images/editorial/philosophy.jpg',
@@ -98,10 +98,10 @@ export const story = {
     },
     craft: {
         eyebrow: 'Craft',
-        title: 'The making is still unwritten.',
+        title: 'Seen in the finishing.',
         paragraphs: [
-            'A craft section should name benches, cities, and the hands that finish a clasp. This one does not, because inventing a workshop would be a false comfort.',
-            'Use this layout later for process photographs and a short account of how a piece moves from drawing to finger. Leave out any claim that cannot be stood next to the object.'
+            'Craft shows up in the edge of a band, the clasp, and the way a stone is held. Those are the details a photograph should be able to defend.',
+            'A claim about a workshop belongs next to the object. If a detail is not on the piece page, it is not assumed.'
         ],
         image: pillars[2].image
     },
@@ -110,28 +110,31 @@ export const story = {
         title: 'Questions before ceremonies.',
         paragraphs: [
             'Personal service here means a direct answer: what the piece is, what is known, and what is not. It does not mean a script about rarity.',
-            'Repairs, resizing, and appointments can be added when a real studio can keep those promises. The contact page on this site does not book anything.'
+            'Resizing and care are confirmed in conversation, not promised in a banner.'
         ],
         image: pillars[3].image
     },
     shopping: {
-        eyebrow: 'The visit',
-        title: 'A calm way to look.',
+        eyebrow: 'Online only',
+        title: 'Browse the catalog. Chat when you are ready.',
         paragraphs: [
-            'The shopping experience in this preview is a catalog you can filter and an inquiry you can draft. It is not a boutique, a queue, or a payment flow.'
+            'The full collection is here on the site. There is no boutique to visit—look through every piece at your own pace.',
+            'When you want to go further, message us on WhatsApp. We answer questions about metal, stones, sizing, and timing. Nothing is reserved until you confirm in that chat.'
         ],
         steps: [
-            { title: 'Look slowly', text: 'Category, metal, and shape narrow the sample grid. Nothing is reserved.' },
-            { title: 'Read the limits', text: 'Each piece says what the photograph shows and what has not been supplied.' },
-            { title: 'Ask, if you wish', text: 'The inquiry form confirms on screen and explains that the note was not sent.' }
+            { title: 'Browse the shop', text: 'Open the full catalog. Category, metal, and shape filters narrow what you see.' },
+            { title: 'Read each piece', text: 'Every product page names the metal, the stones that are known, and the price in rupiah.' },
+            { title: 'Chat on WhatsApp', text: 'Tap Inquire on a piece—or save pieces and open one chat. For rings, add your finger size in millimetres. We continue the conversation there.' }
         ],
         image: {
-            src: '/images/products/orla-2.jpg',
-            alt: 'Sample photograph of necklaces hanging in a row'
-        }
+            src: '/images/products/trio-pendant.png',
+            alt: 'Fine chain with a cluster of stones on a pale studio background'
+        },
+        shopCta: 'View full catalog',
+        whatsappCta: 'Chat on WhatsApp'
     },
     closing: {
-        title: 'When the facts arrive, the page should still feel this quiet.',
+        title: 'Find a piece that feels like yours.',
         cta: 'Explore the Collection'
     }
 };

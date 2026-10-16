@@ -22,7 +22,7 @@ export default function ArticlesPage() {
                 <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Articles' }]} />
                 <h1 className="type-headline mt-6">The journal</h1>
                 <p className="mt-4 max-w-xl text-sm leading-relaxed text-ash md:text-base">
-                    Short essays for the preview. They explain diamonds and care in plain language. They are not client stories.
+                    Short notes on diamonds, choosing a ring, and care. Written in plain language.
                 </p>
                 <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[11px] tracking-[0.16em] text-ash uppercase">
                     {categories.map((category) => (

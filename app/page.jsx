@@ -1,12 +1,15 @@
 import { Hero } from 'components/sections/Hero';
-import { BrandIntroduction } from 'components/sections/BrandIntroduction';
+import { HomeIntro } from 'components/sections/HomeIntro';
 import { CategoryShowcase } from 'components/sections/CategoryShowcase';
-import { FeaturedProducts } from 'components/sections/FeaturedProducts';
+import { SignatureStory } from 'components/sections/SignatureStory';
+import { CampaignSelection } from 'components/sections/CampaignSelection';
 import { DiamondFeature } from 'components/sections/DiamondFeature';
-import { BrandPillars } from 'components/sections/BrandPillars';
-import { EditorialStories } from 'components/sections/EditorialStories';
-import { ClosingCta } from 'components/sections/ClosingCta';
+import { SeriesBanner } from 'components/sections/SeriesBanner';
 import { site } from 'data/site';
+import { isDColorDiamondEnabled } from 'lib/features';
+
+const popular = ['pearl-strand', 'halo-ring', 'linea-bracelet', 'ivy-drops'];
+const mustHave = ['mira-band', 'rosa-cushion', 'lune-pendant', 'celeste-stack', 'halo-ring', 'ivy-drops', 'pearl-strand', 'linea-bracelet'];
 
 export const metadata = {
     title: { absolute: `${site.name} · Fine Jewelry` },
@@ -23,13 +26,13 @@ export default function Page() {
     return (
         <>
             <Hero />
-            <BrandIntroduction />
+            <HomeIntro />
             <CategoryShowcase />
-            <FeaturedProducts />
-            <DiamondFeature />
-            <BrandPillars />
-            {/* <EditorialStories /> */}
-            <ClosingCta />
+            <CampaignSelection slugs={popular} label="Popular products" title="Popular products" titleClassName="text-base font-medium" />
+            <SignatureStory />
+            <CampaignSelection slugs={mustHave} label="Must have" title="Must have" />
+            <SeriesBanner />
+            {isDColorDiamondEnabled() ? <DiamondFeature /> : null}
         </>
     );
 }

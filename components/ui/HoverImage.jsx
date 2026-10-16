@@ -6,7 +6,8 @@ export function HoverImage({
     className = '',
     sizes = '50vw',
     priority = false,
-    zoomClass = 'group-hover:scale-[1.045]'
+    zoomClass = 'group-hover:scale-[1.045]',
+    imageClass = ''
 }) {
     return (
         <div className={`overflow-hidden bg-white ${className}`}>
@@ -16,7 +17,7 @@ export function HoverImage({
                 fill
                 priority={priority}
                 sizes={sizes}
-                className={`object-cover transition-transform duration-700 ease-out motion-reduce:transition-none motion-reduce:group-hover:scale-100 motion-reduce:group-hover/card:scale-100 ${zoomClass}`}
+                className={`object-cover transition-transform duration-700 ease-out motion-reduce:transition-none motion-reduce:group-hover:scale-100 motion-reduce:group-hover/card:scale-100 ${imageClass} ${zoomClass}`}
             />
         </div>
     );

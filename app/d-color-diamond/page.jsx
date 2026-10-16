@@ -1,5 +1,7 @@
+import { notFound } from 'next/navigation';
 import { diamondPage } from 'data/diamond';
 import { paths, site } from 'data/site';
+import { isDColorDiamondEnabled } from 'lib/features';
 import { Button } from 'components/ui/Button';
 import { Container } from 'components/ui/Container';
 import { FaqList } from 'components/ui/FaqList';
@@ -14,6 +16,8 @@ export const metadata = {
 };
 
 export default function DiamondPage() {
+    if (!isDColorDiamondEnabled()) notFound();
+
     const page = diamondPage;
 
     return (
@@ -115,7 +119,7 @@ export default function DiamondPage() {
 
             <section className="border-t border-charcoal/10 py-16 md:py-20">
                 <Container className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-                    <h2 className="type-title max-w-md">See the sample collection, without treating color as the only measure.</h2>
+                    <h2 className="type-title max-w-md">See the pieces, without treating color as the only measure.</h2>
                     <Button href={paths.shop}>Browse jewelry</Button>
                 </Container>
             </section>

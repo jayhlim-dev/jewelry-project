@@ -4,6 +4,7 @@
  * Keep the same fields so the shop and product pages do not need to change.
  * `code` is a sample catalog code for this preview.
  * `stones` lists only facts already known. Leave color, clarity, and carat off when they are unknown.
+ * `metalViews` is optional. Add a metal there only when that metal has its own photograph.
  *
  * Do not treat prices, metals, or photographs as a live catalog.
  */
@@ -22,19 +23,7 @@ export const products = [
                 src: '/images/products/solenne-ring.png',
                 width: 940,
                 height: 940,
-                alt: 'Sample photograph of a round center stone ring with smaller stones along a pale metal band'
-            },
-            {
-                src: '/images/products/celeste-1.jpg',
-                width: 1400,
-                height: 933,
-                alt: 'Example photograph of gold rings worn on the hand'
-            },
-            {
-                src: '/images/products/lino-1.jpg',
-                width: 1400,
-                height: 1592,
-                alt: 'Example photograph of several gold rings on a pale stone'
+                alt: 'Round center stone ring with smaller stones along a pale metal band'
             }
         ],
         metal: 'White Gold',
@@ -48,7 +37,7 @@ export const products = [
         available: true,
         summary: 'A round center stone, with smaller stones along the band.',
         description:
-            'The photograph shows a round center stone and a row of smaller round stones on a pale metal band. Carat weight, clarity, and color are not stated.',
+            'A round center stone, held low, with smaller stones along the band.',
         materials: ['Pale metal in the photograph', 'Round center stone', 'Smaller round stones along the shoulders']
     },
     {
@@ -72,12 +61,11 @@ export const products = [
         metals: ['Rose Gold', 'Yellow Gold'],
         diamondShape: null,
         stones: [{ count: 1, shape: 'Cushion', detail: 'colored center' }],
-        stoneNote: 'This is not a graded diamond, and no certificate is attached.',
         featured: false,
         available: true,
         summary: 'A cushion-shaped colored center in a soft metal.',
         description:
-            'Sample imagery shows a pink cushion-cut center and a pale halo. This is not a graded diamond, and no certificate is attached.',
+            'A pink cushion center in rose gold, with a pale halo.',
         materials: ['Sample metal tone: rose gold', 'Center shown as a colored cushion-cut stone']
     },
     {
@@ -99,25 +87,18 @@ export const products = [
                 src: '/images/products/celeste-2.jpg',
                 width: 1400,
                 height: 933,
-                alt: 'Example photograph of a diamond line bracelet'
-            },
-            {
-                src: '/images/products/mira-2.jpg',
-                width: 1400,
-                height: 930,
-                alt: 'Example photograph of two plain gold bands'
+                alt: 'Textured gold bands worn together'
             }
         ],
         metal: 'Yellow Gold',
         metals: ['Yellow Gold', 'White Gold'],
         diamondShape: 'Round',
         stones: [{ detail: 'Small round, heart, and bar motifs on the bands' }],
-        stoneNote: 'Exact stone counts are not listed. Color, clarity, and carat are not stated.',
         featured: false,
         available: true,
         summary: 'Three low bands meant to be worn together.',
         description:
-            'A sample stack. The photograph shows textured gold bands with small round, heart, and bar motifs. Exact stone counts are not listed.',
+            'Three low bands meant to be worn together. The photograph shows textured gold bands with small round, heart, and bar motifs.',
         materials: ['Sample metal tone: yellow gold', 'Small round stones visible on the bands']
     },
     {
@@ -135,18 +116,6 @@ export const products = [
                 height: 940,
                 alt: 'Sample photograph of an emerald-cut stone band in pale metal, with a 750 mark inside'
             },
-            {
-                src: '/images/products/mira-2.jpg',
-                width: 1400,
-                height: 930,
-                alt: 'Example photograph of two plain gold bands'
-            },
-            {
-                src: '/images/collections/rings.jpg',
-                width: 1600,
-                height: 1600,
-                alt: 'Example photograph of a cushion-cut pink stone ring'
-            }
         ],
         metal: 'White Gold',
         metals: ['White Gold'],
@@ -157,7 +126,7 @@ export const products = [
         available: true,
         summary: 'A continuous row of emerald-cut stones.',
         description:
-            'The photograph shows emerald-cut stones set around a pale band. A 750 mark is visible inside the ring. Carat weight and color are not stated.',
+            'Emerald-cut stones set in a continuous row around a pale band.',
         materials: ['Pale metal in the photograph', 'Emerald-cut stones around the band', 'A 750 mark is visible inside the ring']
     },
     {
@@ -173,19 +142,7 @@ export const products = [
                 src: '/images/products/oval-hoops.png',
                 width: 940,
                 height: 940,
-                alt: 'Sample photograph of pale metal hoops set with oval stones, one shown from the side'
-            },
-            {
-                src: '/images/collections/earrings.jpg',
-                width: 1400,
-                height: 2100,
-                alt: 'Example photograph of earrings'
-            },
-            {
-                src: '/images/hero/campaign.jpg',
-                width: 2000,
-                height: 3000,
-                alt: 'Example photograph of hoop earrings worn in a portrait'
+                alt: 'Pale metal hoops set with oval stones, one shown from the side'
             }
         ],
         metal: 'White Gold',
@@ -196,7 +153,7 @@ export const products = [
         available: true,
         summary: 'Hoops set with a row of oval stones.',
         description:
-            'The photograph shows one hoop from the front and one from the side, including the hinge. The stones are oval. Carat weight and color are not stated.',
+            'Oval stones set along a hinged hoop.',
         materials: ['Pale metal in the photograph', 'Oval stones set along the hoop']
     },
     {
@@ -219,12 +176,11 @@ export const products = [
         metals: ['Yellow Gold'],
         diamondShape: null,
         stones: [{ shape: 'Heart', detail: 'heart-shaped blue stones on gold hooks' }],
-        stoneNote: 'Blue heart-shaped stones in the photograph.',
         featured: false,
         available: false,
         summary: 'Small heart drops on a simple hook.',
         description:
-            'A sample pair marked unavailable in this preview. The photograph shows blue heart-shaped stones on gold hooks.',
+            'Small heart drops on a simple hook, with blue heart-shaped stones.',
         materials: ['Sample metal tone: yellow gold', 'Heart-shaped blue stones visible in the photograph']
     },
     {
@@ -240,19 +196,7 @@ export const products = [
                 src: '/images/products/trio-pendant.png',
                 width: 940,
                 height: 940,
-                alt: 'Sample photograph of a fine chain with a pear, oval, and baguette stone cluster'
-            },
-            {
-                src: '/images/products/lino-2.jpg',
-                width: 1400,
-                height: 933,
-                alt: 'Example photograph of a heart pendant on a pale chain'
-            },
-            {
-                src: '/images/products/orla-2.jpg',
-                width: 1400,
-                height: 2100,
-                alt: 'Example photograph of several pendants hanging on chains'
+                alt: 'Fine chain with a pear, oval, and baguette stone cluster'
             }
         ],
         metal: 'White Gold',
@@ -263,7 +207,7 @@ export const products = [
         available: true,
         summary: 'A pear, an oval, and a baguette on a fine chain.',
         description:
-            'The photograph shows three stones grouped on a fine pale chain: pear, oval, and baguette. Chain length and carat weight are not stated.',
+            'A pear, an oval, and a baguette grouped on a fine chain.',
         materials: ['Pale metal in the photograph', 'Pear, oval, and baguette stones in one cluster']
     },
     {
@@ -279,19 +223,7 @@ export const products = [
                 src: '/images/products/halo-pendant.png',
                 width: 940,
                 height: 940,
-                alt: 'Sample photograph of a round center stone in a halo, hanging from a fine pale chain'
-            },
-            {
-                src: '/images/products/nola-1.jpg',
-                width: 1200,
-                height: 800,
-                alt: 'Example photograph of a pearl strand in a box'
-            },
-            {
-                src: '/images/products/aurelia-2.jpg',
-                width: 1400,
-                height: 970,
-                alt: 'Example photograph of a gold collar necklace'
+                alt: 'Round center stone in a halo, hanging from a fine pale chain'
             }
         ],
         metal: 'White Gold',
@@ -305,7 +237,7 @@ export const products = [
         available: true,
         summary: 'A round center stone in a halo, on a fine chain.',
         description:
-            'The photograph shows a round center stone circled by smaller stones, on a fine pale chain. Chain length, carat weight, and color are not stated.',
+            'A round center stone in a halo, on a fine chain.',
         materials: ['Pale metal in the photograph', 'Round center stone', 'Halo of smaller stones']
     },
     {
@@ -318,23 +250,22 @@ export const products = [
         currency: 'IDR',
         images: [
             {
-                src: '/images/products/aurelia-2.jpg',
-                width: 1400,
-                height: 970,
-                alt: 'Sample photograph of an ornate gold collar necklace with red stones and matching earrings'
+                src: '/images/products/noor-collar.jpg',
+                width: 1024,
+                height: 1024,
+                alt: 'Fine pale chain with a curved line of small stones at the front'
             }
         ],
-        metal: 'Yellow Gold',
-        metals: ['Yellow Gold'],
-        diamondShape: null,
-        stones: [{ detail: 'Red stones visible in the photograph' }],
-        stoneNote: 'No certificate is attached.',
+        metal: 'White Gold',
+        metals: ['White Gold'],
+        diamondShape: 'Round',
+        stones: [{ detail: 'Small stones along a curved front line' }],
         featured: false,
         available: true,
-        summary: 'A closer, more ornate gold collar.',
+        summary: 'A fine chain with stones set along the front.',
         description:
-            'Sample photograph of a traditional gold collar with red stones. It is included so the grid has range. It is not a documented antique and has no certificate.',
-        materials: ['Sample metal tone: yellow gold', 'Red stones visible in the photograph']
+            'A fine chain with a curved line of small stones at the front.',
+        materials: ['Pale metal in the photograph', 'Small stones along the front line']
     },
     {
         id: 'linea-bracelet',
@@ -349,19 +280,7 @@ export const products = [
                 src: '/images/products/linea-bangle.png',
                 width: 940,
                 height: 940,
-                alt: 'Sample photograph of a slim pale bangle with a line of small stones and a round cluster'
-            },
-            {
-                src: '/images/products/celeste-2.jpg',
-                width: 1400,
-                height: 933,
-                alt: 'Example photograph of a diamond line bracelet'
-            },
-            {
-                src: '/images/products/aurelia-1.jpg',
-                width: 1400,
-                height: 1869,
-                alt: 'Example photograph of a gold chain bracelet'
+                alt: 'Slim pale bangle with a line of small stones and a round cluster'
             }
         ],
         metal: 'White Gold',
@@ -375,7 +294,7 @@ export const products = [
         available: true,
         summary: 'A slim bangle with a small round cluster.',
         description:
-            'The photograph shows a pale bangle, a line of small stones along one side, and a round cluster at the front. Carat weight and color are not stated.',
+            'A slim bangle with a line of small stones and a round cluster at the front.',
         materials: ['Pale metal in the photograph', 'Small stones along one side', 'A round cluster at the front']
     },
     {
@@ -401,7 +320,7 @@ export const products = [
         available: false,
         summary: 'An oval-link chain for the wrist.',
         description:
-            'Sample chain bracelet marked unavailable in this preview. No stone details apply. Link size is not specified.',
+            'An oval-link chain for the wrist.',
         materials: ['Sample metal tone: yellow gold', 'Polished oval links']
     },
     {
@@ -414,27 +333,21 @@ export const products = [
         currency: 'IDR',
         images: [
             {
-                src: '/images/products/orla-1.jpg',
-                width: 1400,
-                height: 2100,
-                alt: 'Sample lifestyle photograph of a gold link bracelet worn on the wrist'
-            },
-            {
-                src: '/images/products/aurelia-1.jpg',
-                width: 1400,
-                height: 1869,
-                alt: 'Alternate sample photograph of a gold chain bracelet. It may show a related piece, not a second angle of one finished jewel.'
+                src: '/images/products/orla-link-bracelet.jpg',
+                width: 1024,
+                height: 1024,
+                alt: 'Slim pale link bracelet with a small clasp'
             }
         ],
-        metal: 'Yellow Gold',
-        metals: ['Yellow Gold', 'Rose Gold'],
+        metal: 'White Gold',
+        metals: ['White Gold', 'Yellow Gold'],
         diamondShape: null,
         featured: false,
         available: true,
-        summary: 'A light link bracelet with a small clasp.',
+        summary: 'A slim link bracelet with a small clasp.',
         description:
-            'Sample bracelet. The two photographs are temporary and may show related gold links rather than one finished piece. Use them to preview the gallery, not as a catalog record.',
-        materials: ['Sample metal tone: yellow gold', 'Link bracelet']
+            'A slim link bracelet with a small clasp.',
+        materials: ['Pale metal in the photograph', 'Oval links']
     }
 ];
 
@@ -446,6 +359,9 @@ export const priceBands = [
 ];
 
 export const sortOptions = [
-    { id: 'featured', label: 'Featured' },
+    { id: 'featured', label: 'Most relevant' },
+    { id: 'price-asc', label: 'Price, low to high' },
+    { id: 'price-desc', label: 'Price, high to low' },
+    { id: 'newest', label: 'Newest' },
     { id: 'name', label: 'Name, A–Z' }
 ];

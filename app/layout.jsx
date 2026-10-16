@@ -5,7 +5,6 @@ import { Navbar } from 'components/layout/Navbar';
 import { Footer } from 'components/layout/Footer';
 import { MainShell } from 'components/layout/MainShell';
 import { SmoothScroll } from 'components/layout/SmoothScroll';
-import { SplashScreen } from 'components/layout/SplashScreen';
 import '../styles/globals.css';
 
 const cormorant = Cormorant_Garamond({
@@ -53,7 +52,6 @@ export default function RootLayout({ children }) {
         <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
             <body className="overflow-x-clip bg-ivory font-sans text-charcoal antialiased">
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-                <SplashScreen />
                 <SmoothScroll />
                 <InquiryProvider>
                     <Navbar />

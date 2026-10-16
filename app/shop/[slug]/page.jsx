@@ -1,11 +1,11 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { products } from 'data/products';
 import { paths, site } from 'data/site';
-import { getProduct, getRelatedProducts } from 'lib/catalog';
+import { getCollectionForCategory, getProduct, getRelatedProducts } from 'lib/catalog';
+import { ProductStage } from 'components/products/ProductStage';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
-import { ProductGallery } from 'components/products/ProductGallery';
-import { ProductSummary } from 'components/products/ProductSummary';
 import { ProductGrid } from 'components/products/ProductGrid';
 
 export function generateStaticParams() {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
     const { slug } = await params;
     const product = getProduct(slug);
     if (!product) return { title: 'Piece' };
-    const description = `${product.summary} Sample piece in the ${site.name} preview.`;
+    const description = product.summary;
     return {
         title: product.name,
         description,
@@ -35,13 +35,20 @@ export default async function ProductPage({ params }) {
     const product = getProduct(slug);
     if (!product) notFound();
     const related = getRelatedProducts(product);
+    const collection = getCollectionForCategory(product.category);
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}${paths.home}` },
             { '@type': 'ListItem', position: 2, name: 'Shop', item: `${site.url}${paths.shop}` },
-            { '@type': 'ListItem', position: 3, name: product.name, item: `${site.url}${paths.shop}/${product.slug}` }
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: product.category,
+                item: collection ? `${site.url}${collection.href}` : `${site.url}${paths.shop}`
+            },
+            { '@type': 'ListItem', position: 4, name: product.name, item: `${site.url}${paths.shop}/${product.slug}` }
         ]
     };
 
@@ -53,23 +60,30 @@ export default async function ProductPage({ params }) {
                     items={[
                         { label: 'Home', href: paths.home },
                         { label: 'Shop', href: paths.shop },
-                        { label: product.category, href: `${paths.shop}?category=${encodeURIComponent(product.category)}` },
+                        { label: product.category, href: collection?.href || paths.shop },
                         { label: product.name }
                     ]}
                 />
-                <div className="mt-8 grid items-start gap-12 lg:mt-10 lg:grid-cols-12 lg:gap-16">
-                    <div className="lg:col-span-7">
-                        <ProductGallery images={product.images} name={product.name} />
-                    </div>
-                    <div className="lg:col-span-4 lg:col-start-9">
-                        <ProductSummary product={product} />
-                    </div>
-                </div>
-                <section className="mt-24 border-t border-charcoal/10 pt-16">
-                    <p className="eyebrow mb-4">The collection</p>
-                    <h2 className="type-title mb-10">Other pieces</h2>
-                    <ProductGrid products={related} titleAs="h3" />
-                </section>
+                <ProductStage product={product} />
+                {related.length ? (
+                    <section className="mt-24 border-t border-charcoal/10 pt-16">
+                        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+                            <div>
+                                <p className="eyebrow mb-4">{product.category}</p>
+                                <h2 className="type-title">Other pieces</h2>
+                            </div>
+                            {collection ? (
+                                <Link
+                                    href={collection.href}
+                                    className="text-[11px] tracking-[0.18em] text-ash uppercase underline-offset-4 hover:text-charcoal hover:underline"
+                                >
+                                    See {collection.name}
+                                </Link>
+                            ) : null}
+                        </div>
+                        <ProductGrid products={related} titleAs="h3" />
+                    </section>
+                ) : null}
             </Container>
         </article>
     );

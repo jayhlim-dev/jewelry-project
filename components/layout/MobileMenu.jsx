@@ -3,7 +3,8 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { site } from 'data/site';
+import { site, paths } from 'data/site';
+import { collections } from 'data/collections';
 import { CloseIcon } from 'components/ui/Icons';
 import { ease } from 'lib/motion';
 import { useEscape, useLockBody } from 'components/layout/useOverlay';
@@ -54,7 +55,7 @@ export function MobileMenu({ open, onClose }) {
                         </button>
                     </div>
                     <motion.nav
-                        className="flex flex-1 flex-col justify-center px-6"
+                        className="flex flex-1 flex-col justify-center overflow-y-auto px-6 py-6"
                         aria-label="Primary"
                         variants={reduce ? undefined : list}
                         initial={reduce ? false : 'hidden'}
@@ -73,8 +74,21 @@ export function MobileMenu({ open, onClose }) {
                                 </motion.li>
                             ))}
                         </ul>
+                        <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-3">
+                            {collections.map((collection) => (
+                                <li key={collection.slug}>
+                                    <Link href={collection.href} onClick={onClose} className="text-[11px] tracking-[0.16em] uppercase">
+                                        {collection.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     </motion.nav>
-                    <p className="px-6 pb-8 text-sm text-ash">{site.contact.email}</p>
+                    <p className="px-6 pb-8 text-sm text-ash">
+                        <Link href={paths.contact} onClick={onClose} className="underline underline-offset-4">
+                            Write to the house
+                        </Link>
+                    </p>
                 </motion.div>
             ) : null}
         </AnimatePresence>

@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { collections } from 'data/collections';
 import { paths, site } from 'data/site';
 import { Container } from 'components/ui/Container';
-import { NewsletterForm } from 'components/contact/NewsletterForm';
 
 export function Footer() {
     return (
@@ -13,7 +12,6 @@ export function Footer() {
                         {site.name}
                     </Link>
                     <p className="mt-5 max-w-sm text-sm leading-relaxed text-ash">{site.footer.statement}</p>
-                    <NewsletterForm />
                 </div>
                 <div className="lg:col-span-2 lg:col-start-6">
                     <p className="eyebrow mb-4">Visit</p>
@@ -41,19 +39,22 @@ export function Footer() {
                 </div>
                 <div className="lg:col-span-2">
                     <p className="eyebrow mb-4">Contact</p>
-                    <p className="text-sm leading-relaxed">{site.contact.email}</p>
-                    <p className="mt-2 text-sm leading-relaxed">{site.contact.phone}</p>
-                    <p className="mt-1 text-xs text-ash">{site.contact.phoneNote}</p>
-                    {site.contact.addressLines.map((line) => (
-                        <p key={line} className="mt-2 text-sm leading-relaxed">
-                            {line}
-                        </p>
-                    ))}
-                    <ul className="mt-4 space-y-1 text-xs text-ash">
-                        {site.social.map((item) => (
-                            <li key={item.label}>{item.label} · placeholder</li>
-                        ))}
-                    </ul>
+                    <Link href={paths.contact} className="text-sm leading-relaxed hover:text-ash">
+                        Write to the house
+                    </Link>
+                    {site.social.some((item) => item.href) ? (
+                        <ul className="mt-4 space-y-1 text-xs text-ash">
+                            {site.social
+                                .filter((item) => item.href)
+                                .map((item) => (
+                                    <li key={item.label}>
+                                        <a href={item.href} className="hover:text-charcoal">
+                                            {item.label}
+                                        </a>
+                                    </li>
+                                ))}
+                        </ul>
+                    ) : null}
                 </div>
             </Container>
             <Container className="flex flex-col gap-3 border-t border-charcoal/10 py-6 text-xs text-ash sm:flex-row sm:items-center sm:justify-between">
@@ -61,6 +62,9 @@ export function Footer() {
                     © {new Date().getFullYear()} {site.name}. {site.footer.legalNote}
                 </p>
                 <div className="flex gap-5">
+                    <Link href={paths.sizeGuide} className="hover:text-charcoal">
+                        Size guide
+                    </Link>
                     <Link href={paths.privacy} className="hover:text-charcoal">
                         Privacy
                     </Link>

@@ -36,7 +36,7 @@ export const articles = [
             },
             {
                 type: 'p',
-                text: 'This article is general education. The sample jewels on this website do not come with laboratory grades.'
+                text: 'This note is general. A grade belongs to a specific stone, and it is named on the piece only when it is known.'
             }
         ]
     },
@@ -73,7 +73,7 @@ export const articles = [
             },
             {
                 type: 'p',
-                text: 'The rings in this preview are samples. They are here to show layout and photography, not to recommend a purchase.'
+                text: 'Then ask us to confirm the center stone, the setting, and whether a report belongs to that stone.'
             }
         ]
     },
@@ -110,7 +110,7 @@ export const articles = [
             },
             {
                 type: 'p',
-                text: 'Have prongs and clasps looked at when you notice movement, a thin edge, or a catch that feels different. This preview cannot inspect a jewel or promise a repair.'
+                text: 'Have prongs and clasps looked at when you notice movement, a thin edge, or a catch that feels different. Ask us about the piece before you assume a repair.'
             }
         ]
     },
@@ -184,7 +184,7 @@ export const articles = [
             },
             {
                 type: 'p',
-                text: 'This preview does not attach grading reports to sample products. Do not infer that a photograph here has been certified.'
+                text: 'A photograph is not a certificate. Ask which stone was graded, and which laboratory wrote the report.'
             }
         ]
     }

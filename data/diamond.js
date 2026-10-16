@@ -60,7 +60,7 @@ export const diamondPage = {
     },
     fourCs: {
         title: 'Color beside cut, clarity, and carat',
-        text: 'These four descriptions are used together. None of them replaces the others. The sample jewels on this site do not publish these grades.',
+        text: 'These four descriptions are used together. None of them replaces the others. A piece page names a grade only when that grade is known.',
         items: [
             {
                 title: 'Cut',
@@ -85,7 +85,7 @@ export const diamondPage = {
         paragraphs: [
             'A grading report from a gemological laboratory records the identity and characteristics of one diamond. It may include measurements, color, clarity, and, for many round brilliants, a cut grade. It can also note treatments or features you would not see in a slogan.',
             'The report belongs to that stone. A shop saying “we use D color” is not the same thing as a report lying next to the diamond you are buying. Ask which stone was graded, which laboratory wrote the report, and whether the mounted jewel still matches it.',
-            'This website does not invent report numbers, seals, or laboratory partnerships. None of the sample products include certification.'
+            'A report number belongs on the document for that stone. It is not assumed from a photograph.'
         ]
     },
     faqs: [
@@ -107,7 +107,7 @@ export const diamondPage = {
         },
         {
             question: 'Are the diamonds in this shop D color?',
-            answer: 'This shop is a design preview. Sample photographs are not graded, and no product page claims a color, clarity, carat weight, origin, or certificate.'
+            answer: 'Only when the piece page says so. A photograph is not a grade. Ask us to confirm color, clarity, carat, and any report before you decide.'
         }
     ]
 };

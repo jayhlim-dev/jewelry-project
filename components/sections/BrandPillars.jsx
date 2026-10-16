@@ -4,7 +4,7 @@ import { Container } from 'components/ui/Container';
 import { ImageReveal } from 'components/ui/ImageReveal';
 import { Reveal } from 'components/ui/Reveal';
 
-export function BrandPillars() {
+export function BrandPillars({ showCta = true }) {
     const content = home.pillars;
 
     return (
@@ -41,11 +41,13 @@ export function BrandPillars() {
                             </li>
                         ))}
                     </ol>
-                    <div className="mt-10">
-                        <Button href={content.href} variant="link">
-                            {content.cta}
-                        </Button>
-                    </div>
+                    {showCta ? (
+                        <div className="mt-10">
+                            <Button href={content.href} variant="link">
+                                {content.cta}
+                            </Button>
+                        </div>
+                    ) : null}
                 </div>
             </Container>
         </section>

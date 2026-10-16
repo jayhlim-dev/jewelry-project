@@ -30,7 +30,7 @@ export function ProductCard({ product, titleAs = 'h3', priority = false }) {
     const details = (
         <div className="pt-5">
             <p className="text-[10px] tracking-[0.22em] text-taupe uppercase">{product.category}</p>
-            <Title className="mt-2 font-serif text-[1.45rem] leading-tight font-normal">{product.name}</Title>
+            <Title className="mt-2 font-serif text-[1.05rem] leading-tight font-normal md:text-[1.2rem]">{product.name}</Title>
             <p className="mt-2 text-xs tracking-wide text-ash/80">
                 {product.metal}
                 {product.diamondShape ? ` · ${product.diamondShape}` : ''}

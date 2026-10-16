@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { products } from 'data/products';
 import { articles } from 'data/articles';
+import { collections } from 'data/collections';
 import { paths } from 'data/site';
+import { isDColorDiamondEnabled } from 'lib/features';
 import { CloseIcon } from 'components/ui/Icons';
 import { ease } from 'lib/motion';
 import { useEscape, useLockBody } from 'components/layout/useOverlay';
@@ -24,23 +26,20 @@ export function SearchDialog({ open, onClose }) {
 
     const needle = query.trim().toLowerCase();
     const productHits = useMemo(() => {
-        const source = needle
-            ? products.filter((product) =>
-                  [product.name, product.code, product.category, product.metal, product.diamondShape]
-                      .filter(Boolean)
-                      .join(' ')
-                      .toLowerCase()
-                      .includes(needle)
-              )
-            : products.filter((product) => product.featured);
-        return source.slice(0, 6);
+        if (!needle) return [];
+        return products.filter((product) => {
+            if (!product.available) return false;
+            return [product.name, product.code, product.category, product.metal, product.diamondShape, product.summary]
+                .filter(Boolean)
+                .join(' ')
+                .toLowerCase()
+                .includes(needle);
+        });
     }, [needle]);
 
     const articleHits = useMemo(() => {
-        if (!needle) return articles.slice(0, 3);
-        return articles
-            .filter((article) => `${article.title} ${article.category} ${article.excerpt}`.toLowerCase().includes(needle))
-            .slice(0, 4);
+        if (!needle) return [];
+        return articles.filter((article) => `${article.title} ${article.category} ${article.excerpt}`.toLowerCase().includes(needle));
     }, [needle]);
 
     return (
@@ -86,37 +85,70 @@ export function SearchDialog({ open, onClose }) {
                             />
                         </div>
                         <div className="flex-1 overflow-y-auto px-5 pb-8">
-                            <p className="eyebrow mb-3">{needle ? 'Pieces' : 'Suggested pieces'}</p>
-                            {productHits.length ? (
-                                <ul className="space-y-3">
-                                    {productHits.map((product) => (
-                                        <li key={product.slug}>
-                                            <Link href={`${paths.shop}/${product.slug}`} onClick={onClose} className="block hover:text-ash">
-                                                <span className="block font-serif text-xl">{product.name}</span>
-                                                <span className="text-xs tracking-[0.14em] text-ash uppercase">
-                                                    {product.code ? `${product.code} · ` : ''}
-                                                    {product.category}
-                                                </span>
+                            {needle ? (
+                                <>
+                                    <p className="eyebrow mb-3">Pieces</p>
+                                    {productHits.length ? (
+                                        <ul className="space-y-4">
+                                            {productHits.map((product) => (
+                                                <li key={product.slug}>
+                                                    <Link href={`${paths.shop}/${product.slug}`} onClick={onClose} className="block hover:text-ash">
+                                                        <span className="block font-serif text-xl">{product.name}</span>
+                                                        <span className="mt-1 block text-xs tracking-[0.14em] text-ash uppercase">
+                                                            {product.metal} · {product.category}
+                                                        </span>
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="text-sm text-ash">No pieces match that search.</p>
+                                    )}
+                                    <p className="eyebrow mt-8 mb-3">Articles</p>
+                                    {articleHits.length ? (
+                                        <ul className="space-y-3">
+                                            {articleHits.map((article) => (
+                                                <li key={article.slug}>
+                                                    <Link href={`${paths.articles}/${article.slug}`} onClick={onClose} className="block font-serif text-xl hover:text-ash">
+                                                        {article.title}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="text-sm text-ash">No articles match that search.</p>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    <p className="text-sm leading-relaxed text-ash">Search by name, metal, shape, or code.</p>
+                                    <p className="eyebrow mt-8 mb-3">Shop by form</p>
+                                    <ul className="space-y-3">
+                                        {collections.map((collection) => (
+                                            <li key={collection.slug}>
+                                                <Link href={collection.href} onClick={onClose} className="block hover:text-ash">
+                                                    <span className="block font-serif text-xl">{collection.name}</span>
+                                                    <span className="mt-1 block text-sm text-ash">{collection.description}</span>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <p className="eyebrow mt-8 mb-3">Guides</p>
+                                    <ul className="space-y-3">
+                                        <li>
+                                            <Link href={paths.sizeGuide} onClick={onClose} className="block font-serif text-xl hover:text-ash">
+                                                Size guide
                                             </Link>
                                         </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p className="text-sm text-ash">No pieces match that search.</p>
-                            )}
-                            <p className="eyebrow mt-8 mb-3">Articles</p>
-                            {articleHits.length ? (
-                                <ul className="space-y-3">
-                                    {articleHits.map((article) => (
-                                        <li key={article.slug}>
-                                            <Link href={`${paths.articles}/${article.slug}`} onClick={onClose} className="block font-serif text-xl hover:text-ash">
-                                                {article.title}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p className="text-sm text-ash">No articles match that search.</p>
+                                        {isDColorDiamondEnabled() ? (
+                                            <li>
+                                                <Link href={paths.diamond} onClick={onClose} className="block font-serif text-xl hover:text-ash">
+                                                    D color diamonds
+                                                </Link>
+                                            </li>
+                                        ) : null}
+                                    </ul>
+                                </>
                             )}
                         </div>
                     </motion.div>

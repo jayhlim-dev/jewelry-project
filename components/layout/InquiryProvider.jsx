@@ -26,21 +26,26 @@ export function InquiryProvider({ children }) {
 
     const add = (product) => {
         setItems((current) => {
-            if (current.some((item) => item.slug === product.slug)) return current;
-            return [
-                ...current,
-                {
-                    slug: product.slug,
-                    name: product.name,
-                    code: product.code || '',
-                    category: product.category,
-                    price: product.price,
-                    priceMax: product.priceMax || null,
-                    currency: product.currency,
-                    image: product.images[0]?.src || '',
-                    imageAlt: product.images[0]?.alt || product.name
-                }
-            ];
+            const next = {
+                slug: product.slug,
+                name: product.name,
+                code: product.code || '',
+                category: product.category,
+                metal: product.metal || '',
+                size: product.size || '',
+                note: product.note || '',
+                gift: Boolean(product.gift),
+                price: product.price,
+                priceMax: product.priceMax || null,
+                currency: product.currency,
+                image: product.images[0]?.src || '',
+                imageAlt: product.images[0]?.alt || product.name
+            };
+            const index = current.findIndex((item) => item.slug === product.slug);
+            if (index === -1) return [...current, next];
+            const copy = [...current];
+            copy[index] = next;
+            return copy;
         });
     };
 

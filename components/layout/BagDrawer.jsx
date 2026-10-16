@@ -51,7 +51,7 @@ export function BagDrawer({ open, onClose }) {
                             </button>
                         </div>
                         <p className="px-5 py-4 text-sm leading-relaxed text-ash">
-                            This is not a shopping bag. Nothing is reserved or purchased. Save pieces here, then chat about them on WhatsApp.
+                            Saved for one conversation. Nothing is reserved until we reply.
                         </p>
                         <ul className="flex-1 space-y-5 overflow-y-auto px-5">
                             {items.length === 0 ? <li className="text-sm text-ash">No pieces saved yet.</li> : null}
@@ -66,8 +66,11 @@ export function BagDrawer({ open, onClose }) {
                                         <Link href={`${paths.shop}/${item.slug}`} onClick={onClose} className="font-serif text-xl">
                                             {item.name}
                                         </Link>
-                                        <p className="mt-1 text-xs tracking-[0.14em] text-ash uppercase">{item.category}</p>
-                                        {item.code ? <p className="mt-1 text-[11px] tracking-[0.16em] text-taupe uppercase">Sample code {item.code}</p> : null}
+                                        <p className="mt-1 text-xs tracking-[0.14em] text-ash uppercase">
+                                            {[item.category, item.metal, item.size].filter(Boolean).join(' · ')}
+                                        </p>
+                                        {item.code ? <p className="mt-1 text-[11px] tracking-[0.16em] text-taupe uppercase">Code {item.code}</p> : null}
+                                        {item.note ? <p className="mt-2 text-sm leading-relaxed text-ash">{item.note}</p> : null}
                                         <button type="button" className="mt-2 text-xs tracking-[0.14em] text-ash uppercase underline-offset-4 hover:underline" onClick={() => remove(item.slug)}>
                                             Remove
                                         </button>
@@ -80,8 +83,15 @@ export function BagDrawer({ open, onClose }) {
                                 <a
                                     href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                                         `Hello, I would like to ask about: ${items
-                                            .map((item) => (item.code ? `${item.name} (${item.code})` : item.name))
-                                            .join(', ')}.`
+                                            .map((item) => {
+                                                const code = item.code ? ` (${item.code})` : '';
+                                                const metal = item.metal ? `, ${item.metal}` : '';
+                                                const size = item.size ? `, ${item.size}` : '';
+                                                const gift = item.gift ? ', a gift' : '';
+                                                const note = item.note ? `. Note: ${item.note.replace(/[.!?]+$/, '')}` : '';
+                                                return `${item.name}${code}${metal}${size}${gift}${note}`;
+                                            })
+                                            .join('; ')}.`
                                     )}`}
                                     target="_blank"
                                     rel="noopener noreferrer"

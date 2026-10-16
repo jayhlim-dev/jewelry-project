@@ -1,7 +1,8 @@
-import { contactFaqs, paths, site } from 'data/site';
+import { contactFaqs, contactPage } from 'data/contact';
+import { paths, site } from 'data/site';
+import { ContactExperience } from 'components/contact/ContactExperience';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
-import { ContactForm } from 'components/contact/ContactForm';
 import { FaqList } from 'components/ui/FaqList';
 
 export const metadata = {
@@ -13,67 +14,46 @@ export const metadata = {
 
 export default function ContactPage() {
     return (
-        <div className="pb-20">
-            <Container className="pt-10 md:pt-14">
-                <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Contact' }]} />
-                <div className="mt-8 grid gap-14 lg:grid-cols-12">
-                    <div className="lg:col-span-5">
-                        <h1 className="type-headline">Write to the house.</h1>
-                        <p className="mt-5 max-w-md text-sm leading-relaxed text-ash md:text-base">
-                            Use this form for an order, shipping, a return, or something else. Ask about a piece on WhatsApp. Every detail below is a placeholder, and the form does not send.
-                        </p>
-                        <dl className="mt-10 space-y-6 text-sm">
-                            <div>
-                                <dt className="eyebrow">Email</dt>
-                                <dd className="mt-2">{site.contact.email}</dd>
-                            </div>
-                            <div>
-                                <dt className="eyebrow">Phone</dt>
-                                <dd className="mt-2">{site.contact.phone}</dd>
-                                <dd className="mt-1 text-xs text-ash">{site.contact.phoneNote}</dd>
-                            </div>
-                            <div>
-                                <dt className="eyebrow">{site.contact.whatsappLabel}</dt>
-                                <dd className="mt-2">
-                                    <a
-                                        href={`https://wa.me/${site.contact.whatsapp}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="border-b border-charcoal/30 pb-0.5"
-                                    >
-                                        {site.contact.phone}
-                                    </a>
-                                </dd>
-                                <dd className="mt-1 text-xs text-ash">{site.contact.whatsappNote}</dd>
-                            </div>
-                            <div>
-                                <dt className="eyebrow">Boutique</dt>
-                                {site.contact.addressLines.map((line) => (
-                                    <dd key={line} className="mt-2">
-                                        {line}
-                                    </dd>
-                                ))}
-                            </div>
-                            <div>
-                                <dt className="eyebrow">Hours</dt>
-                                {site.contact.hours.map((line) => (
-                                    <dd key={line} className="mt-2">
-                                        {line}
-                                    </dd>
-                                ))}
-                                <dd className="mt-1 text-xs text-ash">{site.contact.hoursNote}</dd>
-                            </div>
-                        </dl>
+        <div className="pb-20 md:pb-28">
+            <section className="border-b border-charcoal/8 bg-white">
+                <Container className="pt-10 pb-12 md:pt-14 md:pb-16">
+                    <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Contact' }]} />
+                    <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-14">
+                        <header className="lg:col-span-7">
+                            <p className="eyebrow mb-4">{contactPage.title}</p>
+                            <h1 className="type-headline max-w-[16ch]">{contactPage.headline}</h1>
+                            <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-ash md:text-base">{contactPage.intro}</p>
+                            <p className="mt-3 text-sm text-ash/90">{contactPage.note}</p>
+                        </header>
+                        <ul className="grid gap-3 sm:grid-cols-3 lg:col-span-5">
+                            {contactPage.highlights.map((item) => (
+                                <li key={item.label} className="border border-charcoal/10 bg-ivory px-4 py-4">
+                                    <p className="text-[11px] tracking-[0.16em] text-charcoal uppercase">{item.label}</p>
+                                    <p className="mt-1.5 text-[13px] leading-snug text-ash">{item.detail}</p>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                    <div className="lg:col-span-6 lg:col-start-7">
-                        <ContactForm />
+                </Container>
+            </section>
+
+            <section className="bg-ivory py-14 md:py-20">
+                <Container>
+                    <ContactExperience />
+                </Container>
+            </section>
+
+            <section className="border-t border-charcoal/8 py-16 md:py-24">
+                <Container className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+                    <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
+                        <h2 className="type-title">{contactPage.faqTitle}</h2>
+                        <p className="mt-4 text-[15px] leading-relaxed text-ash">{contactPage.faqLead}</p>
                     </div>
-                </div>
-                <section className="mt-20 max-w-3xl">
-                    <h2 className="type-title mb-8">Before you write</h2>
-                    <FaqList items={contactFaqs} />
-                </section>
-            </Container>
+                    <div className="lg:col-span-7 lg:col-start-6">
+                        <FaqList items={contactFaqs} />
+                    </div>
+                </Container>
+            </section>
         </div>
     );
 }
