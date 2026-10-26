@@ -13,7 +13,7 @@ export function Hero() {
     const content = home.hero;
 
     return (
-        <section className="relative h-[72svh] min-h-[26rem] overflow-hidden bg-charcoal text-ivory">
+        <section className="relative h-[85svh] min-h-[26rem] overflow-hidden bg-charcoal text-ivory">
             <motion.div className="absolute inset-0" style={reduce ? undefined : { y }}>
                 <motion.div
                     className="absolute inset-0"
@@ -27,12 +27,12 @@ export function Hero() {
                         fill
                         priority
                         sizes="100vw"
-                        className="object-cover object-[center_38%]"
+                        className="object-cover object-[center_34%]"
                     />
                 </motion.div>
             </motion.div>
             <div className="absolute inset-0 bg-gradient-to-r from-charcoal/50 via-charcoal/20 to-transparent" />
-            <div className="relative mx-auto flex h-full w-full max-w-[90rem] flex-col justify-center px-5 md:px-10 lg:px-14">
+            <div className="relative mx-auto flex h-full w-full max-w-[90rem] flex-col justify-end px-5 pb-10 md:px-10 md:pb-14 lg:px-14 lg:pb-16">
                 <motion.p
                     className="text-[10px] tracking-[0.28em] text-ivory/70 uppercase"
                     initial={reduce ? false : { opacity: 0, y: 10 }}
@@ -66,9 +66,11 @@ export function Hero() {
                     <Button href={content.primary.href} variant="light">
                         {content.primary.label}
                     </Button>
-                    <Button href={content.secondary.href} variant="linkLight">
-                        {content.secondary.label}
-                    </Button>
+                    {content.secondary && (
+                        <Button href={content.secondary.href} variant="linkLight">
+                            {content.secondary.label}
+                        </Button>
+                    )}
                 </motion.div>
             </div>
         </section>

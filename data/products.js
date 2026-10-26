@@ -18,6 +18,14 @@ export const products = [
         category: 'Rings',
         price: 42500000,
         currency: 'IDR',
+        signature_images: [
+            {
+                // src: 'https://i.pinimg.com/1200x/24/6b/f1/246bf1800be0807bb923e77d99d6be2e.jpg',
+                width: 940,
+                height: 940,
+                alt: 'Round center stone ring with smaller stones along a pale metal band'
+            }
+        ],
         images: [
             {
                 src: '/images/products/solenne-ring.png',
@@ -51,7 +59,7 @@ export const products = [
         currency: 'IDR',
         images: [
             {
-                src: '/images/collections/rings.jpg',
+                src: 'https://storage.googleapis.com/lilo-porto-picture/others/Uniform%20Grey%20Background%20Grid%20(1).jpeg',
                 width: 1600,
                 height: 1600,
                 alt: 'Sample photograph of a cushion-cut pink stone ring with a diamond-set halo'
@@ -76,9 +84,17 @@ export const products = [
         category: 'Rings',
         price: 22000000,
         currency: 'IDR',
+        signature_images: [
+            {
+                src: 'https://i.pinimg.com/1200x/a4/db/fd/a4dbfd433c3bd35c67c18b4894f6321a.jpg',
+                width: 940,
+                height: 940,
+                alt: 'Round center stone ring with smaller stones along a pale metal band'
+            }
+        ],
         images: [
             {
-                src: '/images/products/celeste-1.jpg',
+                src: 'https://storage.googleapis.com/lilo-porto-picture/others/Uniform%20Grey%20Background%20Grid%20(2).jpeg',
                 width: 1400,
                 height: 933,
                 alt: 'Sample photograph of three textured gold rings with round, heart, and bar diamond motifs'
@@ -248,6 +264,14 @@ export const products = [
         category: 'Necklaces',
         price: 31000000,
         currency: 'IDR',
+        signature_images: [
+            {
+                src: 'https://i.pinimg.com/1200x/dd/da/83/ddda83e1342abedf7d753305ed03dfeb.jpg',
+                width: 940,
+                height: 940,
+                alt: 'Fine pale chain with a curved line of small stones at the front'
+            }
+        ],
         images: [
             {
                 src: '/images/products/noor-collar.jpg',
@@ -331,6 +355,14 @@ export const products = [
         category: 'Bracelets and Bangles',
         price: 11200000,
         currency: 'IDR',
+        signature_images: [
+            {
+                src: 'https://i.pinimg.com/736x/0e/37/df/0e37dfc4b58a088bb2c404774e580dd0.jpg',
+                width: 940,
+                height: 940,
+                alt: 'Slim pale bangle with a line of small stones and a round cluster'
+            }
+        ],
         images: [
             {
                 src: '/images/products/orla-link-bracelet.jpg',

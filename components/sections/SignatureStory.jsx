@@ -26,7 +26,7 @@ export function SignatureStory() {
     const slide = slides[index];
     const product = products.find((item) => item.slug === slide.slug);
     if (!product) return null;
-    const image = product.images[0];
+    const image = product?.signature_images?.[0] || product.images[0];
 
     const go = (step) => {
         setIndex((current) => (current + step + slides.length) % slides.length);
@@ -37,7 +37,9 @@ export function SignatureStory() {
             <div className="grid items-center md:grid-cols-[minmax(16rem,2fr)_minmax(0,3fr)]">
                 <div className="mx-auto max-w-sm px-6 py-10 text-center md:px-10 md:py-12">
                     <p className="text-[11px] tracking-[0.22em] text-taupe uppercase">Signature</p>
-                    <h2 className="mt-4 font-serif text-[1.85rem] leading-tight font-normal text-champagne md:text-[2.15rem]">“{product.name}”</h2>
+                    <h2 className="mt-4 font-serif text-[1.85rem] leading-tight font-normal text-champagne md:text-[2.15rem]">
+                        “{product.name}”
+                    </h2>
                     <p className="mt-4 text-sm leading-7 text-ash">{slide.text}</p>
                     <Link
                         href={`${paths.shop}/${product.slug}`}
@@ -48,9 +50,16 @@ export function SignatureStory() {
                 </div>
                 <div>
                     <div className="relative aspect-[3/2] overflow-hidden bg-[#f3f1ee]">
-                        <Image key={image.src} src={image.src} alt={image.alt} fill sizes="(min-width: 768px) 60vw, 100vw" className="object-cover object-center" />
+                        <Image
+                            key={image.src}
+                            src={image.src}
+                            alt={image.alt}
+                            fill
+                            sizes="(min-width: 768px) 60vw, 100vw"
+                            className="object-cover object-center"
+                        />
                     </div>
-                    <div className="flex items-center justify-end gap-4 px-4 py-3">
+                    <div className="flex items-center justify-start gap-4 px-4 py-3">
                         <div className="flex gap-1.5" role="tablist" aria-label="Signature pieces">
                             {slides.map((item, itemIndex) => (
                                 <button
@@ -60,14 +69,24 @@ export function SignatureStory() {
                                     aria-selected={itemIndex === index}
                                     aria-label={`Show ${item.slug.replaceAll('-', ' ')}`}
                                     onClick={() => setIndex(itemIndex)}
-                                    className={`h-1.5 w-1.5 rounded-full ${itemIndex === index ? 'bg-charcoal' : 'bg-charcoal/25'}`}
+                                    className={`h-1.5 w-1.5 rounded-full ${itemIndex === index ? 'bg-charcoal w-5' : 'bg-charcoal/25'}`}
                                 />
                             ))}
                         </div>
-                        <button type="button" aria-label="Previous signature piece" onClick={() => go(-1)} className="text-sm text-ash hover:text-charcoal">
+                        <button
+                            type="button"
+                            aria-label="Previous signature piece"
+                            onClick={() => go(-1)}
+                            className="text-sm text-ash hover:text-charcoal"
+                        >
                             ‹
                         </button>
-                        <button type="button" aria-label="Next signature piece" onClick={() => go(1)} className="text-sm text-ash hover:text-charcoal">
+                        <button
+                            type="button"
+                            aria-label="Next signature piece"
+                            onClick={() => go(1)}
+                            className="text-sm text-ash hover:text-charcoal"
+                        >
                             ›
                         </button>
                     </div>

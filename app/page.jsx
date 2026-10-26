@@ -9,7 +9,16 @@ import { site } from 'data/site';
 import { isDColorDiamondEnabled } from 'lib/features';
 
 const popular = ['pearl-strand', 'halo-ring', 'linea-bracelet', 'ivy-drops'];
-const mustHave = ['mira-band', 'rosa-cushion', 'lune-pendant', 'celeste-stack', 'halo-ring', 'ivy-drops', 'pearl-strand', 'linea-bracelet'];
+const mustHave = [
+    'mira-band',
+    'rosa-cushion',
+    'lune-pendant',
+    'celeste-stack',
+    'halo-ring',
+    'ivy-drops',
+    'pearl-strand',
+    'linea-bracelet'
+];
 
 export const metadata = {
     title: { absolute: `${site.name} · Fine Jewelry` },
@@ -27,12 +36,24 @@ export default function Page() {
         <>
             <Hero />
             <HomeIntro />
-            <CategoryShowcase />
-            <CampaignSelection slugs={popular} label="Popular products" title="Popular products" titleClassName="text-base font-medium" />
-            <SignatureStory />
-            <CampaignSelection slugs={mustHave} label="Must have" title="Must have" />
-            <SeriesBanner />
-            {isDColorDiamondEnabled() ? <DiamondFeature /> : null}
+            <div className="gap-4 flex flex-col bg-white">
+                <CategoryShowcase />
+                <CampaignSelection
+                    slugs={popular}
+                    label="Popular products"
+                    title="Popular products"
+                    titleClassName="text-base font-medium"
+                />
+                <SignatureStory />
+                <CampaignSelection
+                    slugs={mustHave}
+                    label="Must have"
+                    title="Must have"
+                    titleClassName="text-base font-medium"
+                />
+                {/* <SeriesBanner /> */}
+                {isDColorDiamondEnabled() ? <DiamondFeature /> : null}
+            </div>
         </>
     );
 }

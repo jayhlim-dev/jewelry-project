@@ -138,8 +138,8 @@ export function ShopBrowser() {
                     </div>
                 </aside>
 
-                <div className="pt-6 lg:pt-0">
-                    <div className="py-8 lg:py-2 lg:pt-0">
+                <div className="pt-4 lg:pt-0">
+                    <div className="pb-8 lg:pb-2">
                         <ProductGrid products={shown} className="lg:grid-cols-3" />
                         {visible < filtered.length ? (
                             <div className="mt-12 flex justify-center">

@@ -7,13 +7,13 @@ export const home = {
         text: 'Each piece names its metal. The stone shape is named when it is known. Ask us to confirm the rest.'
     },
     hero: {
-        eyebrow: 'Fine jewelry',
-        title: 'Gold, kept close.',
-        text: 'Rings, earrings, necklaces, and bangles. Each piece names its metal.',
+        eyebrow: 'THE ART OF FINE JEWELRY',
+        title: 'Elegance, made eternal.',
+        text: 'Exceptional pieces, crafted to be cherished for generations',
         primary: { label: 'Explore the collection', href: paths.shop },
-        secondary: { label: 'Shop rings', href: `${paths.collections}/rings` },
+        // secondary: { label: 'Shop rings', href: `${paths.collections}/rings` },
         image: {
-            src: '/images/hero/campaign.jpg',
+            src: 'https://storage.googleapis.com/lilo-porto-picture/others/x2.png',
             alt: 'Gold hoop earrings on pale stone, in hard daylight'
         }
     },

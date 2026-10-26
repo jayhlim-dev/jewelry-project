@@ -42,7 +42,24 @@ export default function SizeGuidePage() {
             <div className="mt-14">
                 <h2 className="font-serif text-2xl font-normal">The chart</h2>
                 <p className="mt-2 max-w-md text-sm text-ash">Match the number you measured. Both columns are millimetres.</p>
-                <div className="mt-8 grid gap-x-16 md:grid-cols-2">
+                {/* Mobile: one list, one header */}
+                <div className="mt-8 md:hidden">
+                    <div className="grid grid-cols-2 border-b border-charcoal/10 pb-3 text-[11px] tracking-[0.14em] text-ash uppercase">
+                        <p>Around</p>
+                        <p className="text-right">Across</p>
+                    </div>
+                    <ul className="divide-y divide-charcoal/10">
+                        {ringSizes.map((row) => (
+                            <li key={row.circumference} className="grid grid-cols-2 py-3 text-sm tabular-nums">
+                                <span>{row.circumference}</span>
+                                <span className="text-right text-ash">{row.diameter.toFixed(1)}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Desktop: two columns */}
+                <div className="mt-8 hidden gap-x-16 md:grid md:grid-cols-2">
                     {[ringSizes.slice(0, 14), ringSizes.slice(14)].map((column) => (
                         <div key={column[0].circumference}>
                             <div className="grid grid-cols-2 border-b border-charcoal/10 pb-3 text-[11px] tracking-[0.14em] text-ash uppercase">

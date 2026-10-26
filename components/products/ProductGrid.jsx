@@ -7,7 +7,7 @@ export function ProductGrid({ products, titleAs = 'h2', className = 'lg:grid-col
     }
 
     return (
-        <ul className={cn('grid grid-cols-2 gap-x-5 gap-y-14 md:gap-x-8', className)}>
+        <ul className={cn('grid grid-cols-2 gap-x-3 gap-y-3 md:gap-x-5 md:gap-y-5', className)}>
             {products.map((product, index) => (
                 <li key={product.slug}>
                     <ProductCard product={product} titleAs={titleAs} priority={index === 0} />

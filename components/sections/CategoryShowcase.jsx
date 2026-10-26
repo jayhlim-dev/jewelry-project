@@ -5,10 +5,10 @@ import { paths } from 'data/site';
 
 export function CategoryShowcase() {
     return (
-        <section className="bg-white pb-8 md:pb-10" aria-label="Collections">
+        <section className="bg-white" aria-label="Collections">
             <div className="mx-auto w-full max-w-[90rem] px-5 md:px-10 lg:px-14">
                 <div className="mb-4 flex items-baseline justify-between">
-                    <h2 className="text-sm font-medium">Collections</h2>
+                    <h2 className="text-base font-medium">Collections</h2>
                     <Link href={paths.shop} className="text-xs text-ash hover:text-charcoal">
                         Show all
                     </Link>
@@ -16,7 +16,7 @@ export function CategoryShowcase() {
                 <ul className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-2.5">
                     {collections.map((item) => (
                         <li key={item.slug}>
-                            <Link href={item.href} className="group relative block overflow-hidden">
+                            <Link href={item.href} className="group relative block overflow-hidden rounded-lg">
                                 <div className="relative aspect-[3/4] overflow-hidden bg-[#f3f3f3]">
                                     <Image
                                         src={item.image.src}

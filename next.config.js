@@ -1,7 +1,22 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
-  
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.pinimg.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        pathname: '/**',
+      }
+    ],
+  },
+
   redirects() {
     return [
       {
@@ -26,7 +41,7 @@ const nextConfig = {
       },
     ];
   },
-  
+
   rewrites() {
     return [
       {

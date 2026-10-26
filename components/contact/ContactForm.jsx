@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { contactPage, inquiryTopics, whatsappDraftForTopic } from 'data/contact';
 import { paths, site } from 'data/site';
 import { ContactSendingOverlay } from 'components/contact/ContactSendingOverlay';
+import { ContactSuccessToast } from 'components/contact/ContactSuccessToast';
 import { Button } from 'components/ui/Button';
 import Link from 'next/link';
 
@@ -17,8 +18,8 @@ export function ContactForm({ topicId: topicIdProp, onTopicIdChange, showTopicSe
         message: ''
     });
     const [errors, setErrors] = useState({});
-    const [done, setDone] = useState(false);
     const [sending, setSending] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
 
     useEffect(() => {
@@ -27,16 +28,15 @@ export function ContactForm({ topicId: topicIdProp, onTopicIdChange, showTopicSe
 
     const topic = useMemo(() => inquiryTopics.find((item) => item.id === topicId) ?? inquiryTopics[0], [topicId]);
     const whatsappHref = `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(whatsappDraftForTopic(topic))}`;
+    const dismissSuccess = useCallback(() => setShowSuccess(false), []);
 
     function setTopic(nextId) {
         setTopicId(nextId);
         onTopicIdChange?.(nextId);
-        setDone(false);
     }
 
     function update(field, value) {
         setValues((current) => ({ ...current, [field]: value }));
-        setDone(false);
     }
 
     async function onSubmit(event) {
@@ -48,10 +48,7 @@ export function ContactForm({ topicId: topicIdProp, onTopicIdChange, showTopicSe
         if (values.message.trim().length < 10) next.message = 'Write a message of at least 10 characters.';
         setErrors(next);
         setSubmitError('');
-        if (Object.keys(next).length) {
-            setDone(false);
-            return;
-        }
+        if (Object.keys(next).length) return;
 
         setSending(true);
         try {
@@ -68,58 +65,35 @@ export function ContactForm({ topicId: topicIdProp, onTopicIdChange, showTopicSe
             const data = await response.json().catch(() => ({}));
             if (!response.ok) {
                 setSubmitError(data.error || contactPage.formError);
-                setDone(false);
                 return;
             }
-            setDone(true);
+            setValues({ name: '', email: '', message: '' });
+            setErrors({});
+            setShowSuccess(true);
         } catch {
             setSubmitError(contactPage.formError);
-            setDone(false);
         } finally {
             setSending(false);
         }
     }
 
-    if (done) {
-        return (
-            <div role="status" className="border border-charcoal/12 bg-white p-8 md:p-10 lg:min-h-[28rem]">
-                <p className="eyebrow mb-3">Sent</p>
-                <h2 className="font-serif text-[clamp(1.75rem,3vw,2.5rem)] leading-tight">{contactPage.formSuccessTitle}</h2>
-                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-ash">{contactPage.formSuccessLead}</p>
-                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-ash">
-                    For availability on a specific piece, you may also{' '}
-                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="border-b border-charcoal/25">
-                        message us on WhatsApp
-                    </a>
-                    .
-                </p>
-                <button
-                    type="button"
-                    className="mt-8 text-[11px] tracking-[0.18em] text-charcoal uppercase transition-colors hover:text-ash"
-                    onClick={() => setDone(false)}
-                >
-                    Edit the note
-                </button>
-            </div>
-        );
-    }
-
     return (
         <>
             <ContactSendingOverlay open={sending} />
+            <ContactSuccessToast open={showSuccess} onClose={dismissSuccess} />
             <div
-                className="relative border border-charcoal/12 bg-white p-7 md:p-9 lg:min-h-[28rem]"
+                className="relative border border-charcoal/12 bg-white p-5 sm:p-7 md:p-9 lg:min-h-[28rem]"
                 aria-busy={sending}
             >
-            <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-charcoal/8 pb-6">
+            <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-charcoal/8 pb-5 sm:pb-6">
                 <div>
-                    <h2 className="font-serif text-2xl">{contactPage.formTitle}</h2>
+                    <h2 className="font-serif text-xl sm:text-2xl">{contactPage.formTitle}</h2>
                     <p className="mt-2 max-w-md text-sm leading-relaxed text-ash">{contactPage.formLead}</p>
                 </div>
                 <p className="text-[11px] tracking-[0.12em] text-taupe uppercase">Topic: {topic.label}</p>
             </div>
 
-            <form onSubmit={onSubmit} noValidate className={`mt-8 space-y-7 ${sending ? 'pointer-events-none opacity-60' : ''}`}>
+            <form onSubmit={onSubmit} noValidate className={`mt-6 space-y-6 sm:mt-8 sm:space-y-7 ${sending ? 'pointer-events-none opacity-60' : ''}`}>
                 {showTopicSelect ? (
                     <Field id="inquiry-topic" label="Topic" error={errors.topic}>
                         <select

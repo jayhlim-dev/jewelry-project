@@ -4,7 +4,7 @@ import { products } from 'data/products';
 import { home } from 'data/home';
 import { paths } from 'data/site';
 
-export function CampaignSelection({ slugs = home.campaign.slugs, label = 'Pieces', title = '', titleClassName = 'text-sm font-medium', columns = 4 }) {
+export function CampaignSelection({ slugs = home.campaign.slugs, label = 'Pieces', title = '', titleClassName = 'text-base font-medium', columns = 4 }) {
     const pieces = slugs.map((slug) => products.find((product) => product.slug === slug)).filter(Boolean);
 
     if (!pieces.length) return null;
@@ -26,7 +26,7 @@ export function CampaignSelection({ slugs = home.campaign.slugs, label = 'Pieces
                         return (
                             <li key={product.slug}>
                                 <Link href={`${paths.shop}/${product.slug}`} className="group block">
-                                    <div className="relative aspect-square overflow-hidden">
+                                    <div className="relative aspect-square overflow-hidden rounded-lg">
                                         <Image
                                             src={image.src}
                                             alt={image.alt}
@@ -35,7 +35,7 @@ export function CampaignSelection({ slugs = home.campaign.slugs, label = 'Pieces
                                             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                                         />
                                     </div>
-                                    <h3 className="mt-2 text-sm text-ash">{product.name}</h3>
+                                    {/* <h3 className="mt-2 text-sm text-ash">{product.name}</h3> */}
                                 </Link>
                             </li>
                         );

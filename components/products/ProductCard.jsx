@@ -30,7 +30,9 @@ export function ProductCard({ product, titleAs = 'h3', priority = false }) {
     const details = (
         <div className="pt-5">
             <p className="text-[10px] tracking-[0.22em] text-taupe uppercase">{product.category}</p>
-            <Title className="mt-2 font-serif text-[1.05rem] leading-tight font-normal md:text-[1.2rem]">{product.name}</Title>
+            <Title className="mt-2 font-serif text-[1.05rem] leading-tight font-normal md:text-[1.2rem]">
+                {product.name}
+            </Title>
             <p className="mt-2 text-xs tracking-wide text-ash/80">
                 {product.metal}
                 {product.diamondShape ? ` · ${product.diamondShape}` : ''}
@@ -39,9 +41,11 @@ export function ProductCard({ product, titleAs = 'h3', priority = false }) {
         </div>
     );
 
+    const showDetail = false;
+
     return (
         <article className="group/card">
-            <div className="group relative aspect-square overflow-hidden bg-[#f3f3f3]">
+            <div className="group relative aspect-square overflow-hidden bg-[#f3f3f3] rounded-lg">
                 {many ? (
                     images.map((image, imageIndex) => (
                         <Image
@@ -95,9 +99,12 @@ export function ProductCard({ product, titleAs = 'h3', priority = false }) {
                     </>
                 ) : null}
             </div>
-            <Link href={href} className="block">
-                {details}
-            </Link>
+
+            {showDetail && (
+                <Link href={href} className="block">
+                    {details}
+                </Link>
+            )}
         </article>
     );
 }
