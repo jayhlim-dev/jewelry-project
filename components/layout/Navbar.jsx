@@ -33,6 +33,19 @@ export function Navbar() {
         setBagOpen(false);
     }, [pathname]);
 
+    useEffect(() => {
+        const onKeyDown = (event) => {
+            if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+                event.preventDefault();
+                setMenuOpen(false);
+                setBagOpen(false);
+                setSearchOpen(true);
+            }
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, []);
+
     return (
         <>
             <a
