@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { paths, site } from 'data/site';
 import { ringSizes } from 'data/size-guide';
 import { Button } from 'components/ui/Button';
-import { formatStoneLine, stoneFootnote } from 'lib/format';
+import { formatMetalLabel, formatStoneLine, stoneFootnote } from 'lib/format';
 import { useInquiry } from 'components/layout/InquiryProvider';
 
 const metalSwatch = {
@@ -137,10 +137,10 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
 
             <dl className="mt-10 border-t border-charcoal/10">
                 <div className="grid grid-cols-[7.5rem_1fr] items-baseline gap-4 border-b border-charcoal/10 py-4 text-sm">
-                    <dt className="text-[11px] tracking-[0.18em] text-taupe uppercase">Metal</dt>
+                    <dt className="text-[11px] tracking-[0.18em] text-taupe uppercase">Gold tone</dt>
                     <dd>
                         {canChooseMetal ? (
-                            <div role="radiogroup" aria-label="Metal" className="flex flex-wrap gap-x-2">
+                            <div role="radiogroup" aria-label="Gold tone" className="flex flex-wrap gap-x-2">
                                 {choices.map((choice) => {
                                     const selected = choice === shownMetal;
                                     return (
@@ -157,7 +157,7 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                                                 className={`inline-block h-3.5 w-3.5 rounded-full border border-charcoal/20 ${selected ? 'ring-1 ring-charcoal ring-offset-2' : ''}`}
                                                 style={{ backgroundColor: metalSwatch[choice] || '#d8d4cc' }}
                                             />
-                                            {choice}
+                                            {formatMetalLabel(choice)}
                                         </button>
                                     );
                                 })}
@@ -169,7 +169,7 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                                     className="inline-block h-3.5 w-3.5 rounded-full border border-charcoal/20"
                                     style={{ backgroundColor: metalSwatch[shownMetal] || '#d8d4cc' }}
                                 />
-                                {shownMetal}
+                                {formatMetalLabel(shownMetal)}
                             </span>
                         )}
                         {product.fineness && shownMetal === product.metal ? (
@@ -177,7 +177,8 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                         ) : null}
                         {metalsWithoutPhoto.length ? (
                             <span className="mt-2 block text-xs leading-relaxed text-ash">
-                                Also made in {metalsWithoutPhoto.join(' and ')}. Shown here in {shownMetal}.
+                                Also made in {metalsWithoutPhoto.map(formatMetalLabel).join(' and ')}. Shown here in{' '}
+                                {formatMetalLabel(shownMetal)}.
                             </span>
                         ) : null}
                     </dd>

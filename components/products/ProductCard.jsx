@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { paths } from 'data/site';
+import { isCatalogPriceVisible } from 'lib/features';
+import { formatMetalLabel, formatPriceRange } from 'lib/format';
 import { HoverImage } from 'components/ui/HoverImage';
 
 function Chevron({ direction }) {
@@ -22,6 +24,7 @@ export function ProductCard({ product, titleAs = 'h3', priority = false }) {
     const many = images.length > 1;
     const href = `${paths.shop}/${product.slug}`;
     const [index, setIndex] = useState(0);
+    const showPrice = isCatalogPriceVisible();
 
     const go = (step) => {
         setIndex((current) => (current + step + images.length) % images.length);
@@ -33,15 +36,16 @@ export function ProductCard({ product, titleAs = 'h3', priority = false }) {
             <Title className="mt-2 font-serif text-[1.05rem] leading-tight font-normal md:text-[1.2rem]">
                 {product.name}
             </Title>
-            <p className="mt-2 text-xs tracking-wide text-ash/80">
-                {product.metal}
+            {showPrice ? (
+                <p className="mt-2 text-[13px] tabular-nums text-charcoal">{formatPriceRange(product)}</p>
+            ) : null}
+            <p className={`text-xs tracking-wide text-ash/80 ${showPrice ? 'mt-1.5' : 'mt-2'}`}>
+                {formatMetalLabel(product.metal)}
                 {product.diamondShape ? ` · ${product.diamondShape}` : ''}
                 {product.available ? '' : ' · Unavailable'}
             </p>
         </div>
     );
-
-    const showDetail = false;
 
     return (
         <article className="group/card">
@@ -100,11 +104,9 @@ export function ProductCard({ product, titleAs = 'h3', priority = false }) {
                 ) : null}
             </div>
 
-            {showDetail && (
-                <Link href={href} className="block">
-                    {details}
-                </Link>
-            )}
+            <Link href={href} className="block">
+                {details}
+            </Link>
         </article>
     );
 }

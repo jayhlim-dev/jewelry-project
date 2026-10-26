@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { products, sortOptions } from 'data/products';
 import { paths } from 'data/site';
+import { isCatalogPriceVisible } from 'lib/features';
 import { catalogPriceBounds, matchesPriceRange, sortProducts, uniqueValues } from 'lib/catalog';
 import { CategoryTabs, ProductFilters } from 'components/products/ProductFilters';
 import { ProductGrid } from 'components/products/ProductGrid';
@@ -12,6 +13,9 @@ import { Button } from 'components/ui/Button';
 
 const PAGE_SIZE = 9;
 const bounds = catalogPriceBounds(products);
+const shopSortOptions = isCatalogPriceVisible()
+    ? sortOptions
+    : sortOptions.filter((option) => !option.id.startsWith('price-'));
 
 function readNumber(value, fallback) {
     if (value === null || value === undefined || value === '') return fallback;
@@ -24,13 +28,15 @@ export function ShopBrowser() {
     const searchParams = useSearchParams();
     const category = searchParams.get('category') || 'All';
     const metal = searchParams.get('metal') || 'All';
-    const sort = searchParams.get('sort') || 'featured';
+    const sortParam = searchParams.get('sort') || 'featured';
+    const sort =
+        !isCatalogPriceVisible() && sortParam.startsWith('price-') ? 'featured' : sortParam;
     const stockTokens = (searchParams.get('stock') || 'in').split(',');
     const inStock = stockTokens.includes('in');
     const outStock = stockTokens.includes('out');
     const priceMin = Math.max(bounds.min, readNumber(searchParams.get('min'), bounds.min));
     const priceMax = Math.min(bounds.max, readNumber(searchParams.get('max'), bounds.max));
-    const [shape, setShape] = useState('All');
+    const shape = searchParams.get('shape') || 'All';
     const [visible, setVisible] = useState(PAGE_SIZE);
     const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -86,6 +92,10 @@ export function ShopBrowser() {
     const shown = filtered.slice(0, visible);
     const count = filtered.length;
 
+    function clearFilters() {
+        router.replace(paths.shop, { scroll: false });
+    }
+
     return (
         <Container>
             <CategoryTabs category={category} onCategory={(name) => setParams({ category: name })} />
@@ -120,7 +130,7 @@ export function ShopBrowser() {
                             onMetal={(name) => setParams({ metal: name })}
                             metals={metals}
                             shape={shape}
-                            onShape={setShape}
+                            onShape={(name) => setParams({ shape: name })}
                             shapes={shapes}
                             inStock={inStock}
                             outStock={outStock}
@@ -132,7 +142,7 @@ export function ShopBrowser() {
                             onPrice={onPrice}
                             sort={sort}
                             onSort={(value) => setParams({ sort: value === 'featured' ? null : value })}
-                            sortOptions={sortOptions}
+                            sortOptions={shopSortOptions}
                             resultCount={count}
                         />
                     </div>
@@ -140,7 +150,7 @@ export function ShopBrowser() {
 
                 <div className="pt-4 lg:pt-0">
                     <div className="pb-8 lg:pb-2">
-                        <ProductGrid products={shown} className="lg:grid-cols-3" />
+                        <ProductGrid products={shown} className="lg:grid-cols-3" onClearFilters={clearFilters} />
                         {visible < filtered.length ? (
                             <div className="mt-12 flex justify-center">
                                 <Button variant="secondary" onClick={() => setVisible((n) => n + PAGE_SIZE)}>

@@ -41,3 +41,20 @@ If your browser doesn't navigate to the site automatically, visit [localhost:888
 ## Resources
 
 - Check out the [Next.js on Netlify docs](https://docs.netlify.com/frameworks/next-js/overview/)
+
+## Engineering agents
+
+Shared engineering rules are in `AGENTS.md`. Role instructions are in `.cursor/agents/`.
+
+These files do not run a team by themselves. Ask for the role you need, or let the main agent call one when the task needs it.
+
+| Name | Agent id | Ask for it when |
+|---|---|---|
+| Morgan | `project-manager` | Scope, acceptance criteria, and a finish line |
+| Elena | `ui-ux-engineer` | Layout, interaction, states, or accessibility will change |
+| Kai | `software-engineer` | Application code must be written or fixed |
+| Sam | `qa-engineer` | An independent pass or fail on a change |
+
+Example: `Sam (qa-engineer), check the contact form against the acceptance criteria.`
+
+A typo or a one-line fix does not need all four. Substantial work follows the five phases in `AGENTS.md`. A task is not done just because code was generated.

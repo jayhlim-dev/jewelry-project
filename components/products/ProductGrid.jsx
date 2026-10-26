@@ -1,9 +1,22 @@
 import { ProductCard } from 'components/products/ProductCard';
 import { cn } from 'lib/format';
 
-export function ProductGrid({ products, titleAs = 'h2', className = 'lg:grid-cols-4' }) {
+export function ProductGrid({ products, titleAs = 'h2', className = 'lg:grid-cols-4', onClearFilters }) {
     if (!products.length) {
-        return <p className="py-16 text-ash">No pieces match these filters.</p>;
+        return (
+            <div className="py-16 text-center">
+                <p className="text-ash">No pieces match these filters.</p>
+                {onClearFilters ? (
+                    <button
+                        type="button"
+                        onClick={onClearFilters}
+                        className="mt-5 text-[11px] font-medium tracking-[0.18em] text-charcoal uppercase transition-colors hover:text-ash"
+                    >
+                        Clear all filters
+                    </button>
+                ) : null}
+            </div>
+        );
     }
 
     return (

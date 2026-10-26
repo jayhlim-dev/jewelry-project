@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { contactPage, inquiryTopics, whatsappDraftForTopic } from 'data/contact';
 import { paths, site } from 'data/site';
 import { ContactSendingOverlay } from 'components/contact/ContactSendingOverlay';
@@ -10,8 +10,14 @@ import Link from 'next/link';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function ContactForm({ topicId: topicIdProp, onTopicIdChange, showTopicSelect = true }) {
-    const [topicId, setTopicId] = useState(topicIdProp ?? inquiryTopics[0].id);
+export function ContactForm({
+    topicId: topicIdProp,
+    onTopicIdChange,
+    showTopicSelect = true,
+    showWhatsappButton = true
+}) {
+    const [localTopicId, setLocalTopicId] = useState(topicIdProp ?? inquiryTopics[0].id);
+    const topicId = topicIdProp ?? localTopicId;
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -22,16 +28,12 @@ export function ContactForm({ topicId: topicIdProp, onTopicIdChange, showTopicSe
     const [showSuccess, setShowSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
 
-    useEffect(() => {
-        if (topicIdProp) setTopicId(topicIdProp);
-    }, [topicIdProp]);
-
     const topic = useMemo(() => inquiryTopics.find((item) => item.id === topicId) ?? inquiryTopics[0], [topicId]);
     const whatsappHref = `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(whatsappDraftForTopic(topic))}`;
     const dismissSuccess = useCallback(() => setShowSuccess(false), []);
 
     function setTopic(nextId) {
-        setTopicId(nextId);
+        setLocalTopicId(nextId);
         onTopicIdChange?.(nextId);
     }
 
@@ -164,10 +166,20 @@ export function ContactForm({ topicId: topicIdProp, onTopicIdChange, showTopicSe
                     <Button type="submit" disabled={sending}>
                         Send email
                     </Button>
-                    <Button href={whatsappHref} external variant="secondary" className={sending ? 'pointer-events-none opacity-40' : ''}>
-                        {contactPage.whatsapp.cta}
-                    </Button>
-                    <Link href={paths.shop} className="text-[11px] tracking-[0.16em] text-ash uppercase sm:ml-auto hover:text-charcoal">
+                    {showWhatsappButton ? (
+                        <Button
+                            href={whatsappHref}
+                            external
+                            variant="secondary"
+                            className={sending ? 'pointer-events-none opacity-40' : ''}
+                        >
+                            {contactPage.whatsapp.cta}
+                        </Button>
+                    ) : null}
+                    <Link
+                        href={paths.shop}
+                        className={`text-[11px] tracking-[0.16em] text-ash uppercase hover:text-charcoal ${showWhatsappButton ? 'sm:ml-auto' : ''}`}
+                    >
                         Browse shop
                     </Link>
                 </div>

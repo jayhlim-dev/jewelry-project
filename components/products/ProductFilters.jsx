@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { collections } from 'data/collections';
-import { parseRp } from 'lib/format';
+import { formatMetalLabel, parseRp } from 'lib/format';
 
 const metalSwatch = {
     'White Gold': '#e4e2dc',
@@ -255,8 +255,8 @@ export function ProductFilters({
                 />
             </Section> */}
 
-            <Section title="Metal" onReset={metalDirty ? () => onMetal('All') : undefined}>
-                <div className="flex flex-col gap-0.5" role="group" aria-label="Metal">
+            <Section title="Gold tone" onReset={metalDirty ? () => onMetal('All') : undefined}>
+                <div className="flex flex-col gap-0.5" role="group" aria-label="Gold tone">
                     {metals.map((item) => {
                         const selected = metal === item;
                         return (
@@ -272,7 +272,7 @@ export function ProductFilters({
                                     className={`inline-block h-3.5 w-3.5 shrink-0 rounded-full border border-charcoal/15 ${selected ? 'ring-1 ring-charcoal ring-offset-2 ring-offset-ivory' : ''}`}
                                     style={{ backgroundColor: metalSwatch[item] || '#d8d4cc' }}
                                 />
-                                {item}
+                                {formatMetalLabel(item)}
                             </button>
                         );
                     })}
@@ -306,8 +306,8 @@ export function ProductFilters({
                 <SortSelect sort={sort} sortOptions={sortOptions} onSort={onSort} />
             </section>
 
-            <p className="pt-5 text-[14px] text-charcoal/75 tabular-nums" aria-live="polite">
-                {resultCount} {resultCount === 1 ? 'Result' : 'Results'}
+            <p className="hidden pt-5 text-[14px] text-charcoal/75 tabular-nums lg:block" aria-live="polite">
+                {resultCount} {resultCount === 1 ? 'result' : 'results'}
             </p>
         </div>
     );

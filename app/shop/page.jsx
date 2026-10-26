@@ -18,7 +18,7 @@ export default function ShopPage() {
                 <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Shop' }]} />
                 <h1 className="type-headline mt-6">The Collection</h1>
                 <p className="mt-4 max-w-xl text-sm leading-relaxed text-ash md:text-base">
-                    Rings, earrings, necklaces, and bracelets. Filter by availability, price, metal, or shape.
+                    Rings, earrings, necklaces, and bracelets. Filter by availability, gold tone, or shape.
                 </p>
             </Container>
             <Suspense fallback={<Container className="py-10 text-sm text-ash">Loading the collection…</Container>}>

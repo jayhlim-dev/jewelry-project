@@ -67,9 +67,11 @@ export const contactPage = {
     intro:
         'We attend clients online. You may browse the full collection here, then contact us regarding availability, specifications, orders, or partnerships.',
     note: 'A piece is reserved only after we confirm availability and terms with you, ordinarily via WhatsApp.',
-    stepsEyebrow: 'Enquiry type',
-    stepsTitle: 'Select a subject',
-    stepsLead: 'Choose the option that best describes your request. We will recommend the most suitable way to reach us.',
+    stepsEyebrow: 'Optional',
+    stepsTitle: 'What is this about?',
+    stepsLead: 'Pick a subject to refine your WhatsApp message and email placeholder. You can message us first without choosing.',
+    quickReachTitle: 'Message on WhatsApp',
+    quickReachLead: 'Fastest for stock, a specific piece, and ring sizing.',
     channelEyebrow: 'Recommended next step',
     whatsapp: {
         title: 'WhatsApp',

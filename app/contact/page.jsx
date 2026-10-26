@@ -18,22 +18,12 @@ export default function ContactPage() {
             <section className="border-b border-charcoal/8 bg-white">
                 <Container className="pt-10 pb-12 md:pt-14 md:pb-16">
                     <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Contact' }]} />
-                    <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-14">
-                        <header className="lg:col-span-7">
-                            <p className="eyebrow mb-4">{contactPage.title}</p>
-                            <h1 className="type-headline max-w-[16ch]">{contactPage.headline}</h1>
-                            <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-ash md:text-base">{contactPage.intro}</p>
-                            <p className="mt-3 text-sm text-ash/90">{contactPage.note}</p>
-                        </header>
-                        <ul className="grid gap-3 sm:grid-cols-3 lg:col-span-5">
-                            {contactPage.highlights.map((item) => (
-                                <li key={item.label} className="border border-charcoal/10 bg-ivory px-4 py-4">
-                                    <p className="text-[11px] tracking-[0.16em] text-charcoal uppercase">{item.label}</p>
-                                    <p className="mt-1.5 text-[13px] leading-snug text-ash">{item.detail}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <header className="mt-8 max-w-2xl">
+                        <p className="eyebrow mb-4">{contactPage.title}</p>
+                        <h1 className="type-headline max-w-[16ch]">{contactPage.headline}</h1>
+                        <p className="mt-5 max-w-lg text-[15px] leading-7 text-ash md:text-base">{contactPage.intro}</p>
+                        <p className="mt-3 text-sm leading-relaxed text-ash/90">{contactPage.note}</p>
+                    </header>
                 </Container>
             </section>
 
