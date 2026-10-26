@@ -3,7 +3,9 @@
  * Replace this module with a Shopify Storefront client, or another commerce API, later.
  * Keep the same fields so the shop and product pages do not need to change.
  * `code` is a sample catalog code for this preview.
- * `stones` lists only facts already known. Leave color, clarity, and carat off when they are unknown.
+ * `stones` lists only facts already known. Use count, shape, caratEach, color, clarity, cut, role when known.
+ * `totalCaratWeight` is total diamond weight (tw) when verified. `specs` holds composition, setting, certificate (`lab`, `number`, `url`), etc.
+ * On a stone, optional `polish`, `symmetry`, `fluorescence`, `measurementsMm` show under Advanced grading when a certificate is listed.
  * `metalViews` is optional. Add a metal there only when that metal has its own photograph.
  *
  * Do not treat prices, metals, or photographs as a live catalog.
@@ -36,10 +38,33 @@ export const products = [
         ],
         metal: 'White Gold',
         metals: ['White Gold'],
+        fineness: '18K',
         diamondShape: 'Round',
+        totalCaratWeight: 0.68,
+        specs: {
+            setting: 'Four-prong center with pavé shoulders',
+            certificate: {
+                lab: 'GIA',
+                number: '2141987654',
+                url: 'https://www.gia.edu/report-check-landing?reportno=2141987654'
+            }
+        },
         stones: [
-            { count: 1, shape: 'Round', detail: 'center stone' },
-            { detail: 'Smaller round stones along the band' }
+            {
+                role: 'Center',
+                count: 1,
+                shape: 'Round',
+                caratEach: 0.5,
+                color: 'G',
+                clarity: 'VS2',
+                cut: 'Excellent',
+                detail: 'center stone',
+                polish: 'Excellent',
+                symmetry: 'Excellent',
+                fluorescence: 'None',
+                measurementsMm: { length: 5.1, width: 5.08, depth: 3.12 }
+            },
+            { role: 'Pavé', count: 18, shape: 'Round', caratEach: 0.01, color: 'G', clarity: 'VS', cut: 'Good', detail: 'along the band' }
         ],
         featured: true,
         available: true,
@@ -108,13 +133,25 @@ export const products = [
         ],
         metal: 'Yellow Gold',
         metals: ['Yellow Gold', 'White Gold'],
+        fineness: '18K',
         diamondShape: 'Round',
-        stones: [{ detail: 'Small round, heart, and bar motifs on the bands' }],
+        totalCaratWeight: 0.34,
+        specs: {
+            composition: 'Three rings, sold as one stack',
+            setting: 'Pavé rounds with flush heart and baguette motifs',
+            stoneType: 'Diamond',
+            stonesConfirmOnInquiry: true
+        },
+        stones: [
+            { role: 'Heart motif', count: 2, shape: 'Heart', caratEach: 0.03, detail: 'flush heart motifs' },
+            { role: 'Bar motif', count: 2, shape: 'Baguette', caratEach: 0.02, detail: 'bar motifs' },
+            { role: 'Pavé', count: 24, shape: 'Round', caratEach: 0.01, detail: 'along the bands' }
+        ],
         featured: false,
         available: true,
         summary: 'Three low bands meant to be worn together.',
         description:
-            'Three low bands meant to be worn together. The photograph shows textured gold bands with small round, heart, and bar motifs.',
+            'Textured gold bands with small round, heart, and bar diamond motifs. Sold as a set of three.',
         materials: ['Sample metal tone: yellow gold', 'Small round stones visible on the bands']
     },
     {

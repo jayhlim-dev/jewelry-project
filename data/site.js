@@ -50,6 +50,7 @@ export const site = {
     ],
     footer: {
         statement: 'Quiet design, careful proportions, and pieces meant to be kept.',
+        onlineNote: 'Online only — no showroom.',
         legalNote: 'Confirm a piece by inquiry.'
     },
     seo: {
@@ -59,8 +60,10 @@ export const site = {
         diamond:
             'A clear guide to D color diamonds and the D-to-Z color scale, and why color is only one part of how a diamond looks.',
         contact: `Contact ${brandName} online: stock, pieces, orders, shipping, partnership, returns, or anything else — WhatsApp or email.`,
-        articles: 'Editorial notes on diamond color, choosing a ring, jewelry care, milestones, and certification.',
-        sizeGuide: 'A home estimate for ring size. Measure in millimetres, then ask us to confirm the fit.'
+        articles:
+            'Guides on diamond color, certification, reading product specifications, ring sizing, care, and inquiry-friendly buying.',
+        sizeGuide:
+            'Ring and bracelet sizing in millimetres, with a home chart, US reference, and WhatsApp to confirm the fit.'
     }
 };
 

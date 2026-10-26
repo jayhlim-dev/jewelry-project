@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import { paths, site } from 'data/site';
+import { site } from 'data/site';
 import { ringSizes } from 'data/size-guide';
+import { ProductRingSizePicker } from 'components/products/ProductRingSizePicker';
 import { Button } from 'components/ui/Button';
 import { formatMetalLabel, formatStoneLine, stoneFootnote } from 'lib/format';
+import { shouldShowSpecifications } from 'lib/productSpecs';
+import { ProductSpecifications } from 'components/products/ProductSpecifications';
 import { useInquiry } from 'components/layout/InquiryProvider';
 
 const metalSwatch = {
@@ -48,10 +50,12 @@ function sizeLabel(size) {
 
 export function ProductSummary({ product, metal, metalChoices = [], onMetalChange }) {
     const { add, items } = useInquiry();
+    const showSpecifications = shouldShowSpecifications(product);
     const notes = photographNotes(product);
     const stoneLines = (product.stones || []).map(formatStoneLine).filter(Boolean);
     const stoneText = stoneLines.join(' ').toLowerCase();
     const detailNotes = notes.filter((note) => {
+        if (showSpecifications && /stone|diamond|gold|motif|band/i.test(note)) return false;
         const words = note.toLowerCase().split(/\s+/).filter((word) => word.length > 3);
         if (!words.length) return true;
         const hits = words.filter((word) => stoneText.includes(word)).length;
@@ -63,6 +67,14 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
     const choices = metalChoices.length ? metalChoices : [shownMetal];
     const canChooseMetal = choices.length > 1;
     const metalsWithoutPhoto = (product.metals || []).filter((item) => !choices.includes(item));
+    const showMetalRow = !showSpecifications || canChooseMetal;
+    const metalOnInquiry =
+        metalsWithoutPhoto.length > 0 && !canChooseMetal
+            ? `Also available in ${metalsWithoutPhoto.map(formatMetalLabel).join(' and ')} on inquiry. Shown in ${formatMetalLabel(shownMetal)}.`
+            : '';
+    const showLegacyStones = !showSpecifications && stoneLines.length > 0;
+    const showLegacyShape = !showSpecifications && Boolean(product.diamondShape) && stoneLines.length === 0;
+    const hasAttributeList = showMetalRow || showLegacyStones || showLegacyShape;
     const needsSize = product.category === 'Rings';
     const [size, setSize] = useState('');
     const [sizeError, setSizeError] = useState(false);
@@ -135,7 +147,9 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
 
             {showDescription ? <p className="mt-8 max-w-md text-sm leading-7 text-ash">{product.description}</p> : null}
 
+            {hasAttributeList ? (
             <dl className="mt-10 border-t border-charcoal/10">
+                {showMetalRow ? (
                 <div className="grid grid-cols-[7.5rem_1fr] items-baseline gap-4 border-b border-charcoal/10 py-4 text-sm">
                     <dt className="text-[11px] tracking-[0.18em] text-taupe uppercase">Gold tone</dt>
                     <dd>
@@ -172,18 +186,22 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                                 {formatMetalLabel(shownMetal)}
                             </span>
                         )}
-                        {product.fineness && shownMetal === product.metal ? (
+                        {!showSpecifications && product.fineness && shownMetal === product.metal ? (
                             <span className="mt-2 block text-xs leading-relaxed text-ash">{product.fineness}</span>
                         ) : null}
-                        {metalsWithoutPhoto.length ? (
+                        {!showSpecifications && canChooseMetal && metalsWithoutPhoto.length ? (
                             <span className="mt-2 block text-xs leading-relaxed text-ash">
                                 Also made in {metalsWithoutPhoto.map(formatMetalLabel).join(' and ')}. Shown here in{' '}
                                 {formatMetalLabel(shownMetal)}.
                             </span>
                         ) : null}
+                        {showSpecifications && metalOnInquiry ? (
+                            <span className="mt-2 block text-xs leading-relaxed text-ash">{metalOnInquiry}</span>
+                        ) : null}
                     </dd>
                 </div>
-                {stoneLines.length ? (
+                ) : null}
+                {showLegacyStones ? (
                     <div className="grid grid-cols-[7.5rem_1fr] items-start gap-4 border-b border-charcoal/10 py-4 text-sm">
                         <dt className="pt-0.5 text-[11px] tracking-[0.18em] text-taupe uppercase">Stones</dt>
                         <dd>
@@ -195,13 +213,20 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                             {footnote ? <p className="mt-2 text-xs leading-relaxed text-ash">{footnote}</p> : null}
                         </dd>
                     </div>
-                ) : product.diamondShape ? (
+                ) : showLegacyShape ? (
                     <div className="grid grid-cols-[7.5rem_1fr] items-baseline gap-4 border-b border-charcoal/10 py-4 text-sm">
                         <dt className="text-[11px] tracking-[0.18em] text-taupe uppercase">Shape</dt>
                         <dd>{product.diamondShape}</dd>
                     </div>
                 ) : null}
             </dl>
+            ) : null}
+
+            {showSpecifications && !showMetalRow && metalOnInquiry ? (
+                <p className="mt-10 border-t border-charcoal/10 pt-4 text-xs leading-relaxed text-ash">{metalOnInquiry}</p>
+            ) : null}
+
+            <ProductSpecifications product={product} metal={shownMetal} />
 
             {detailNotes.length ? (
                 <div className="border-b border-charcoal/10 py-5">
@@ -220,64 +245,14 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                 {product.available ? (
                     <>
                         {needsSize ? (
-                            <div id="ring-size" tabIndex={-1} className="w-full scroll-mt-28 outline-none">
-                                <div className="flex items-baseline justify-between gap-4">
-                                    <p className="text-[11px] tracking-[0.16em] text-ash uppercase">Finger size</p>
-                                    <Link href={paths.sizeGuide} className="text-[11px] tracking-[0.16em] text-ash uppercase underline-offset-4 hover:text-charcoal hover:underline">
-                                        Size guide
-                                    </Link>
-                                </div>
-                                <div
-                                    role="radiogroup"
-                                    aria-label="Finger size in millimetres, measured around the finger"
-                                    aria-invalid={sizeError}
-                                    aria-describedby={sizeError ? 'ring-size-error' : 'ring-size-hint'}
-                                    className="mt-3 grid grid-cols-6 gap-px border border-charcoal/10 bg-charcoal/10 sm:grid-cols-7"
-                                >
-                                    {ringSizes.map((row) => {
-                                        const value = String(row.circumference);
-                                        const selected = size === value;
-                                        return (
-                                            <button
-                                                key={value}
-                                                type="button"
-                                                role="radio"
-                                                aria-checked={selected}
-                                                onClick={() => {
-                                                    setSize(value);
-                                                    setSizeError(false);
-                                                }}
-                                                className={`min-h-10 text-sm tabular-nums ${selected ? 'bg-charcoal text-ivory' : 'bg-ivory text-charcoal hover:bg-white'}`}
-                                            >
-                                                {row.circumference}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                                <button
-                                    type="button"
-                                    aria-pressed={size === 'help'}
-                                    onClick={() => {
-                                        setSize('help');
-                                        setSizeError(false);
-                                    }}
-                                    className={`mt-3 min-h-11 text-left text-sm underline-offset-4 hover:underline ${size === 'help' ? 'text-charcoal' : 'text-ash'}`}
-                                >
-                                    I need help with the size
-                                </button>
-                                <p id="ring-size-hint" className="text-xs leading-relaxed text-ash">
-                                    {chosenRow
-                                        ? `${chosenRow.circumference} mm around the finger. ${chosenRow.diameter.toFixed(1)} mm across the inside.`
-                                        : size === 'help'
-                                          ? 'We will ask about the fit in the conversation.'
-                                          : 'The number is millimetres around the finger.'}
-                                </p>
-                                {sizeError ? (
-                                    <p id="ring-size-error" className="text-xs text-charcoal">
-                                        Choose a finger size before you ask.
-                                    </p>
-                                ) : null}
-                            </div>
+                            <ProductRingSizePicker
+                                size={size}
+                                sizeError={sizeError}
+                                onSizeChange={(next) => {
+                                    setSize(next);
+                                    setSizeError(false);
+                                }}
+                            />
                         ) : null}
                         <div ref={inquireRef} className="flex w-full flex-wrap items-center gap-x-6 gap-y-3">
                             {needsSize && !size ? (

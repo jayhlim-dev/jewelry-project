@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { articles } from 'data/articles';
 import { paths } from 'data/site';
 
-const noteSlugs = ['understanding-diamond-color', 'caring-for-fine-jewelry', 'jewelry-and-personal-milestones'];
+const noteSlugs = ['reading-a-piece-specification', 'understanding-diamond-color', 'caring-for-fine-jewelry'];
 
 export function HomeJournal() {
     const notes = noteSlugs.map((slug) => articles.find((article) => article.slug === slug)).filter(Boolean);

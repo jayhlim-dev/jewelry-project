@@ -1,18 +1,92 @@
 export const articles = [
     {
+        slug: 'reading-a-piece-specification',
+        title: 'Reading a Piece Specification',
+        category: 'Guides',
+        date: '2026-03-28',
+        readTimeMinutes: 4,
+        featured: true,
+        excerpt: 'How to read total carat weight, stone counts, and grades on a product page — and what to ask when something is left blank.',
+        image: {
+            src: '/images/articles/ring.jpg',
+            alt: 'Sample photograph of a round diamond ring on a dark box'
+        },
+        keyTakeaways: [
+            'Total carat weight (tw) is the sum of all diamonds listed — not the weight of one stone unless it says so.',
+            'Lines like 18 × 0.01 ct mean quantity × carat each; multiply to see how much that row contributes.',
+            'Color, clarity, and cut belong to a specific stone. If they are missing, treat them as unknown until the house confirms.',
+            'A grading report matches one stone. Ask whether it belongs to the center diamond you are buying.'
+        ],
+        nextSteps: [
+            { label: 'Browse the shop', href: '/shop' },
+            { label: 'Size guide', href: '/size-guide' },
+            { label: 'Contact', href: '/contact' }
+        ],
+        body: [
+            {
+                type: 'p',
+                text: 'Fine jewelry product pages often list metal, setting style, and a table of stones. The table is meant to be read like a receipt: each row is a group of diamonds that share the same shape and size class.'
+            },
+            {
+                type: 'h2',
+                text: 'Total weight vs each stone'
+            },
+            {
+                type: 'p',
+                text: 'Total diamond weight — sometimes written as ct tw — is the combined weight of every diamond named on the page. A 0.50 ct center with pavé accents might add up to 0.68 ct tw. That is normal. It does not mean the center is 0.68 ct.'
+            },
+            {
+                type: 'ul',
+                items: [
+                    'Center row: usually count 1, with the largest carat each.',
+                    'Accent rows: higher quantity, smaller carat each.',
+                    'Rows without carat or grade: confirm on inquiry rather than guessing.'
+                ]
+            },
+            {
+                type: 'h2',
+                text: 'When a field is blank'
+            },
+            {
+                type: 'p',
+                text: 'An honest catalog leaves fields empty when they are not verified. A dash or missing color does not mean “bad diamond.” It means the seller has not attached a grade to that stone yet. Message the house with the piece code and ask for the breakdown you need.'
+            },
+            {
+                type: 'quote',
+                text: 'Specifications are for the piece in front of you. A beautiful photograph is not a substitute for a line item.'
+            },
+            {
+                type: 'p',
+                text: 'If you see a certificate badge, open the report and check that the measurements and carat weight match the center stone described on the page. For stacks and multi-band pieces, ask how many rings are included and whether stones are set on every band.'
+            }
+        ]
+    },
+    {
         slug: 'understanding-diamond-color',
         title: 'Understanding Diamond Color',
         category: 'Diamonds',
         date: '2026-03-12',
-        excerpt: 'D is the highest grade on the D-to-Z scale. It describes how little color a diamond shows, not the whole of its quality.',
+        readTimeMinutes: 5,
+        excerpt: 'D is the top of the D-to-Z scale. It describes body color under grading light — not the whole story of how a stone looks on your hand.',
         image: {
             src: '/images/articles/color.jpg',
             alt: 'Sample still life of gold jewelry, an open book, and dried flowers'
         },
+        keyTakeaways: [
+            'D, E, and F are colorless on the lab scale; G and below show more warmth when compared side by side.',
+            'Cut and setting often change face-up brightness more than a one-step color difference.',
+            'Yellow and rose gold can warm a stone; white metal shows body color more plainly.',
+            'A color grade applies to one graded stone — name it on the piece only when it is known.'
+        ],
+        nextSteps: [
+            { label: 'D color explained', href: '/d-color-diamond' },
+            { label: 'Certification', href: '/articles/understanding-diamond-certification' },
+            { label: 'Shop rings', href: '/shop' }
+        ],
         body: [
             {
                 type: 'p',
-                text: 'Diamond color, on the scale most jewelers use, runs from D to Z. D has the least color. Z has the most. The letters are a way to talk about a tint that is often too faint to notice across a room.'
+                text: 'Diamond color on the scale most jewelers use runs from D to Z. D shows the least body color. Z shows the most. The letters describe a tint that is often too faint to notice across a room.'
             },
             {
                 type: 'p',
@@ -32,7 +106,7 @@ export const articles = [
             },
             {
                 type: 'p',
-                text: 'Yellow or rose metal can warm a stone and make a faint tint harder to see. White metal shows body color more plainly. That is a setting choice, not a trick, and it is worth seeing in person.'
+                text: 'Yellow or rose metal can warm a stone and make a faint tint harder to see. White metal shows body color more plainly. That is a setting choice, not a trick — and it is worth seeing in person or on video before you decide.'
             },
             {
                 type: 'p',
@@ -45,27 +119,45 @@ export const articles = [
         title: 'How to Choose a Diamond Ring',
         category: 'Guides',
         date: '2026-02-02',
-        excerpt: 'Start with the hand, the setting, and the light you live in. Then read the grade, not the other way around.',
+        readTimeMinutes: 6,
+        excerpt: 'Start with how the ring will feel on your hand, then metal and shape. Read color, clarity, and carat together — not as three separate trophies.',
         image: {
             src: '/images/articles/ring.jpg',
             alt: 'Sample photograph of a round diamond ring on a dark box'
         },
+        keyTakeaways: [
+            'Decide profile first: low and quiet vs taller and more visible on the finger.',
+            'Shape changes both light and how the ring sits next to a wedding band.',
+            'Ask what the quote includes: center, setting, side stones, and any report.',
+            'If a detail is missing on the page, treat it as unknown until the seller confirms.'
+        ],
+        nextSteps: [
+            { label: 'Read specifications', href: '/articles/reading-a-piece-specification' },
+            { label: 'Size guide', href: '/size-guide' },
+            { label: 'Contact', href: '/contact' }
+        ],
         body: [
             {
                 type: 'p',
-                text: 'A ring has to live on a hand. Width, height, and how the metal meets the finger matter as much as the stone in the center. Try a similar profile before you fall in love with a photograph.'
+                text: 'A ring has to live on a hand. Width, height, and how the metal meets the finger matter as much as the stone in the center. Try a similar profile before you fall in love with a photograph alone.'
             },
             {
                 type: 'h2',
                 text: 'A useful order'
             },
             {
-                type: 'p',
-                text: 'First, decide how you want the ring to feel: low and quiet, or more present. Second, choose a metal you will actually wear. Third, look at shape. Round, oval, emerald, pear, and cushion each catch light differently and sit differently next to other rings.'
+                type: 'ul',
+                items: [
+                    'Feel: stackable band, statement center, or something in between.',
+                    'Metal: what you already wear daily — white, yellow, or rose gold.',
+                    'Shape: round, oval, emerald, pear, and cushion each catch light differently.',
+                    'Grades: read color, clarity, and carat together with cut.',
+                    'Proof: match any report to the actual center stone.'
+                ]
             },
             {
                 type: 'p',
-                text: 'Then read color, clarity, and carat together. A heavier carat is not automatically a better diamond. Cut — how the stone returns light — often changes the face-up look more than a small step in color.'
+                text: 'A heavier carat is not automatically a better diamond. Cut — how the stone returns light — often changes the face-up look more than a small step in color.'
             },
             {
                 type: 'p',
@@ -73,7 +165,7 @@ export const articles = [
             },
             {
                 type: 'p',
-                text: 'Then ask us to confirm the center stone, the setting, and whether a report belongs to that stone.'
+                text: 'When you are ready, inquire with the piece name, metal, and finger size in millimetres. We confirm stones and timing in that conversation — nothing is reserved until you agree there.'
             }
         ]
     },
@@ -82,11 +174,22 @@ export const articles = [
         title: 'Caring for Fine Jewelry',
         category: 'Care',
         date: '2026-01-18',
-        excerpt: 'Most care is ordinary: a soft cloth, a safe place to rest, and a gentle hand with perfume and pools.',
+        readTimeMinutes: 4,
+        excerpt: 'Everyday care is simple: product last, store separately, clean gently, and check prongs when something feels loose.',
         image: {
             src: '/images/articles/care.jpg',
             alt: 'Sample photograph of a diamond-set bracelet on a pale background'
         },
+        keyTakeaways: [
+            'Put jewelry on after perfume, lotion, and hairspray.',
+            'Take rings off for weights, gardening, and harsh cleaning.',
+            'Store pieces so harder stones cannot scratch softer metal or gems.',
+            'Skip ultrasonic and steam unless a jeweler who sees the piece approves.'
+        ],
+        nextSteps: [
+            { label: 'Contact for care questions', href: '/contact' },
+            { label: 'Shop', href: '/shop' }
+        ],
         body: [
             {
                 type: 'p',
@@ -119,11 +222,22 @@ export const articles = [
         title: 'Jewelry and Personal Milestones',
         category: 'Stories',
         date: '2025-11-20',
-        excerpt: 'A piece can mark a promise, a loss, or an ordinary Tuesday that mattered. The meaning is not in the size of the stone.',
+        readTimeMinutes: 3,
+        excerpt: 'A piece can mark a promise or an ordinary Tuesday that mattered. Meaning comes from the wearer — the jewel only has to be well made enough to stay.',
         image: {
             src: '/images/articles/milestone.jpg',
             alt: 'Sample portrait of a person wearing a ring, cropped close to the face and hand'
         },
+        keyTakeaways: [
+            'The highest color grade is not required for a meaningful gift.',
+            'Notice what the person already wears: metal, scale, and stack habits.',
+            'Choose something they can return to often, not a piece that only works once.',
+            'Stories on this site are illustrative — your story is yours.'
+        ],
+        nextSteps: [
+            { label: 'Shop the collection', href: '/shop' },
+            { label: 'Contact', href: '/contact' }
+        ],
         body: [
             {
                 type: 'p',
@@ -156,11 +270,23 @@ export const articles = [
         title: 'Understanding Diamond Certification',
         category: 'Diamonds',
         date: '2025-10-08',
-        excerpt: 'A grading report describes one stone. It is documentation, not a guarantee that every jewel in a shop was graded the same way.',
+        readTimeMinutes: 5,
+        excerpt: 'A grading report describes one stone at one laboratory. It is documentation to match — not a promise about every diamond in a display case.',
         image: {
             src: '/images/articles/cert.jpg',
             alt: 'Sample photograph of a crystal-set bracelet against a black background'
         },
+        keyTakeaways: [
+            'Match report number, shape, and measurements to the stone you are buying.',
+            'Read the full report — not just the color letter in an ad.',
+            'Labs phrase grades differently; compare stones graded by the same lab when you can.',
+            'A report is not insurance and not a guarantee of future resale value.'
+        ],
+        nextSteps: [
+            { label: 'Read specifications', href: '/articles/reading-a-piece-specification' },
+            { label: 'Diamond color', href: '/articles/understanding-diamond-color' },
+            { label: 'Shop', href: '/shop' }
+        ],
         body: [
             {
                 type: 'p',
@@ -184,7 +310,7 @@ export const articles = [
             },
             {
                 type: 'p',
-                text: 'A photograph is not a certificate. Ask which stone was graded, and which laboratory wrote the report.'
+                text: 'On a product page, a certificate badge should link to the report that belongs to the center stone — or tell you to ask for it. A photograph is not a certificate.'
             }
         ]
     }

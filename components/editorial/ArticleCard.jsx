@@ -17,6 +17,12 @@ export function ArticleCard({ article, featured = false }) {
                     {article.category}
                     <span className="px-2 text-taupe">/</span>
                     <time dateTime={article.date}>{formatDate(article.date)}</time>
+                    {article.readTimeMinutes ? (
+                        <>
+                            <span className="px-2 text-taupe">/</span>
+                            <span>{article.readTimeMinutes} min</span>
+                        </>
+                    ) : null}
                 </p>
                 <h3 className={`mt-2 font-serif leading-tight font-medium ${featured ? 'text-[2rem] md:text-[2.5rem]' : 'text-[1.6rem]'}`}>
                     {article.title}
