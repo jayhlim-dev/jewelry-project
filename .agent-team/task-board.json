@@ -1,7 +1,22 @@
 {
   "version": 1,
   "project": "jewelry-project",
-  "updated_at": "2026-10-26T18:03:15.029Z",
-  "next_id": 1,
-  "tasks": []
+  "updated_at": "2026-11-01T10:05:23.054Z",
+  "next_id": 3,
+  "tasks": [
+    {
+      "id": "VET-001",
+      "title": "Article companion: teach PDP piece specification",
+      "status": "done",
+      "owner": "morgan",
+      "size": "standard"
+    },
+    {
+      "id": "VET-002",
+      "title": "Release UI/UX screen of every page",
+      "status": "draft",
+      "owner": "morgan",
+      "size": "complex"
+    }
+  ]
 }

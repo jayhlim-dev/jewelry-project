@@ -2,11 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { site } from 'data/site';
-import { ringSizes } from 'data/size-guide';
 import { ProductRingSizePicker } from 'components/products/ProductRingSizePicker';
 import { Button } from 'components/ui/Button';
 import { formatMetalLabel, formatStoneLine, stoneFootnote } from 'lib/format';
-import { shouldShowSpecifications } from 'lib/productSpecs';
+import { hasSpecificationSheet, shouldShowSpecifications } from 'lib/productSpecs';
 import { ProductSpecifications } from 'components/products/ProductSpecifications';
 import { useInquiry } from 'components/layout/InquiryProvider';
 
@@ -15,32 +14,6 @@ const metalSwatch = {
     'Yellow Gold': '#c6a15b',
     'Rose Gold': '#c4897a'
 };
-
-function photographNotes(product) {
-    return product.materials
-        .map((line) =>
-            line
-                .replace(/^sample metal tone:\s*/i, '')
-                .replace(/\s+in the photograph\.?$/i, '')
-                .replace(/\s+visible in the photograph\.?$/i, '')
-                .trim()
-        )
-        .filter((line) => line && !/^pale metal$/i.test(line) && !line.toLowerCase().includes('sample'))
-        .map((line) => line.charAt(0).toUpperCase() + line.slice(1));
-}
-
-function addsDetail(summary, description) {
-    if (!description) return false;
-    const plain = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
-    const left = plain(summary || '');
-    const right = plain(description);
-    if (!right || !left || right === left || right.includes(left) || left.includes(right)) return false;
-    const leftWords = left.split(' ').filter((word) => word.length > 2);
-    if (!leftWords.length) return true;
-    if (right.split(' ').length > leftWords.length + 8) return true;
-    const shared = leftWords.filter((word) => right.includes(word)).length;
-    return shared / leftWords.length < 0.7;
-}
 
 function sizeLabel(size) {
     if (!size) return '';
@@ -51,50 +24,32 @@ function sizeLabel(size) {
 export function ProductSummary({ product, metal, metalChoices = [], onMetalChange }) {
     const { add, items } = useInquiry();
     const showSpecifications = shouldShowSpecifications(product);
-    const notes = photographNotes(product);
+    const specificationSheet = hasSpecificationSheet(product);
     const stoneLines = (product.stones || []).map(formatStoneLine).filter(Boolean);
-    const stoneText = stoneLines.join(' ').toLowerCase();
-    const detailNotes = notes.filter((note) => {
-        if (showSpecifications && /stone|diamond|gold|motif|band/i.test(note)) return false;
-        const words = note.toLowerCase().split(/\s+/).filter((word) => word.length > 3);
-        if (!words.length) return true;
-        const hits = words.filter((word) => stoneText.includes(word)).length;
-        return hits / words.length < 0.75;
-    });
-    const showDescription = addsDetail(product.summary, product.description);
     const footnote = stoneFootnote(product);
     const shownMetal = metal || product.metal;
     const choices = metalChoices.length ? metalChoices : [shownMetal];
     const canChooseMetal = choices.length > 1;
     const metalsWithoutPhoto = (product.metals || []).filter((item) => !choices.includes(item));
-    const showMetalRow = !showSpecifications || canChooseMetal;
+    const showMetalRow = !specificationSheet && (!showSpecifications || canChooseMetal);
     const metalOnInquiry =
         metalsWithoutPhoto.length > 0 && !canChooseMetal
             ? `Also available in ${metalsWithoutPhoto.map(formatMetalLabel).join(' and ')} on inquiry. Shown in ${formatMetalLabel(shownMetal)}.`
             : '';
     const showLegacyStones = !showSpecifications && stoneLines.length > 0;
-    const showLegacyShape = !showSpecifications && Boolean(product.diamondShape) && stoneLines.length === 0;
-    const hasAttributeList = showMetalRow || showLegacyStones || showLegacyShape;
+    const hasAttributeList = showMetalRow || showLegacyStones;
     const needsSize = product.category === 'Rings';
     const [size, setSize] = useState('');
     const [sizeError, setSizeError] = useState(false);
-    const [isGift, setIsGift] = useState(false);
-    const [note, setNote] = useState('');
-    const noteTrim = note.trim();
     const chosenSize = sizeLabel(size);
-    const chosenRow = ringSizes.find((row) => String(row.circumference) === size);
     const savedItem = items.find((item) => item.slug === product.slug);
     const sameSaved =
         savedItem &&
         savedItem.metal === shownMetal &&
-        (savedItem.size || '') === chosenSize &&
-        Boolean(savedItem.gift) === isGift &&
-        (savedItem.note || '') === noteTrim;
+        (savedItem.size || '') === chosenSize;
     const pieceLabel = product.code ? `${product.name} (${product.code})` : product.name;
-    const giftLine = isGift ? ' This is a gift.' : '';
     const sizeLine = !needsSize ? '' : size === 'help' ? ' I need help with the size.' : ` Finger size ${size} mm.`;
-    const noteLine = noteTrim ? ` Note: ${noteTrim}` : '';
-    const whatsappText = `Hello, I would like to ask about ${pieceLabel} in ${shownMetal}.${sizeLine}${giftLine}${noteLine}`;
+    const whatsappText = `Hello, I would like to ask about ${pieceLabel} in ${shownMetal}.${sizeLine}`;
     const whatsappHref = `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(whatsappText)}`;
     const inquireRef = useRef(null);
     const [barVisible, setBarVisible] = useState(false);
@@ -140,12 +95,45 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
     return (
         <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="eyebrow">{product.category}</p>
-            <h1 className="mt-4 font-serif text-[2rem] leading-none font-normal text-balance md:text-[2.35rem]">{product.name}</h1>
-            {product.code ? <p className="mt-4 text-[11px] tracking-[0.18em] text-taupe uppercase">Code {product.code}</p> : null}
-            <p className="mt-5 max-w-sm font-serif text-lg leading-snug italic text-charcoal/80">{product.summary}</p>
-            <p className="mt-4 text-xs tracking-wide text-ash">Ask us to confirm this piece.</p>
+            <h1 className="mt-2 font-serif text-[1.85rem] leading-none font-normal text-balance md:text-[2.15rem]">{product.name}</h1>
+            {product.code ? <p className="mt-2 text-[11px] tracking-[0.18em] text-taupe uppercase">Code {product.code}</p> : null}
+            <p className="mt-3 max-w-sm font-serif text-base leading-snug italic text-charcoal/80 md:text-lg">{product.summary}</p>
+            <p className="mt-2 text-xs tracking-wide text-ash">Ask us to confirm this piece.</p>
 
-            {showDescription ? <p className="mt-8 max-w-md text-sm leading-7 text-ash">{product.description}</p> : null}
+            {specificationSheet ? (
+                <p className="mt-4 text-sm text-ash">
+                    <a href="#piece-specification-sheet-heading" className="underline-offset-4 hover:text-charcoal hover:underline">
+                        Full specification below
+                    </a>
+                    {product.available ? (
+                        <>
+                            {' '}
+                            · In stock
+                        </>
+                    ) : (
+                        <> · Unavailable</>
+                    )}
+                </p>
+            ) : (
+                <dl className="mt-8 grid grid-cols-[7.5rem_1fr] gap-x-4 gap-y-3 border-t border-charcoal/10 pt-6 text-sm">
+                    <div className="contents">
+                        <dt className="text-[11px] tracking-[0.16em] text-taupe uppercase">Availability</dt>
+                        <dd className="text-charcoal/90">{product.available ? 'In stock' : 'Unavailable'}</dd>
+                    </div>
+                    {product.fineness ? (
+                        <div className="contents">
+                            <dt className="text-[11px] tracking-[0.16em] text-taupe uppercase">Fineness</dt>
+                            <dd className="text-charcoal/90">{product.fineness}</dd>
+                        </div>
+                    ) : null}
+                    {product.diamondShape ? (
+                        <div className="contents">
+                            <dt className="text-[11px] tracking-[0.16em] text-taupe uppercase">Shape</dt>
+                            <dd className="text-charcoal/90">{product.diamondShape}</dd>
+                        </div>
+                    ) : null}
+                </dl>
+            )}
 
             {hasAttributeList ? (
             <dl className="mt-10 border-t border-charcoal/10">
@@ -213,35 +201,17 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                             {footnote ? <p className="mt-2 text-xs leading-relaxed text-ash">{footnote}</p> : null}
                         </dd>
                     </div>
-                ) : showLegacyShape ? (
-                    <div className="grid grid-cols-[7.5rem_1fr] items-baseline gap-4 border-b border-charcoal/10 py-4 text-sm">
-                        <dt className="text-[11px] tracking-[0.18em] text-taupe uppercase">Shape</dt>
-                        <dd>{product.diamondShape}</dd>
-                    </div>
                 ) : null}
             </dl>
             ) : null}
 
-            {showSpecifications && !showMetalRow && metalOnInquiry ? (
+            {showSpecifications && !specificationSheet && !showMetalRow && metalOnInquiry ? (
                 <p className="mt-10 border-t border-charcoal/10 pt-4 text-xs leading-relaxed text-ash">{metalOnInquiry}</p>
             ) : null}
 
             <ProductSpecifications product={product} metal={shownMetal} />
 
-            {detailNotes.length ? (
-                <div className="border-b border-charcoal/10 py-5">
-                    <p className="text-[11px] tracking-[0.18em] text-taupe uppercase">Details</p>
-                    <ul className="mt-3 space-y-2">
-                        {detailNotes.map((note) => (
-                            <li key={note} className="text-sm leading-relaxed text-ash">
-                                {note}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ) : null}
-
-            <div className="mt-10 flex flex-col items-start gap-5">
+            <div className="mt-8 flex flex-col items-start gap-4">
                 {product.available ? (
                     <>
                         {needsSize ? (
@@ -254,7 +224,7 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                                 }}
                             />
                         ) : null}
-                        <div ref={inquireRef} className="flex w-full flex-wrap items-center gap-x-6 gap-y-3">
+                        <div ref={inquireRef} className="flex w-full flex-wrap items-center gap-x-5 gap-y-2">
                             {needsSize && !size ? (
                                 <Button
                                     className="w-full sm:w-auto"
@@ -278,7 +248,7 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                                         document.getElementById('ring-size')?.focus();
                                         return;
                                     }
-                                    add({ ...product, metal: shownMetal, size: chosenSize, gift: isGift, note: noteTrim });
+                                    add({ ...product, metal: shownMetal, size: chosenSize });
                                 }}
                                 disabled={Boolean(sameSaved)}
                                 ariaLabel={sameSaved ? `${product.name} is already saved` : `Save ${product.name} for an inquiry`}
@@ -286,26 +256,6 @@ export function ProductSummary({ product, metal, metalChoices = [], onMetalChang
                                 {sameSaved ? 'Saved for inquiry' : savedItem ? 'Update saved piece' : 'Save for inquiry'}
                             </Button>
                         </div>
-                        <label className="block w-full text-[11px] tracking-[0.16em] text-ash uppercase">
-                            A note
-                            <textarea
-                                value={note}
-                                maxLength={140}
-                                rows={2}
-                                onChange={(event) => setNote(event.target.value)}
-                                placeholder="A question, or words you want remembered"
-                                className="mt-2 w-full resize-none border-b border-charcoal/20 bg-transparent py-2 text-sm tracking-normal text-charcoal normal-case outline-none placeholder:text-ash"
-                            />
-                        </label>
-                        <label className="inline-flex min-h-11 cursor-pointer items-center gap-3 text-sm">
-                            <input
-                                type="checkbox"
-                                checked={isGift}
-                                onChange={(event) => setIsGift(event.target.checked)}
-                                className="h-4 w-4 accent-charcoal"
-                            />
-                            This is a gift
-                        </label>
                     </>
                 ) : (
                     <p className="max-w-sm text-sm leading-relaxed text-ash">

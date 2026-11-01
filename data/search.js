@@ -4,8 +4,7 @@ export const searchCopy = {
     title: 'Search',
     inputLabel: 'Search the site',
     placeholder: 'Name, code, metal, or topic…',
-    idleLead: 'Find a piece, read a guide, or jump to sizing and contact.',
-    idleHint: 'Try a catalog code (e.g. CEL-003), “certification”, or “stack”.',
+    idleLead: 'Browse a form, or type a piece name, code (e.g. CEL-003), or topic.',
     noResultsTitle: 'No matches',
     noResultsBody: 'Check the spelling, try a piece code, or browse by category below.',
     sections: {
@@ -13,20 +12,17 @@ export const searchCopy = {
         articles: 'Articles',
         pages: 'Help',
         collections: 'Shop by form',
-        guides: 'Quick links'
+        guides: 'Quick links',
+        reads: 'Popular reads'
     }
 };
 
-/** Shown when the field is empty — editorial + utility paths. */
+/** Idle utility paths — no overlap with popular reads. */
 export const searchQuickLinks = [
-    { label: 'Reading a piece specification', href: `${paths.articles}/reading-a-piece-specification` },
-    { label: 'Understanding certification', href: `${paths.articles}/understanding-diamond-certification` },
     { label: 'Size guide', href: paths.sizeGuide },
-    { label: 'Contact & WhatsApp', href: paths.contact }
+    { label: 'Contact & WhatsApp', href: paths.contact },
+    { label: 'Understanding certification', href: `${paths.articles}/understanding-diamond-certification` }
 ];
 
-export const searchPopularArticleSlugs = [
-    'reading-a-piece-specification',
-    'how-to-choose-a-diamond-ring',
-    'understanding-diamond-color'
-];
+/** Idle editorial picks — titles only; keep off quick links. */
+export const searchPopularArticleSlugs = ['how-to-choose-a-diamond-ring', 'understanding-diamond-color'];

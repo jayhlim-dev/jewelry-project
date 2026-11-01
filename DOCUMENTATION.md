@@ -166,9 +166,8 @@ Show one piece’s photographs and known materials, then inquire via WhatsApp or
 - Metal radio choices switch gallery when `metalViews` (or primary + views) provide photos
 - Enlarge opens modal; Esc / close / arrow keys for multi-image sets
 - Rings: finger size grid (44–70 mm from `ringSizes`) or “I need help with the size”; Size guide link → `/size-guide`
-- Inquire on WhatsApp opens `wa.me` with a prefilled draft (piece name/code, metal, size, gift, note)
+- Inquire on WhatsApp opens `wa.me` with a prefilled draft (piece name/code, metal, size)
 - Save for inquiry writes to inquiry bag; disabled when same options already saved
-- Gift checkbox + note textarea (max 140 chars)
 - Unavailable products (`available: false`): inquiry controls hidden; message shown instead
 
 **Data and Business Logic**

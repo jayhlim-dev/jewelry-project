@@ -7,6 +7,7 @@ import {
     formatCaratWeight,
     formatStoneMeasurements,
     formatTotalCaratWeight,
+    hasSpecificationSheet,
     shouldShowAdvancedGrading,
     shouldShowSpecifications,
     specificationsFootnote,
@@ -113,7 +114,7 @@ function AdvancedGrading({ product }) {
 }
 
 export function ProductSpecifications({ product, metal }) {
-    if (!shouldShowSpecifications(product)) return null;
+    if (!shouldShowSpecifications(product) || hasSpecificationSheet(product)) return null;
 
     const specs = product.specs || {};
     const stones = sortStonesForDisplay(product.stones || []);
@@ -186,10 +187,6 @@ export function ProductSpecifications({ product, metal }) {
             <p className="mt-2 text-xs leading-relaxed text-ash">
                 <Link href={`${paths.articles}/reading-a-piece-specification`} className="underline-offset-4 hover:text-charcoal hover:underline">
                     How to read a specification
-                </Link>
-                <span className="mx-2 text-ash">·</span>
-                <Link href={`${paths.articles}/understanding-diamond-certification`} className="underline-offset-4 hover:text-charcoal hover:underline">
-                    Certification
                 </Link>
             </p>
         </section>

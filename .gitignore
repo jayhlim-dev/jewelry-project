@@ -38,3 +38,16 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+# Virtual Engineering Team (local — added by vet onboard)
+.agent-team/
+.cursor/agents/morgan.md
+.cursor/agents/elena.md
+.cursor/agents/kai.md
+.cursor/agents/sam.md
+.cursor/rules/00-morgan-orchestrator.mdc
+.cursor/rules/01-safety.mdc
+.cursor/rules/02-handoffs.mdc
+.cursor/rules/03-voice-identity.mdc
+.cursor/skills/virtual-engineering-team/
+.cursor/skills/onboard-project/

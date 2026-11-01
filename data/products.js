@@ -174,7 +174,30 @@ export const products = [
         metals: ['White Gold'],
         fineness: '750',
         diamondShape: 'Emerald',
-        stones: [{ shape: 'Emerald', detail: 'stones around the band' }],
+        totalCaratWeight: 1.44,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Diamond Eternity Ring' },
+                { field: 'Metal', value: '18K White Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Metal Weight', value: '4.18 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Shape & Cutting Style', value: 'Emerald cut' },
+                { field: 'Accent Shape', value: 'Round brilliant' },
+                { field: 'Total Diamond Quantity', value: '18 stones' },
+                { field: 'Total Carat Weight', value: '1.44 ct tw' },
+                { field: 'Color Grade', value: 'F' },
+                { field: 'Clarity Grade', value: 'VVS2' },
+                {
+                    field: 'Cut Grade',
+                    value: 'Very Good to Excellent (per stone; no single ring grade)'
+                },
+                { field: 'Polish', value: 'Excellent' },
+                { field: 'Symmetry', value: 'Very Good' }
+            ]
+        },
         featured: true,
         available: true,
         summary: 'A continuous row of emerald-cut stones.',

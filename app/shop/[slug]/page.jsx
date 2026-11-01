@@ -4,6 +4,7 @@ import { products } from 'data/products';
 import { paths, site } from 'data/site';
 import { getCollectionForCategory, getProduct, getRelatedProducts } from 'lib/catalog';
 import { ProductStage } from 'components/products/ProductStage';
+import { ProductDetailPanel } from 'components/products/ProductDetailPanel';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
 import { ProductGrid } from 'components/products/ProductGrid';
@@ -55,7 +56,7 @@ export default async function ProductPage({ params }) {
     return (
         <article className="pb-20">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            <Container className="pt-8 md:pt-12">
+            <Container className="pt-6 md:pt-8">
                 <Breadcrumb
                     items={[
                         { label: 'Home', href: paths.home },
@@ -65,6 +66,7 @@ export default async function ProductPage({ params }) {
                     ]}
                 />
                 <ProductStage product={product} />
+                <ProductDetailPanel product={product} />
                 {related.length ? (
                     <section className="mt-24 border-t border-charcoal/10 pt-16">
                         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">

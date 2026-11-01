@@ -180,19 +180,14 @@ export function SearchDialog({ open, onClose }) {
                             ) : (
                                 <>
                                     <p className="text-sm leading-relaxed text-ash">{searchCopy.idleLead}</p>
-                                    <p className="mt-2 text-xs leading-relaxed text-ash">{searchCopy.idleHint}</p>
 
-                                    <ResultSection title="Popular reads">
+                                    <ResultSection title={searchCopy.sections.collections}>
                                         <ul className="space-y-3">
-                                            {popularArticles.map((article) => (
-                                                <li key={article.slug}>
-                                                    <Link
-                                                        href={`${paths.articles}/${article.slug}`}
-                                                        onClick={onClose}
-                                                        className="block hover:text-ash"
-                                                    >
-                                                        <span className="block font-serif text-xl">{article.title}</span>
-                                                        <span className="mt-1 block text-sm text-ash line-clamp-2">{article.excerpt}</span>
+                                            {collections.map((collection) => (
+                                                <li key={collection.slug}>
+                                                    <Link href={collection.href} onClick={onClose} className="block hover:text-ash">
+                                                        <span className="block font-serif text-xl">{collection.name}</span>
+                                                        <span className="mt-1 block text-sm text-ash">{collection.description}</span>
                                                     </Link>
                                                 </li>
                                             ))}
@@ -218,18 +213,23 @@ export function SearchDialog({ open, onClose }) {
                                         </ul>
                                     </ResultSection>
 
-                                    <ResultSection title={searchCopy.sections.collections}>
-                                        <ul className="space-y-3">
-                                            {collections.map((collection) => (
-                                                <li key={collection.slug}>
-                                                    <Link href={collection.href} onClick={onClose} className="block hover:text-ash">
-                                                        <span className="block font-serif text-xl">{collection.name}</span>
-                                                        <span className="mt-1 block text-sm text-ash">{collection.description}</span>
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </ResultSection>
+                                    {popularArticles.length ? (
+                                        <ResultSection title={searchCopy.sections.reads}>
+                                            <ul className="space-y-3">
+                                                {popularArticles.map((article) => (
+                                                    <li key={article.slug}>
+                                                        <Link
+                                                            href={`${paths.articles}/${article.slug}`}
+                                                            onClick={onClose}
+                                                            className="block font-serif text-xl hover:text-ash"
+                                                        >
+                                                            {article.title}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </ResultSection>
+                                    ) : null}
                                 </>
                             )}
                         </div>

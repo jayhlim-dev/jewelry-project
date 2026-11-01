@@ -6,50 +6,114 @@ export const articles = [
         date: '2026-03-28',
         readTimeMinutes: 4,
         featured: true,
-        excerpt: 'How to read total carat weight, stone counts, and grades on a product page — and what to ask when something is left blank.',
+        excerpt:
+            'How to read the Piece specification sheet on a product page — Field, Specification, and what italic values mean before you inquire.',
         image: {
-            src: '/images/articles/ring.jpg',
-            alt: 'Sample photograph of a round diamond ring on a dark box'
+            src: 'https://i.pinimg.com/1200x/07/1d/64/071d641108e87e7aa55f9d1e8779245f.jpg',
+            alt: 'Loose diamond shapes on a metal surface with jeweler tweezers holding a pear-cut stone'
         },
         keyTakeaways: [
-            'Total carat weight (tw) is the sum of all diamonds listed — not the weight of one stone unless it says so.',
-            'Lines like 18 × 0.01 ct mean quantity × carat each; multiply to see how much that row contributes.',
-            'Color, clarity, and cut belong to a specific stone. If they are missing, treat them as unknown until the house confirms.',
-            'A grading report matches one stone. Ask whether it belongs to the center diamond you are buying.'
+            'The Piece specification sheet uses two columns: Field and Specification.',
+            'Total Carat Weight with “tw” is the sum for the piece — not one stone unless the field says so.',
+            'Italic values (Not determined / Not assessed) mean confirm on inquiry — not “bad.”',
+            'A grading report belongs to one stone. Ask whether it matches the center you are buying.'
         ],
         nextSteps: [
+            { label: 'Inquire about a piece', href: '/contact' },
             { label: 'Browse the shop', href: '/shop' },
-            { label: 'Size guide', href: '/size-guide' },
-            { label: 'Contact', href: '/contact' }
+            { label: 'Size guide', href: '/size-guide' }
+        ],
+        relatedSlugs: [
+            'understanding-diamond-certification',
+            'how-to-choose-a-diamond-ring',
+            'understanding-diamond-color'
         ],
         body: [
             {
                 type: 'p',
-                text: 'Fine jewelry product pages often list metal, setting style, and a table of stones. The table is meant to be read like a receipt: each row is a group of diamonds that share the same shape and size class.'
+                text: 'On our product pages, the Piece specification sheet lists what is verified for that jewel. It reads like a form: each row has a Field on the left and a Specification on the right. Sections usually cover Identification (metal and type) and Diamond breakdown (shape, counts, total weight, grades).'
             },
             {
                 type: 'h2',
-                text: 'Total weight vs each stone'
+                text: 'Field and Specification'
             },
             {
                 type: 'p',
-                text: 'Total diamond weight — sometimes written as ct tw — is the combined weight of every diamond named on the page. A 0.50 ct center with pavé accents might add up to 0.68 ct tw. That is normal. It does not mean the center is 0.68 ct.'
+                text: 'Read both columns. The field name tells you what is being claimed. The specification is the value we are willing to put on that piece. Verified values sit in plain text. Values such as “Not determined” or “Not assessed” appear in italic — the same cue as on the product page — and are confirmed with you on inquiry.'
             },
             {
                 type: 'ul',
                 items: [
-                    'Center row: usually count 1, with the largest carat each.',
-                    'Accent rows: higher quantity, smaller carat each.',
-                    'Rows without carat or grade: confirm on inquiry rather than guessing.'
+                    'Identification: jewelry type, metal, fineness, metal weight when known.',
+                    'Diamond breakdown: shapes, total quantity, total carat weight (ct tw), color, clarity, cut when known.',
+                    'Italic or missing grades: ask before you assume.'
                 ]
             },
             {
                 type: 'h2',
-                text: 'When a field is blank'
+                text: 'A worked example'
             },
             {
                 type: 'p',
-                text: 'An honest catalog leaves fields empty when they are not verified. A dash or missing color does not mean “bad diamond.” It means the seller has not attached a grade to that stone yet. Message the house with the piece code and ask for the breakdown you need.'
+                text: 'This sample mirrors the sheet you will see on a product page. Notice which lines are solid and which are italic.'
+            },
+            {
+                type: 'specExample',
+                eyebrow: 'Specification',
+                title: 'Sample piece specification',
+                lead: 'Illustrative example — not a live listing. Italic values are confirmed with you on inquiry.',
+                sections: [
+                    {
+                        title: 'Identification',
+                        rows: [
+                            { field: 'Jewelry Type', value: 'Diamond Solitaire Ring' },
+                            { field: 'Metal', value: '18K Yellow Gold' },
+                            { field: 'Gold Fineness', value: '750 (18K)' },
+                            { field: 'Metal Weight', value: 'Not determined' }
+                        ]
+                    },
+                    {
+                        title: 'Diamond breakdown',
+                        rows: [
+                            { field: 'Shape & Cutting Style', value: 'Round brilliant' },
+                            { field: 'Accent Shape', value: 'Round brilliant' },
+                            { field: 'Total Diamond Quantity', value: '19 stones' },
+                            { field: 'Total Carat Weight', value: '0.68 ct tw' },
+                            { field: 'Color Grade', value: 'Not assessed' },
+                            { field: 'Clarity Grade', value: 'Not assessed' },
+                            { field: 'Cut Grade', value: 'Excellent' }
+                        ]
+                    }
+                ],
+                footnote: 'We list only what is verified for a piece. Ask on inquiry for any italic line.',
+                link: {
+                    label: 'See a live Piece specification',
+                    href: '/shop/mira-band'
+                }
+            },
+            {
+                type: 'h2',
+                text: 'Total weight vs one stone'
+            },
+            {
+                type: 'p',
+                text: 'Total Carat Weight — often written with “ct tw” — is the combined weight of every diamond named for the piece. A 0.50 ct center with small accents might add up to 0.68 ct tw. That is normal. It does not mean the center is 0.68 ct.'
+            },
+            {
+                type: 'ul',
+                items: [
+                    'If Total Diamond Quantity is 19 and Total Carat Weight is 0.68 ct tw, the weight is shared across those stones.',
+                    'Center vs accent shapes may both be listed; the total still sums the piece.',
+                    'If weight or grade is italic, confirm on inquiry rather than guessing.'
+                ]
+            },
+            {
+                type: 'h2',
+                text: 'When a value is italic'
+            },
+            {
+                type: 'p',
+                text: 'An honest catalog marks unknown lines instead of inventing them. Italic does not mean a poor diamond. It means we have not attached that measurement or grade to the piece yet. Message us with the piece name or code and ask for the lines you need.'
             },
             {
                 type: 'quote',
@@ -69,7 +133,7 @@ export const articles = [
         readTimeMinutes: 5,
         excerpt: 'D is the top of the D-to-Z scale. It describes body color under grading light — not the whole story of how a stone looks on your hand.',
         image: {
-            src: '/images/articles/color.jpg',
+            src: 'https://i.pinimg.com/1200x/c4/34/5e/c4345e360ad34f31924ff286bc770f77.jpg',
             alt: 'Sample still life of gold jewelry, an open book, and dried flowers'
         },
         keyTakeaways: [
@@ -122,7 +186,7 @@ export const articles = [
         readTimeMinutes: 6,
         excerpt: 'Start with how the ring will feel on your hand, then metal and shape. Read color, clarity, and carat together — not as three separate trophies.',
         image: {
-            src: '/images/articles/ring.jpg',
+            src: 'https://i.pinimg.com/1200x/b9/ba/ed/b9baedf385606dbd73a6ab2e512ba9c5.jpg',
             alt: 'Sample photograph of a round diamond ring on a dark box'
         },
         keyTakeaways: [
@@ -177,7 +241,7 @@ export const articles = [
         readTimeMinutes: 4,
         excerpt: 'Everyday care is simple: product last, store separately, clean gently, and check prongs when something feels loose.',
         image: {
-            src: '/images/articles/care.jpg',
+            src: 'https://i.pinimg.com/736x/b1/06/8d/b1068d6c7f94829da53b601270f33586.jpg',
             alt: 'Sample photograph of a diamond-set bracelet on a pale background'
         },
         keyTakeaways: [
@@ -225,7 +289,7 @@ export const articles = [
         readTimeMinutes: 3,
         excerpt: 'A piece can mark a promise or an ordinary Tuesday that mattered. Meaning comes from the wearer — the jewel only has to be well made enough to stay.',
         image: {
-            src: '/images/articles/milestone.jpg',
+            src: 'https://i.pinimg.com/1200x/15/62/58/1562587dd60a24931c94f7785996c7f1.jpg',
             alt: 'Sample portrait of a person wearing a ring, cropped close to the face and hand'
         },
         keyTakeaways: [
@@ -273,7 +337,7 @@ export const articles = [
         readTimeMinutes: 5,
         excerpt: 'A grading report describes one stone at one laboratory. It is documentation to match — not a promise about every diamond in a display case.',
         image: {
-            src: '/images/articles/cert.jpg',
+            src: 'https://i.pinimg.com/1200x/20/a9/f6/20a9f68fdea949f4534c24f85c3ae50d.jpg',
             alt: 'Sample photograph of a crystal-set bracelet against a black background'
         },
         keyTakeaways: [

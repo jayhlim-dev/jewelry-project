@@ -41,6 +41,7 @@ export default async function ArticlePage({ params }) {
     const article = getArticle(slug);
     if (!article) notFound();
     const related = getRelatedArticles(article);
+    const hasShopNextStep = article.nextSteps?.some((step) => step.href === paths.shop || step.href === '/shop');
     const readTime = article.readTimeMinutes ? `${article.readTimeMinutes} min read` : null;
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -48,7 +49,12 @@ export default async function ArticlePage({ params }) {
         itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}${paths.home}` },
             { '@type': 'ListItem', position: 2, name: 'Articles', item: `${site.url}${paths.articles}` },
-            { '@type': 'ListItem', position: 3, name: article.title, item: `${site.url}${paths.articles}/${article.slug}` }
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: article.title,
+                item: `${site.url}${paths.articles}/${article.slug}`
+            }
         ]
     };
 
@@ -76,15 +82,21 @@ export default async function ArticlePage({ params }) {
                 </p>
                 <h1 className="type-headline mt-4 max-w-3xl">{article.title}</h1>
                 <p className="mt-5 max-w-2xl text-base leading-relaxed text-ash">{article.excerpt}</p>
-                {article.keyTakeaways?.length ? (
-                    <div className="mt-8 max-w-2xl">
-                        <ArticleKeyTakeaways title={articlesPage.takeawaysTitle} items={article.keyTakeaways} />
-                    </div>
-                ) : null}
             </Container>
             <Container className="mt-10">
-                <ImageReveal src={article.image.src} alt={article.image.alt} priority sizes="100vw" className="aspect-[16/9] min-h-64" />
+                <ImageReveal
+                    src={article.image.src}
+                    alt={article.image.alt}
+                    priority
+                    sizes="100vw"
+                    className="aspect-[20/9] min-h-56 md:min-h-72"
+                />
             </Container>
+            {article.keyTakeaways?.length ? (
+                <Container className="mt-10 max-w-2xl">
+                    <ArticleKeyTakeaways title={articlesPage.takeawaysTitle} items={article.keyTakeaways} />
+                </Container>
+            ) : null}
             <Container className="mt-12 max-w-3xl">
                 <ArticleBody body={article.body} />
                 {article.nextSteps?.length ? (
@@ -111,9 +123,11 @@ export default async function ArticlePage({ params }) {
                         </li>
                     ))}
                 </ul>
-                <div className="mt-14">
-                    <Button href={paths.shop}>Explore the Collection</Button>
-                </div>
+                {hasShopNextStep ? null : (
+                    <div className="mt-14">
+                        <Button href={paths.shop}>Explore the Collection</Button>
+                    </div>
+                )}
             </Container>
         </article>
     );

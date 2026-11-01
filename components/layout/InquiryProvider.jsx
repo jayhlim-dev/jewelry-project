@@ -34,7 +34,6 @@ export function InquiryProvider({ children }) {
                 metal: product.metal || '',
                 size: product.size || '',
                 note: product.note || '',
-                gift: Boolean(product.gift),
                 price: product.price,
                 priceMax: product.priceMax || null,
                 currency: product.currency,

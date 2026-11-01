@@ -87,9 +87,8 @@ export function BagDrawer({ open, onClose }) {
                                                 const code = item.code ? ` (${item.code})` : '';
                                                 const metal = item.metal ? `, ${item.metal}` : '';
                                                 const size = item.size ? `, ${item.size}` : '';
-                                                const gift = item.gift ? ', a gift' : '';
                                                 const note = item.note ? `. Note: ${item.note.replace(/[.!?]+$/, '')}` : '';
-                                                return `${item.name}${code}${metal}${size}${gift}${note}`;
+                                                return `${item.name}${code}${metal}${size}${note}`;
                                             })
                                             .join('; ')}.`
                                     )}`}
