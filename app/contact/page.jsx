@@ -1,18 +1,26 @@
-import { contactFaqs, contactPage } from 'data/contact';
-import { paths, site } from 'data/site';
 import { ContactExperience } from 'components/contact/ContactExperience';
+import { ContentScope } from 'components/layout/ContentProvider';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
 import { FaqList } from 'components/ui/FaqList';
+import { getContent } from 'lib/content';
 
-export const metadata = {
-    title: 'Contact',
-    description: site.seo.contact,
-    alternates: { canonical: paths.contact },
-    openGraph: { title: 'Contact', description: site.seo.contact, url: paths.contact }
-};
+export async function generateMetadata() {
+    const { site } = await getContent();
+    const paths = site.paths;
+    return {
+        title: 'Contact',
+        description: site.seo.contact,
+        alternates: { canonical: paths.contact },
+        openGraph: { title: 'Contact', description: site.seo.contact, url: paths.contact }
+    };
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+    const { site, contact } = await getContent();
+    const paths = site.paths;
+    const contactPage = contact;
+    const contactFaqs = contact.faqs;
     return (
         <div className="pb-20 md:pb-28">
             <section className="border-b border-charcoal/8 bg-white">
@@ -29,7 +37,9 @@ export default function ContactPage() {
 
             <section className="bg-ivory py-14 md:py-20">
                 <Container>
-                    <ContactExperience />
+                    <ContentScope value={{ contact }}>
+                        <ContactExperience />
+                    </ContentScope>
                 </Container>
             </section>
 

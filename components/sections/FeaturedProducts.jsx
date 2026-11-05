@@ -1,13 +1,13 @@
-import { products as catalog } from 'data/products';
 import { sortProducts } from 'lib/catalog';
-import { home } from 'data/home';
-import { paths } from 'data/site';
+import { getContent } from 'lib/content';
 import { Container } from 'components/ui/Container';
 import { ProductGrid } from 'components/products/ProductGrid';
 import { Reveal } from 'components/ui/Reveal';
 import { Button } from 'components/ui/Button';
 
-export function FeaturedProducts() {
+export async function FeaturedProducts() {
+    const { products: catalog, home, site } = await getContent();
+    const paths = site.paths;
     const products = sortProducts(catalog, 'featured');
     const content = home.featured;
 

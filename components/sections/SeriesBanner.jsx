@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { products } from 'data/products';
-import { paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { ProductCard } from 'components/products/ProductCard';
 
 const slides = ['rosa-cushion', 'celeste-stack', 'orla-link'];
 
 export function SeriesBanner() {
+    const { products, site } = useContent();
+    const paths = site.paths;
     const [index, setIndex] = useState(0);
     const [cardOpen, setCardOpen] = useState(false);
     const slug = slides[index];

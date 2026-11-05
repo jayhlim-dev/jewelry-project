@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import { paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { isCatalogPriceVisible } from 'lib/features';
 import { formatMetalLabel, formatPriceRange } from 'lib/format';
 import { HoverImage } from 'components/ui/HoverImage';
@@ -19,12 +19,14 @@ function Chevron({ direction }) {
 }
 
 export function ProductCard({ product, titleAs = 'h3', priority = false }) {
+    const { site } = useContent();
+    const paths = site.paths;
     const Title = titleAs;
     const images = product.images;
     const many = images.length > 1;
     const href = `${paths.shop}/${product.slug}`;
     const [index, setIndex] = useState(0);
-    const showPrice = isCatalogPriceVisible();
+    const showPrice = isCatalogPriceVisible(site.features);
 
     const go = (step) => {
         setIndex((current) => (current + step + images.length) % images.length);

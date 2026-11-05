@@ -2,10 +2,12 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { paths } from 'data/site';
-import { ringSizes } from 'data/size-guide';
+import { useContent } from 'components/layout/ContentProvider';
 
 export function ProductRingSizePicker({ size, onSizeChange, sizeError }) {
+    const { site, sizeGuide } = useContent();
+    const paths = site.paths;
+    const ringSizes = sizeGuide.ringSizes;
     const [showGrid, setShowGrid] = useState(false);
     const chosenRow = ringSizes.find((row) => String(row.circumference) === size);
 

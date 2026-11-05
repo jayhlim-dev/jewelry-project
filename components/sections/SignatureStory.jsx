@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { products } from 'data/products';
-import { paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 
 const slides = [
     {
@@ -22,6 +21,8 @@ const slides = [
 ];
 
 export function SignatureStory() {
+    const { products, site } = useContent();
+    const paths = site.paths;
     const [index, setIndex] = useState(0);
     const slide = slides[index];
     const product = products.find((item) => item.slug === slide.slug);

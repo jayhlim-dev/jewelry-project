@@ -1,5 +1,7 @@
+'use client';
+
 import Link from 'next/link';
-import { paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { formatMetalLabel } from 'lib/format';
 import {
     computeTotalStoneCount,
@@ -114,6 +116,8 @@ function AdvancedGrading({ product }) {
 }
 
 export function ProductSpecifications({ product, metal }) {
+    const { site } = useContent();
+    const paths = site.paths;
     if (!shouldShowSpecifications(product) || hasSpecificationSheet(product)) return null;
 
     const specs = product.specs || {};

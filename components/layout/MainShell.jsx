@@ -1,11 +1,12 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 
 export function MainShell({ children }) {
+    const { site } = useContent();
     const pathname = usePathname();
-    const onHome = pathname === paths.home;
+    const onHome = pathname === site.paths.home;
 
     return (
         <main id="main" className={onHome ? '' : 'pt-[4.5rem]'}>

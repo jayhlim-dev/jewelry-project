@@ -1,8 +1,9 @@
-import { home } from 'data/home';
 import { Button } from 'components/ui/Button';
+import { getContent } from 'lib/content';
 import { ImageReveal } from 'components/ui/ImageReveal';
 
-export function ClosingCta() {
+export async function ClosingCta() {
+    const { home } = await getContent();
     const content = home.closing;
 
     return (

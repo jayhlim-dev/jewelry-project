@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { collections } from 'data/collections';
+import { useContent } from 'components/layout/ContentProvider';
 import { formatMetalLabel, parseRp } from 'lib/format';
 
 const metalSwatch = {
@@ -176,6 +176,7 @@ function SortSelect({ sort, sortOptions, onSort }) {
 }
 
 export function CategoryTabs({ category, onCategory }) {
+    const { collections } = useContent();
     const categories = ['All', ...collections.map((item) => item.name)];
 
     return (

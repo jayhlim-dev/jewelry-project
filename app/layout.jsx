@@ -1,11 +1,16 @@
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
-import { site } from 'data/site';
+import { ContentProvider } from 'components/layout/ContentProvider';
 import { InquiryProvider } from 'components/layout/InquiryProvider';
 import { Navbar } from 'components/layout/Navbar';
 import { Footer } from 'components/layout/Footer';
 import { MainShell } from 'components/layout/MainShell';
 import { SmoothScroll } from 'components/layout/SmoothScroll';
+import { SplashScreen } from 'components/layout/SplashScreen';
+import { pickClientContent } from 'lib/clientContent';
+import { getContent } from 'lib/content';
 import '../styles/globals.css';
+
+export const dynamic = 'force-dynamic';
 
 const cormorant = Cormorant_Garamond({
     subsets: ['latin'],
@@ -22,24 +27,30 @@ const dmSans = DM_Sans({
     display: 'swap'
 });
 
-export const metadata = {
-    metadataBase: new URL(site.url),
-    title: {
-        default: `${site.name} · Fine Jewelry`,
-        template: `%s · ${site.name}`
-    },
-    description: site.description,
-    icons: { icon: '/favicon.svg' },
-    openGraph: {
-        siteName: site.name,
-        type: 'website',
-        title: `${site.name} · Fine Jewelry`,
+export async function generateMetadata() {
+    const { site } = await getContent();
+    return {
+        metadataBase: new URL(site.url),
+        title: {
+            default: `${site.name} · Fine Jewelry`,
+            template: `%s · ${site.name}`
+        },
         description: site.description,
-        images: [{ url: '/images/hero/campaign.jpg', alt: 'Editorial jewelry campaign portrait' }]
-    }
-};
+        icons: { icon: '/favicon.svg' },
+        openGraph: {
+            siteName: site.name,
+            type: 'website',
+            title: `${site.name} · Fine Jewelry`,
+            description: site.description,
+            images: [{ url: '/images/hero/campaign.jpg', alt: 'Editorial jewelry campaign portrait' }]
+        }
+    };
+}
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+    const content = await getContent();
+    const clientContent = pickClientContent(content);
+    const { site } = content;
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
@@ -52,12 +63,15 @@ export default function RootLayout({ children }) {
         <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
             <body className="overflow-x-clip bg-ivory font-sans text-charcoal antialiased">
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-                <SmoothScroll />
-                <InquiryProvider>
-                    <Navbar />
-                    <MainShell>{children}</MainShell>
-                    <Footer />
-                </InquiryProvider>
+                <ContentProvider content={clientContent}>
+                    <SmoothScroll />
+                    <SplashScreen />
+                    <InquiryProvider>
+                        <Navbar />
+                        <MainShell>{children}</MainShell>
+                        <Footer />
+                    </InquiryProvider>
+                </ContentProvider>
             </body>
         </html>
     );

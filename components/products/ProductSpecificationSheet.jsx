@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { paths } from 'data/site';
+import { getContent } from 'lib/content';
 import {
     hasSpecificationSheet,
     isPendingSpecificationValue,
@@ -55,7 +55,9 @@ function SpecSheetTable({ title, rows, id }) {
     );
 }
 
-export function ProductSpecificationSheet({ product }) {
+export async function ProductSpecificationSheet({ product }) {
+    const { site } = await getContent();
+    const paths = site.paths;
     if (!hasSpecificationSheet(product)) return null;
 
     const { identification, diamondBreakdown } = specificationSheetRows(product);

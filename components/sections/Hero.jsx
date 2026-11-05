@@ -1,25 +1,35 @@
 'use client';
 
+import { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { home } from 'data/home';
 import { Button } from 'components/ui/Button';
 import { ease } from 'lib/motion';
 
-export function Hero() {
+export function Hero({ hero }) {
     const reduce = useReducedMotion();
-    const { scrollY } = useScroll();
-    const y = useTransform(scrollY, [0, 700], [0, 70]);
-    const content = home.hero;
+    const sectionRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start start', 'end start']
+    });
+    const y = useTransform(scrollYProgress, [0, 1], [0, 72]);
+    const content = hero;
 
     return (
-        <section className="relative h-[85svh] min-h-[26rem] overflow-hidden bg-charcoal text-ivory">
-            <motion.div className="absolute inset-0" style={reduce ? undefined : { y }}>
+        <section
+            ref={sectionRef}
+            className="relative h-[85svh] min-h-[26rem] overflow-hidden bg-charcoal text-ivory"
+        >
+            <motion.div
+                className="absolute inset-0 will-change-transform"
+                style={reduce ? undefined : { y }}
+            >
                 <motion.div
-                    className="absolute inset-0"
-                    initial={reduce ? false : { scale: 1.06, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 1.2, ease }}
+                    className="absolute inset-0 scale-[1.08]"
+                    initial={reduce ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.85, ease }}
                 >
                     <Image
                         src={content.image.src}
@@ -27,6 +37,7 @@ export function Hero() {
                         fill
                         priority
                         sizes="100vw"
+                        quality={80}
                         className="object-cover object-[center_34%]"
                     />
                 </motion.div>

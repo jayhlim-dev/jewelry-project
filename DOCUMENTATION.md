@@ -2,7 +2,7 @@
 
 ## 1. Project Overview
 
-This is a Next.js jewelry storefront for the placeholder brand **XXXX**. Visitors browse a sample catalog, read editorial content, and inquire by WhatsApp or email. There is **no checkout or payment**. The catalog is local sample data, not a live commerce API.
+This is a Next.js jewelry storefront for the placeholder brand **XXXX**. Visitors browse a catalog, read editorial content, and inquire by WhatsApp or email. There is **no checkout or payment**. Each request reads catalog and copy from Cloud Firestore. Local `data/*.js` files are the seed source only.
 
 **Main jewelry routes**
 
@@ -22,9 +22,12 @@ This is a Next.js jewelry storefront for the placeholder brand **XXXX**. Visitor
 
 The repo also retains **Netlify platform-starter demo routes** (`/blobs`, `/edge`, `/classics`, `/routing`, `/revalidation`, `/middleware`, `/image-cdn`, `/quotes/random`). Those are not part of the jewelry UX but remain reachable and share the jewelry root layout.
 
+**Page and API map:** [docs/PAGES_AND_APIS.md](docs/PAGES_AND_APIS.md) lists every route, SSR vs CSR, Firestore reads vs public HTTP, and APIs that do not exist.
+
 **Data sources and integrations**
 
-- Local modules: `data/products.js`, `data/collections.js`, `data/articles.js`, `data/home.js`, `data/story.js`, `data/diamond.js`, `data/size-guide.js`, `data/contact.js`, `data/site.js`
+- Runtime: Cloud Firestore via the Firebase Admin SDK (`lib/firebase-admin.js`, `lib/content.js`). Pages, nav, footer, search, and `/api/products`, `/api/contact`, and `/quotes/random` read on each request. A missing config or required document fails the request. There is no fallback to local files.
+- Seed only: `data/products.js`, `data/collections.js`, `data/articles.js`, `data/home.js`, `data/story.js`, `data/diamond.js`, `data/size-guide.js`, `data/contact.js`, `data/site.js`, `data/search.js`, `data/articlesPage.js`, `data/quotes.json`, and `config/siteFeatures.js`, written by `scripts/seed-firestore.mjs`
 - Contact email via Nodemailer SMTP (`lib/mail.js`, `POST /api/contact`)
 - WhatsApp deep links (`wa.me` + site contact number)
 - Inquiry bag in `localStorage` (`xxxx-inquiry-bag`)
@@ -41,7 +44,7 @@ The repo also retains **Netlify platform-starter demo routes** (`/blobs`, `/edge
 
 - Root layout: `app/layout.jsx` — fonts (Cormorant Garamond, DM Sans), JSON-LD `WebSite`, `SmoothScroll`, `InquiryProvider`, `Navbar`, `MainShell`, `Footer`
 - Page transitions: `app/template.jsx` → `PageTransition`
-- Site-wide feature flag: `config/siteFeatures.js` → `showDColorDiamondPage` (currently `false`)
+- Site-wide feature flags: Firestore `site/main.features` (`showDColorDiamondPage`, `showCatalogPrices`). `config/siteFeatures.js` is only the seed default.
 
 ---
 
@@ -73,7 +76,7 @@ Introduce the brand, surface collections, and highlight curated product groups. 
 
 **Data and Business Logic**
 
-- Products resolved by slug from `data/products.js`. Missing slugs are filtered out; empty lists return `null` (section omitted).
+- Products resolved by slug from Firestore `products`. Missing slugs are filtered out; empty lists return `null` (section omitted).
 - Homepage does **not** use `featured` flags or sorting helpers for Popular / Must have; selection is hardcoded.
 - `DiamondFeature` is gated by `isDColorDiamondEnabled()`; with the current flag (`false`), it is not rendered.
 - Several home data keys (`home.facts`, `home.campaign`, `home.more`, `home.introduction`, `home.featured`, `home.pillars`, `home.stories`, `home.closing`) exist in `data/home.js` but are **not used** by the current homepage composition.
@@ -92,7 +95,7 @@ Introduce the brand, surface collections, and highlight curated product groups. 
 
 - `app/page.jsx` — section composition and product slug lists
 - `components/sections/Hero.jsx`, `HomeIntro.jsx`, `CategoryShowcase.jsx`, `CampaignSelection.jsx`, `SignatureStory.jsx`, `SeriesBanner.jsx`, `DiamondFeature.jsx`
-- `data/home.js`, `data/collections.js`, `data/products.js`
+- Firestore `home/main`, `collections`, `products` (seeded from `data/home.js`, `data/collections.js`, `data/products.js`)
 - `lib/features.js`, `config/siteFeatures.js`
 
 ---
@@ -121,7 +124,7 @@ Browse the full sample catalog with category tabs, filters, sort, and load-more 
 
 **Data and Business Logic**
 
-- Source: all products in `data/products.js` (12 pieces)
+- Source: Firestore `products` collection (seeded with 12 pieces)
 - Filters: category name match, primary `metal` field match, `diamondShape` match, price range via `matchesPriceRange`, availability via `available`
 - Default sort (`featured`): featured products first, then name A–Z (`sortProducts` in `lib/catalog.js`)
 - Newest sort: descending trailing digits of `code` (e.g. `SLN-001`)
@@ -145,7 +148,7 @@ Browse the full sample catalog with category tabs, filters, sort, and load-more 
 - `components/products/ShopBrowser.jsx`
 - `components/products/ProductFilters.jsx` (`CategoryTabs`, `ProductFilters`)
 - `components/products/ProductGrid.jsx`, `ProductCard.jsx`
-- `lib/catalog.js`, `data/products.js`
+- `lib/catalog.js` (sort and filter helpers), Firestore `products` and `catalog/main`
 
 ---
 
@@ -581,18 +584,21 @@ These exist under `components/` but are not imported by current routes (verified
 
 ## 4. Data Sources and Configuration
 
+Firestore is the runtime source. The files under `data/` and `config/siteFeatures.js` are imported by `scripts/seed-firestore.mjs` and are not read by pages. `lib/content.js` loads products, collections, articles, quotes, and the `*/main` documents on each request (`dynamic = 'force-dynamic'`). React `cache()` dedupes those reads within one request. The root layout passes a slim snapshot from `lib/clientContent.js` (`pickClientContent`) into the client `ContentProvider` — shop/search/nav fields plus ring-size data and search-trimmed articles (no full article bodies, no home/story/contact/articlesPage blobs). Page-only copy is merged with `ContentScope` on `/contact`, `/why-xxxx`, and `/articles`. `Hero` receives `home.hero` as a prop from the homepage server component. Client components call `useContent()`. Code helpers that are not stored as data stay in the repo: ring-size lookup, WhatsApp draft text, metal views, and sort/filter helpers.
+
 | Dependency | What it controls | Used by |
 |---|---|---|
-| `data/products.js` | 12 sample products, prices, metals, images, `featured`, `available` | Shop, product, collections, home selections, search, inquiry |
-| `data/collections.js` | 4 category definitions + images/hrefs | Home, shop tabs, collections pages, nav shortcuts |
-| `data/articles.js` | 5 journal articles | Articles pages, search |
-| `data/home.js` | Homepage copy/images (partially unused keys remain) | Homepage sections |
-| `data/story.js` | Why page copy + pillars | `/why-xxxx` |
-| `data/diamond.js` | D-color page copy | `/d-color-diamond` (when enabled) |
-| `data/size-guide.js` | Ring size chart + measuring copy | Size guide + product ring size UI |
-| `data/contact.js` | Topics, FAQs, contact page copy | Contact page + API validation |
-| `data/site.js` | Brand name, paths, nav, contact placeholders, SEO blurbs | Layout, metadata, WhatsApp, footer |
-| `config/siteFeatures.js` | `showDColorDiamondPage` | Nav, home diamond block, diamond page access, search guides, why-page link |
+| `data/products.js` | Seed for `products` docs | Seed script only |
+| `data/collections.js` | Seed for `collections` docs | Seed script only |
+| `data/articles.js` | Seed for `articles` docs | Seed script only |
+| `data/home.js` | Seed for `home/main` | Seed script only |
+| `data/story.js` | Seed for `story/main` | Seed script only |
+| `data/diamond.js` | Seed for `diamond/main` | Seed script only |
+| `data/size-guide.js` | Seed for `sizeGuide/main` | Seed script only. The WhatsApp-with-size function stays in `lib/sizeGuide.js` |
+| `data/contact.js` | Seed for `contact/main` | Seed script only |
+| `data/site.js` | Seed for `site/main` | Seed script only |
+| `data/quotes.json` | Seed for `quotes` | Seed script only. `/quotes/random` reads Firestore |
+| `site/main.features` in Firestore | `showDColorDiamondPage`, `showCatalogPrices` | Nav, home diamond block, diamond page access, search guides, why-page price copy, shop price UI. Seeded from `config/siteFeatures.js`. |
 | `NEXT_PUBLIC_SITE_URL` | Canonical/metadata base URL (fallback `https://xxxx.example`) | `site.url`, JSON-LD |
 | SMTP env vars | Contact form delivery | `lib/mail.js` |
 | `NEXT_PUBLIC_DISABLE_UPLOADS` | Disables Blobs uploads on demo page | `/blobs` |
@@ -604,7 +610,7 @@ These exist under `components/` but are not imported by current routes (verified
 
 **Secrets:** Do not commit or document secret values. Contact delivery needs `SMTP_USER` / `SMTP_APP_PASSWORD` / `CONTACT_EMAIL` (and optional SMTP host/port/secure flags).
 
-**No CMS, database, or Shopify client is wired.** Comments in `data/products.js` note a future Storefront API replacement.
+**Firestore is the live catalog and copy.** Local data files are the seed source. Comments in `data/products.js` note a future Storefront API replacement. The Admin private key stays on the server. `lib/firebase.js` is not used for these reads.
 
 ---
 
@@ -642,10 +648,10 @@ Verified Tailwind breakpoints used throughout: `sm`, `md`, `lg`, `xl` (standard 
 
 ## 6. Known Limitations and Unverified Details
 
-- **Sample catalog only.** Prices, metals, photos, and WhatsApp/email contacts are placeholders (`data/products.js`, `data/site.js` notices).
+- **Catalog copy is whatever is in Firestore.** The seeded prices, metals, photos, and WhatsApp/email contacts are still placeholders.
 - **No authentication / authorization** for jewelry pages. Middleware only demos `/admin` redirect and security headers.
 - **No automated tests** found in the repository.
-- **D Color page disabled** via `showDColorDiamondPage: false` → `notFound()`.
+- **D Color page** follows Firestore `site.features.showDColorDiamondPage`. When that flag is false, the route calls `notFound()`.
 - **Price UI largely hidden:** product cards and product detail do not display prices; shop page intro mentions price filtering, but the Price filter section is commented out. Price data and URL `min`/`max` filtering still exist in code.
 - **Shape filter** is not persisted in the URL (refresh loses it).
 - **Privacy page text** still describes the contact form as opening the user’s email app; implementation sends through `/api/contact` SMTP instead.
@@ -664,19 +670,19 @@ Verified Tailwind breakpoints used throughout: `sm`, `md`, `lg`, `xl` (standard 
 
 | Page | Main Features | Main Data Sources | Important Configuration |
 |---|---|---|---|
-| `/` | Hero, intro, collections, popular, signature, must-have, series; optional diamond band | `data/home.js`, `products`, `collections`; hardcoded slugs | `showDColorDiamondPage` |
-| `/shop` | Tabs, filters, sort, load more (9) | `data/products.js`, `lib/catalog.js` | URL params; price UI commented out |
-| `/shop/[slug]` | Gallery, metal/size, WhatsApp inquire, save, related | Product record + `metalViews` | WhatsApp number in `site.contact` |
-| `/collections/[slug]` | Category product grid | `collections` + category match | Static collection slugs |
-| `/why-xxxx` | Hero, philosophy, pillars, quality, shopping steps | `data/story.js` | D-color CTA gated by feature flag |
-| `/d-color-diamond` | Educational diamond guide | `data/diamond.js` | Disabled → 404 when flag false |
-| `/contact` | Topics, WhatsApp, email form, FAQ | `data/contact.js`, SMTP API | SMTP + `CONTACT_EMAIL` env vars |
-| `/articles` | Featured + grid | `data/articles.js` | First article treated as featured |
-| `/articles/[slug]` | Body blocks + related | Article record | Static params from article slugs |
-| `/size-guide` | Measuring methods + mm chart | `data/size-guide.js` | Chart 44–70 mm |
+| `/` | Hero, intro, collections, popular, signature, must-have, series; optional diamond band | Firestore `home/main`, `products`, `collections` | `site.features.showDColorDiamondPage` |
+| `/shop` | Tabs, filters, sort, load more (9) | Firestore `products`, `catalog/main` | URL params; price UI follows `showCatalogPrices` |
+| `/shop/[slug]` | Gallery, metal/size, WhatsApp inquire, save, related | Firestore product doc + `metalViews` helper | WhatsApp number in Firestore `site.contact` |
+| `/collections/[slug]` | Category product grid | Firestore `collections` + category match | Unknown slug 404s from live data |
+| `/why-xxxx` | Hero, philosophy, pillars, quality, shopping steps | Firestore `story/main` | D-color CTA gated by `site.features` |
+| `/d-color-diamond` | Educational diamond guide | Firestore `diamond/main` | Flag false → 404 |
+| `/contact` | Topics, WhatsApp, email form, FAQ | Firestore `contact/main`, SMTP API | SMTP + `CONTACT_EMAIL` env vars |
+| `/articles` | Featured + grid | Firestore `articles`, `articlesPage/main` | First featured article leads the list |
+| `/articles/[slug]` | Body blocks + related | Firestore article doc | Unknown slug 404s from live data |
+| `/size-guide` | Measuring methods + mm chart | Firestore `sizeGuide/main` | Lookup and WhatsApp size text stay in code |
 | `/privacy` | Short privacy copy | Static JSX | Text partially outdated vs SMTP form |
 | `/terms` | Short terms copy | Static JSX | Inquiry-only commerce model |
-| 404 | Not-found message | `site.name` | Also used for disabled diamond page |
+| 404 | Not-found message | Firestore `site/main` name | Also used for disabled diamond page |
 | `/blobs` | Netlify Blobs shape demo | `@netlify/blobs` | `NEXT_PUBLIC_DISABLE_UPLOADS` |
 | `/edge*` | Geo rewrite demo | Netlify Edge Function | Requires Netlify edge |
 | `/classics` | Netlify Forms demo | `FeedbackForm`, `__forms.html` | Netlify Forms enablement |

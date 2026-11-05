@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
-import { diamondPage } from 'data/diamond';
-import { paths, site } from 'data/site';
+import { getContent } from 'lib/content';
 import { isDColorDiamondEnabled } from 'lib/features';
 import { Button } from 'components/ui/Button';
 import { Container } from 'components/ui/Container';
@@ -8,17 +7,23 @@ import { FaqList } from 'components/ui/FaqList';
 import { ImageReveal } from 'components/ui/ImageReveal';
 import { Reveal } from 'components/ui/Reveal';
 
-export const metadata = {
-    title: 'D Color Diamonds',
-    description: site.seo.diamond,
-    alternates: { canonical: paths.diamond },
-    openGraph: { title: 'D Color Diamonds', description: site.seo.diamond, url: paths.diamond }
-};
+export async function generateMetadata() {
+    const { site } = await getContent();
+    const paths = site.paths;
+    return {
+        title: 'D Color Diamonds',
+        description: site.seo.diamond,
+        alternates: { canonical: paths.diamond },
+        openGraph: { title: 'D Color Diamonds', description: site.seo.diamond, url: paths.diamond }
+    };
+}
 
-export default function DiamondPage() {
-    if (!isDColorDiamondEnabled()) notFound();
+export default async function DiamondPage() {
+    const { site, diamond } = await getContent();
+    const paths = site.paths;
+    if (!isDColorDiamondEnabled(site.features)) notFound();
 
-    const page = diamondPage;
+    const page = diamond;
 
     return (
         <article>

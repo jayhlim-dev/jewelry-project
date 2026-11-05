@@ -1,14 +1,19 @@
-import { paths, site } from 'data/site';
 import { Container } from 'components/ui/Container';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
+import { getContent } from 'lib/content';
 
-export const metadata = {
-    title: 'Privacy',
-    description: `How ${site.name} handles an inquiry and pieces saved in this browser.`,
-    alternates: { canonical: paths.privacy }
-};
+export async function generateMetadata() {
+    const { site } = await getContent();
+    return {
+        title: 'Privacy',
+        description: `How ${site.name} handles an inquiry and pieces saved in this browser.`,
+        alternates: { canonical: site.paths.privacy }
+    };
+}
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+    const { site } = await getContent();
+    const paths = site.paths;
     return (
         <Container className="max-w-3xl py-12 md:py-16">
             <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Privacy' }]} />

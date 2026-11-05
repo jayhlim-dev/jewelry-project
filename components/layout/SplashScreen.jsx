@@ -1,52 +1,62 @@
 'use client';
 
 import { useLayoutEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { site } from 'data/site';
+import { motion } from 'framer-motion';
+import { useContent } from 'components/layout/ContentProvider';
+import { useLockBody } from 'components/layout/useOverlay';
 import { ease } from 'lib/motion';
 
+const LOGO_FADE_S = 0.55;
+const LOGO_HOLD_MS = 700;
+
 export function SplashScreen() {
-    const [show, setShow] = useState(true);
+    const { site } = useContent();
+    const [showShell, setShowShell] = useState(true);
+    const [logoPhase, setLogoPhase] = useState('in');
+    useLockBody(showShell);
 
     useLayoutEffect(() => {
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (reduce) {
-            setShow(false);
+            setShowShell(false);
             return;
         }
 
-        const timer = window.setTimeout(() => setShow(false), 1000);
-        return () => window.clearTimeout(timer);
+        const fadeOutTimer = window.setTimeout(() => setLogoPhase('out'), LOGO_FADE_S * 1000 + LOGO_HOLD_MS);
+        return () => window.clearTimeout(fadeOutTimer);
     }, []);
 
+    if (!showShell) return null;
+
     return (
-        <AnimatePresence>
-            {show ? (
-                <motion.div
-                    className="fixed inset-0 z-[90] flex items-center justify-center bg-ivory"
-                    initial={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.55, ease }}
-                    aria-hidden="true"
-                >
-                    <div className="flex flex-col items-center">
-                        <motion.p
-                            className="font-serif text-[1.7rem] tracking-[0.42em] uppercase -mr-[0.42em] sm:text-[2rem]"
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.45, ease }}
-                        >
-                            {site.name}
-                        </motion.p>
-                        <motion.span
-                            className="mt-5 block h-px w-10 origin-center bg-champagne"
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 0.45, ease, delay: 0.12 }}
-                        />
-                    </div>
-                </motion.div>
-            ) : null}
-        </AnimatePresence>
+        <div
+            className="fixed inset-0 z-[90] flex touch-none items-center justify-center overscroll-none bg-ivory"
+            aria-hidden="true"
+            data-lenis-prevent
+        >
+            <motion.div
+                className="flex flex-col items-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: logoPhase === 'in' ? 1 : 0 }}
+                transition={{ duration: LOGO_FADE_S, ease }}
+                onAnimationComplete={() => {
+                    if (logoPhase === 'out') setShowShell(false);
+                }}
+            >
+                <p className="font-serif text-[1.7rem] tracking-[0.42em] uppercase -mr-[0.42em] sm:text-[2rem]">
+                    {site.name}
+                </p>
+                <motion.span
+                    className="mt-5 block h-px w-10 origin-center bg-champagne"
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={
+                        logoPhase === 'in'
+                            ? { scaleX: 1, opacity: 1 }
+                            : { scaleX: 0.85, opacity: 0 }
+                    }
+                    transition={{ duration: LOGO_FADE_S, ease, delay: logoPhase === 'in' ? 0.1 : 0 }}
+                />
+            </motion.div>
+        </div>
     );
 }

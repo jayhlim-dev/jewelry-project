@@ -4,13 +4,15 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { paths, site } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { CloseIcon } from 'components/ui/Icons';
 import { ease } from 'lib/motion';
 import { useInquiry } from 'components/layout/InquiryProvider';
 import { useEscape, useLockBody } from 'components/layout/useOverlay';
 
 export function BagDrawer({ open, onClose }) {
+    const { site } = useContent();
+    const paths = site.paths;
     const reduce = useReducedMotion();
     const closeRef = useRef(null);
     const { items, remove } = useInquiry();

@@ -1,11 +1,13 @@
-import { pillars, story } from 'data/story';
-import { paths, site } from 'data/site';
+'use client';
+
+import { useContent } from 'components/layout/ContentProvider';
 import { isCatalogPriceVisible } from 'lib/features';
 import { Button } from 'components/ui/Button';
 import { Container } from 'components/ui/Container';
 import { ImageReveal } from 'components/ui/ImageReveal';
 
 function Philosophy() {
+    const { story } = useContent();
     const { philosophy } = story;
 
     return (
@@ -28,6 +30,8 @@ function Philosophy() {
 }
 
 function Standards() {
+    const { story } = useContent();
+    const pillars = story.pillars;
     return (
         <section className="border-t border-charcoal/8 bg-white py-14 md:py-16">
             <Container>
@@ -58,8 +62,10 @@ function Standards() {
 }
 
 function HowToShop() {
+    const { story, site } = useContent();
+    const paths = site.paths;
     const { shopping, closing } = story;
-    const pieceStepText = isCatalogPriceVisible()
+    const pieceStepText = isCatalogPriceVisible(site.features)
         ? 'Metal, known stones, and price on each piece page.'
         : 'Metal and known stones on each piece page.';
 

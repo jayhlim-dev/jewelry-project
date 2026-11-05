@@ -1,6 +1,6 @@
 /**
- * Toggle site-wide features from one place.
- * Set a flag to true when you want that page or UI block to appear again.
+ * Seed defaults copied into Firestore `site/main.features` by scripts/seed-firestore.mjs.
+ * The live site reads `site.features` from Firestore. Editing this file does not change the running site.
  */
 export const siteFeatures = {
     showDColorDiamondPage: false,

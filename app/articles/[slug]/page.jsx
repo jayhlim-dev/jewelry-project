@@ -1,9 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { articles } from 'data/articles';
-import { articlesPage } from 'data/articlesPage';
-import { paths, site } from 'data/site';
 import { getArticle, getRelatedArticles } from 'lib/catalog';
+import { getContent } from 'lib/content';
 import { formatDate } from 'lib/format';
 import { ArticleBody } from 'components/editorial/ArticleBody';
 import { ArticleCard } from 'components/editorial/ArticleCard';
@@ -14,13 +12,11 @@ import { Button } from 'components/ui/Button';
 import { Container } from 'components/ui/Container';
 import { ImageReveal } from 'components/ui/ImageReveal';
 
-export function generateStaticParams() {
-    return articles.map((article) => ({ slug: article.slug }));
-}
-
 export async function generateMetadata({ params }) {
     const { slug } = await params;
-    const article = getArticle(slug);
+    const { site, articles } = await getContent();
+    const paths = site.paths;
+    const article = getArticle(articles, slug);
     if (!article) return { title: 'Article' };
     return {
         title: article.title,
@@ -38,9 +34,11 @@ export async function generateMetadata({ params }) {
 
 export default async function ArticlePage({ params }) {
     const { slug } = await params;
-    const article = getArticle(slug);
+    const { site, articles, articlesPage } = await getContent();
+    const paths = site.paths;
+    const article = getArticle(articles, slug);
     if (!article) notFound();
-    const related = getRelatedArticles(article);
+    const related = getRelatedArticles(articles, article);
     const hasShopNextStep = article.nextSteps?.some((step) => step.href === paths.shop || step.href === '/shop');
     const readTime = article.readTimeMinutes ? `${article.readTimeMinutes} min read` : null;
     const jsonLd = {

@@ -1,10 +1,11 @@
-import { home } from 'data/home';
 import { Button } from 'components/ui/Button';
+import { getContent } from 'lib/content';
 import { Container } from 'components/ui/Container';
 import { ImageReveal } from 'components/ui/ImageReveal';
 import { Reveal } from 'components/ui/Reveal';
 
-export function BrandPillars({ showCta = true }) {
+export async function BrandPillars({ showCta = true }) {
+    const { home } = await getContent();
     const content = home.pillars;
 
     return (

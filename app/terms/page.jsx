@@ -1,14 +1,19 @@
-import { paths, site } from 'data/site';
 import { Container } from 'components/ui/Container';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
+import { getContent } from 'lib/content';
 
-export const metadata = {
-    title: 'Terms',
-    description: `How ${site.name} lists pieces and confirms an inquiry.`,
-    alternates: { canonical: paths.terms }
-};
+export async function generateMetadata() {
+    const { site } = await getContent();
+    return {
+        title: 'Terms',
+        description: `How ${site.name} lists pieces and confirms an inquiry.`,
+        alternates: { canonical: site.paths.terms }
+    };
+}
 
-export default function TermsPage() {
+export default async function TermsPage() {
+    const { site } = await getContent();
+    const paths = site.paths;
     return (
         <Container className="max-w-3xl py-12 md:py-16">
             <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Terms' }]} />

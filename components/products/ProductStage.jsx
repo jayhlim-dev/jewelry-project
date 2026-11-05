@@ -12,7 +12,7 @@ export function ProductStage({ product }) {
 
     return (
         <div className="mt-6 grid items-start gap-8 lg:mt-8 lg:grid-cols-12 lg:gap-10">
-            <div className="border border-charcoal/10 bg-white p-3 md:p-4 lg:col-span-7">
+            <div className="lg:col-span-7">
                 <ProductGallery key={view.metal} images={view.images} name={product.name} />
             </div>
             <div className="lg:col-span-5">

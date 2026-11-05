@@ -1,6 +1,7 @@
-import { home } from 'data/home';
+import { getContent } from 'lib/content';
 
-export function HomeIntro() {
+export async function HomeIntro() {
+    const { home } = await getContent();
     const content = home.intro;
 
     return (

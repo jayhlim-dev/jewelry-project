@@ -47,7 +47,24 @@ export const products = [
                 lab: 'GIA',
                 number: '2141987654',
                 url: 'https://www.gia.edu/report-check-landing?reportno=2141987654'
-            }
+            },
+            identification: [
+                { field: 'Jewelry Type', value: 'Diamond Halo-Shoulder Solitaire Ring' },
+                { field: 'Metal', value: '18K White Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Metal Weight', value: '3.40 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Shape & Cutting Style', value: 'Round brilliant (center)' },
+                { field: 'Accent Shape', value: 'Round brilliant (pavé)' },
+                { field: 'Total Diamond Quantity', value: '19 stones' },
+                { field: 'Total Carat Weight', value: '0.68 ct tw' },
+                { field: 'Color Grade', value: 'G' },
+                { field: 'Clarity Grade', value: 'VS2 (center), VS (pavé)' },
+                { field: 'Cut Grade', value: 'Excellent (center), Good (pavé)' },
+                { field: 'Polish', value: 'Excellent' },
+                { field: 'Symmetry', value: 'Excellent' }
+            ]
         },
         stones: [
             {
@@ -64,13 +81,21 @@ export const products = [
                 fluorescence: 'None',
                 measurementsMm: { length: 5.1, width: 5.08, depth: 3.12 }
             },
-            { role: 'Pavé', count: 18, shape: 'Round', caratEach: 0.01, color: 'G', clarity: 'VS', cut: 'Good', detail: 'along the band' }
+            {
+                role: 'Pavé',
+                count: 18,
+                shape: 'Round',
+                caratEach: 0.01,
+                color: 'G',
+                clarity: 'VS',
+                cut: 'Good',
+                detail: 'along the band'
+            }
         ],
         featured: true,
         available: true,
         summary: 'A round center stone, with smaller stones along the band.',
-        description:
-            'A round center stone, held low, with smaller stones along the band.',
+        description: 'A round center stone, held low, with smaller stones along the band.',
         materials: ['Pale metal in the photograph', 'Round center stone', 'Smaller round stones along the shoulders']
     },
     {
@@ -92,13 +117,34 @@ export const products = [
         ],
         metal: 'Rose Gold',
         metals: ['Rose Gold', 'Yellow Gold'],
+        fineness: '750',
         diamondShape: null,
+        totalCaratWeight: 0.42,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Colored Stone Halo Ring' },
+                { field: 'Metal', value: '18K Rose Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Metal Weight', value: '3.05 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Center Stone', value: 'Pink cushion-cut stone (type confirmed on inquiry)' },
+                { field: 'Halo Shape', value: 'Round brilliant' },
+                { field: 'Total Diamond Quantity', value: '16 halo stones' },
+                { field: 'Total Carat Weight', value: '0.42 ct tw (halo diamonds)' },
+                { field: 'Color Grade', value: 'G to H' },
+                { field: 'Clarity Grade', value: 'VS' },
+                { field: 'Cut Grade', value: 'Very Good' },
+                { field: 'Polish', value: 'Very Good' },
+                { field: 'Symmetry', value: 'Very Good' }
+            ]
+        },
         stones: [{ count: 1, shape: 'Cushion', detail: 'colored center' }],
         featured: false,
         available: true,
         summary: 'A cushion-shaped colored center in a soft metal.',
-        description:
-            'A pink cushion center in rose gold, with a pale halo.',
+        description: 'A pink cushion center in rose gold, with a pale halo.',
         materials: ['Sample metal tone: rose gold', 'Center shown as a colored cushion-cut stone']
     },
     {
@@ -140,7 +186,24 @@ export const products = [
             composition: 'Three rings, sold as one stack',
             setting: 'Pavé rounds with flush heart and baguette motifs',
             stoneType: 'Diamond',
-            stonesConfirmOnInquiry: true
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Diamond Stackable Ring Set (3 rings)' },
+                { field: 'Metal', value: '18K Yellow Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Metal Weight', value: '5.60 g (set of three)' }
+            ],
+            diamondBreakdown: [
+                { field: 'Shape & Cutting Style', value: 'Round brilliant, heart, baguette' },
+                { field: 'Accent Shape', value: 'Heart and baguette motifs' },
+                { field: 'Total Diamond Quantity', value: '28 stones' },
+                { field: 'Total Carat Weight', value: '0.34 ct tw' },
+                { field: 'Color Grade', value: 'G to H' },
+                { field: 'Clarity Grade', value: 'VS to SI1' },
+                { field: 'Cut Grade', value: 'Good to Very Good (per stone)' },
+                { field: 'Polish', value: 'Very Good' },
+                { field: 'Symmetry', value: 'Good' }
+            ]
         },
         stones: [
             { role: 'Heart motif', count: 2, shape: 'Heart', caratEach: 0.03, detail: 'flush heart motifs' },
@@ -150,8 +213,7 @@ export const products = [
         featured: false,
         available: true,
         summary: 'Three low bands meant to be worn together.',
-        description:
-            'Textured gold bands with small round, heart, and bar diamond motifs. Sold as a set of three.',
+        description: 'Textured gold bands with small round, heart, and bar diamond motifs. Sold as a set of three.',
         materials: ['Sample metal tone: yellow gold', 'Small round stones visible on the bands']
     },
     {
@@ -168,7 +230,7 @@ export const products = [
                 width: 940,
                 height: 940,
                 alt: 'Sample photograph of an emerald-cut stone band in pale metal, with a 750 mark inside'
-            },
+            }
         ],
         metal: 'White Gold',
         metals: ['White Gold'],
@@ -201,9 +263,12 @@ export const products = [
         featured: true,
         available: true,
         summary: 'A continuous row of emerald-cut stones.',
-        description:
-            'Emerald-cut stones set in a continuous row around a pale band.',
-        materials: ['Pale metal in the photograph', 'Emerald-cut stones around the band', 'A 750 mark is visible inside the ring']
+        description: 'Emerald-cut stones set in a continuous row around a pale band.',
+        materials: [
+            'Pale metal in the photograph',
+            'Emerald-cut stones around the band',
+            'A 750 mark is visible inside the ring'
+        ]
     },
     {
         id: 'ivy-drops',
@@ -223,13 +288,33 @@ export const products = [
         ],
         metal: 'White Gold',
         metals: ['White Gold'],
+        fineness: '750',
         diamondShape: 'Oval',
+        totalCaratWeight: 2.1,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Diamond Hinged Hoop Earrings' },
+                { field: 'Metal', value: '18K White Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Metal Weight', value: '6.20 g (pair)' }
+            ],
+            diamondBreakdown: [
+                { field: 'Shape & Cutting Style', value: 'Oval brilliant' },
+                { field: 'Total Diamond Quantity', value: '12 stones (6 per earring)' },
+                { field: 'Total Carat Weight', value: '2.10 ct tw (pair)' },
+                { field: 'Color Grade', value: 'F to G' },
+                { field: 'Clarity Grade', value: 'VS1' },
+                { field: 'Cut Grade', value: 'Very Good' },
+                { field: 'Polish', value: 'Excellent' },
+                { field: 'Symmetry', value: 'Very Good' }
+            ]
+        },
         stones: [{ shape: 'Oval', detail: 'stones set along the hoop' }],
         featured: true,
         available: true,
         summary: 'Hoops set with a row of oval stones.',
-        description:
-            'Oval stones set along a hinged hoop.',
+        description: 'Oval stones set along a hinged hoop.',
         materials: ['Pale metal in the photograph', 'Oval stones set along the hoop']
     },
     {
@@ -250,13 +335,31 @@ export const products = [
         ],
         metal: 'Yellow Gold',
         metals: ['Yellow Gold'],
+        fineness: '750',
         diamondShape: null,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Heart Drop Hook Earrings' },
+                { field: 'Metal', value: '18K Yellow Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Metal Weight', value: '2.30 g (pair)' }
+            ],
+            diamondBreakdown: [
+                { field: 'Stone Type', value: 'Blue gemstone (type confirmed on inquiry)' },
+                { field: 'Shape & Cutting Style', value: 'Heart, faceted' },
+                { field: 'Total Stone Quantity', value: '2 stones (1 per earring)' },
+                { field: 'Total Diamond Weight', value: 'No diamonds' },
+                { field: 'Color Grade', value: 'Blue, grade confirmed on inquiry' },
+                { field: 'Clarity Grade', value: 'Confirmed on inquiry' },
+                { field: 'Cut Grade', value: 'Confirmed on inquiry' }
+            ]
+        },
         stones: [{ shape: 'Heart', detail: 'heart-shaped blue stones on gold hooks' }],
         featured: false,
         available: false,
         summary: 'Small heart drops on a simple hook.',
-        description:
-            'Small heart drops on a simple hook, with blue heart-shaped stones.',
+        description: 'Small heart drops on a simple hook, with blue heart-shaped stones.',
         materials: ['Sample metal tone: yellow gold', 'Heart-shaped blue stones visible in the photograph']
     },
     {
@@ -277,13 +380,34 @@ export const products = [
         ],
         metal: 'White Gold',
         metals: ['White Gold'],
+        fineness: '750',
         diamondShape: 'Pear',
+        totalCaratWeight: 0.9,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Diamond Cluster Pendant Necklace' },
+                { field: 'Metal', value: '18K White Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Chain Length', value: '45 cm' },
+                { field: 'Metal Weight', value: '2.10 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Shape & Cutting Style', value: 'Pear, oval, and baguette' },
+                { field: 'Total Diamond Quantity', value: '3 stones' },
+                { field: 'Total Carat Weight', value: '0.90 ct tw' },
+                { field: 'Color Grade', value: 'F' },
+                { field: 'Clarity Grade', value: 'VS1' },
+                { field: 'Cut Grade', value: 'Very Good to Excellent (per stone)' },
+                { field: 'Polish', value: 'Excellent' },
+                { field: 'Symmetry', value: 'Very Good' }
+            ]
+        },
         stones: [{ detail: 'One pear, one oval, and one baguette in a cluster' }],
         featured: true,
         available: true,
         summary: 'A pear, an oval, and a baguette on a fine chain.',
-        description:
-            'A pear, an oval, and a baguette grouped on a fine chain.',
+        description: 'A pear, an oval, and a baguette grouped on a fine chain.',
         materials: ['Pale metal in the photograph', 'Pear, oval, and baguette stones in one cluster']
     },
     {
@@ -304,16 +428,35 @@ export const products = [
         ],
         metal: 'White Gold',
         metals: ['White Gold'],
+        fineness: '750',
         diamondShape: 'Round',
-        stones: [
-            { count: 1, shape: 'Round', detail: 'center stone' },
-            { detail: 'Smaller stones in a halo' }
-        ],
+        totalCaratWeight: 0.62,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Diamond Halo Pendant Necklace' },
+                { field: 'Metal', value: '18K White Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Chain Length', value: '42 cm with 3 cm extender' },
+                { field: 'Metal Weight', value: '2.65 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Shape & Cutting Style', value: 'Round brilliant (center)' },
+                { field: 'Accent Shape', value: 'Round brilliant (halo)' },
+                { field: 'Total Diamond Quantity', value: '17 stones' },
+                { field: 'Total Carat Weight', value: '0.62 ct tw' },
+                { field: 'Color Grade', value: 'G' },
+                { field: 'Clarity Grade', value: 'VS2' },
+                { field: 'Cut Grade', value: 'Excellent (center), Very Good (halo)' },
+                { field: 'Polish', value: 'Excellent' },
+                { field: 'Symmetry', value: 'Very Good' }
+            ]
+        },
+        stones: [{ count: 1, shape: 'Round', detail: 'center stone' }, { detail: 'Smaller stones in a halo' }],
         featured: true,
         available: true,
         summary: 'A round center stone in a halo, on a fine chain.',
-        description:
-            'A round center stone in a halo, on a fine chain.',
+        description: 'A round center stone in a halo, on a fine chain.',
         materials: ['Pale metal in the photograph', 'Round center stone', 'Halo of smaller stones']
     },
     {
@@ -342,13 +485,34 @@ export const products = [
         ],
         metal: 'White Gold',
         metals: ['White Gold'],
+        fineness: '750',
         diamondShape: 'Round',
+        totalCaratWeight: 1.8,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Diamond Curved Line Necklace' },
+                { field: 'Metal', value: '18K White Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Chain Length', value: '40 cm with 5 cm extender' },
+                { field: 'Metal Weight', value: '4.90 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Shape & Cutting Style', value: 'Round brilliant' },
+                { field: 'Total Diamond Quantity', value: '31 stones' },
+                { field: 'Total Carat Weight', value: '1.80 ct tw' },
+                { field: 'Color Grade', value: 'F to G' },
+                { field: 'Clarity Grade', value: 'VS1 to VS2' },
+                { field: 'Cut Grade', value: 'Very Good to Excellent (per stone)' },
+                { field: 'Polish', value: 'Excellent' },
+                { field: 'Symmetry', value: 'Very Good' }
+            ]
+        },
         stones: [{ detail: 'Small stones along a curved front line' }],
         featured: false,
         available: true,
         summary: 'A fine chain with stones set along the front.',
-        description:
-            'A fine chain with a curved line of small stones at the front.',
+        description: 'A fine chain with a curved line of small stones at the front.',
         materials: ['Pale metal in the photograph', 'Small stones along the front line']
     },
     {
@@ -369,7 +533,30 @@ export const products = [
         ],
         metal: 'White Gold',
         metals: ['White Gold'],
+        fineness: '750',
         diamondShape: 'Round',
+        totalCaratWeight: 1.15,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Diamond Slim Bangle' },
+                { field: 'Metal', value: '18K White Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Inner Diameter', value: '58 mm' },
+                { field: 'Metal Weight', value: '9.80 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Shape & Cutting Style', value: 'Round brilliant' },
+                { field: 'Accent Shape', value: 'Round brilliant (front cluster)' },
+                { field: 'Total Diamond Quantity', value: '34 stones' },
+                { field: 'Total Carat Weight', value: '1.15 ct tw' },
+                { field: 'Color Grade', value: 'G' },
+                { field: 'Clarity Grade', value: 'VS2' },
+                { field: 'Cut Grade', value: 'Very Good' },
+                { field: 'Polish', value: 'Very Good' },
+                { field: 'Symmetry', value: 'Very Good' }
+            ]
+        },
         stones: [
             { detail: 'Small stones along one side' },
             { count: 1, shape: 'Round', detail: 'cluster at the front' }
@@ -377,8 +564,7 @@ export const products = [
         featured: true,
         available: true,
         summary: 'A slim bangle with a small round cluster.',
-        description:
-            'A slim bangle with a line of small stones and a round cluster at the front.',
+        description: 'A slim bangle with a line of small stones and a round cluster at the front.',
         materials: ['Pale metal in the photograph', 'Small stones along one side', 'A round cluster at the front']
     },
     {
@@ -399,12 +585,27 @@ export const products = [
         ],
         metal: 'Yellow Gold',
         metals: ['Yellow Gold'],
+        fineness: '750',
         diamondShape: null,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Oval Link Chain Bracelet' },
+                { field: 'Metal', value: '18K Yellow Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Length', value: '18 cm' },
+                { field: 'Metal Weight', value: '7.40 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Total Diamond Quantity', value: 'None' },
+                { field: 'Total Carat Weight', value: 'Not applicable (metal only)' },
+                { field: 'Finish', value: 'Polished' }
+            ]
+        },
         featured: false,
         available: false,
         summary: 'An oval-link chain for the wrist.',
-        description:
-            'An oval-link chain for the wrist.',
+        description: 'An oval-link chain for the wrist.',
         materials: ['Sample metal tone: yellow gold', 'Polished oval links']
     },
     {
@@ -433,12 +634,27 @@ export const products = [
         ],
         metal: 'White Gold',
         metals: ['White Gold', 'Yellow Gold'],
+        fineness: '750',
         diamondShape: null,
+        specs: {
+            stonesConfirmOnInquiry: true,
+            identification: [
+                { field: 'Jewelry Type', value: 'Slim Link Bracelet' },
+                { field: 'Metal', value: '18K White Gold' },
+                { field: 'Gold Fineness', value: '750 (18K)' },
+                { field: 'Length', value: '17 cm with 2 cm extender' },
+                { field: 'Metal Weight', value: '5.20 g' }
+            ],
+            diamondBreakdown: [
+                { field: 'Total Diamond Quantity', value: 'None' },
+                { field: 'Total Carat Weight', value: 'Not applicable (metal only)' },
+                { field: 'Clasp', value: 'Lobster clasp' }
+            ]
+        },
         featured: false,
         available: true,
         summary: 'A slim link bracelet with a small clasp.',
-        description:
-            'A slim link bracelet with a small clasp.',
+        description: 'A slim link bracelet with a small clasp.',
         materials: ['Pale metal in the photograph', 'Oval links']
     }
 ];

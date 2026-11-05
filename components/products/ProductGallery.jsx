@@ -26,17 +26,19 @@ export function ProductGallery({ images, name }) {
     const reduce = useReducedMotion();
     const dialogRef = useRef(null);
     const closeRef = useRef(null);
-    const triggerRefs = useRef([]);
+    const triggerRef = useRef(null);
+    const touchX = useRef(null);
+    const [active, setActive] = useState(0);
+    const many = images.length > 1;
+    const current = images[active] || images[0];
+    const goMain = (direction) => setActive((value) => (value + direction + images.length) % images.length);
     const wasOpen = useRef(false);
 
     const close = useCallback(() => {
-        setOpenIndex((current) => {
-            if (current !== null) {
-                window.requestAnimationFrame(() => triggerRefs.current[current]?.focus());
-            }
-            return null;
-        });
-    }, []);
+        if (openIndex !== null) setActive(openIndex);
+        setOpenIndex(null);
+        window.requestAnimationFrame(() => triggerRef.current?.focus());
+    }, [openIndex]);
 
     const step = useCallback(
         (direction) => {
@@ -84,32 +86,81 @@ export function ProductGallery({ images, name }) {
 
     return (
         <>
-            <div className="flex flex-col gap-3" aria-label={`Photographs of ${name}`}>
-                {images.map((item, index) => (
+            <div aria-label={`Photographs of ${name}`}>
+                <div
+                    className="group relative aspect-square overflow-hidden"
+                    onTouchStart={(event) => {
+                        touchX.current = event.touches[0].clientX;
+                    }}
+                    onTouchEnd={(event) => {
+                        if (touchX.current === null || !many) return;
+                        const delta = event.changedTouches[0].clientX - touchX.current;
+                        touchX.current = null;
+                        if (Math.abs(delta) > 40) goMain(delta < 0 ? 1 : -1);
+                    }}
+                >
                     <button
-                        key={`${item.src}-${index}`}
-                        ref={(node) => {
-                            triggerRefs.current[index] = node;
-                        }}
+                        ref={triggerRef}
                         type="button"
-                        className="relative bg-white text-left"
-                        onClick={() => setOpenIndex(index)}
-                        aria-label={`Enlarge photograph ${index + 1} of ${images.length}`}
+                        className="absolute inset-0 block text-left"
+                        onClick={() => setOpenIndex(active)}
+                        aria-label={`Enlarge photograph ${active + 1} of ${images.length}`}
                     >
                         <Image
-                            src={item.src}
-                            alt={item.alt}
-                            width={item.width}
-                            height={item.height}
-                            priority={index === 0}
+                            key={current.src}
+                            src={current.src}
+                            alt={current.alt}
+                            fill
+                            priority
                             sizes="(min-width: 1024px) 54vw, 100vw"
-                            className="h-auto w-full"
+                            className="object-cover"
                         />
                         <span className="absolute right-3 bottom-3 bg-ivory/95 px-3 py-2 text-[11px] font-medium tracking-[0.18em] text-charcoal uppercase">
                             Enlarge
                         </span>
                     </button>
-                ))}
+
+                    {many ? (
+                        <>
+                            <button
+                                type="button"
+                                className="absolute top-1/2 left-3 z-10 inline-flex h-10 w-10 -translate-x-2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-charcoal opacity-0 shadow-[0_6px_20px_rgba(32,32,30,0.12)] hover:bg-white transition duration-500 ease-out motion-reduce:transition-none focus-visible:translate-x-0 focus-visible:opacity-100 group-hover:translate-x-0 group-hover:opacity-100 pointer-coarse:translate-x-0 pointer-coarse:opacity-100"
+                                onClick={() => goMain(-1)}
+                                aria-label="Previous photograph"
+                            >
+                                <StepIcon direction="previous" />
+                            </button>
+                            <button
+                                type="button"
+                                className="absolute top-1/2 right-3 z-10 inline-flex h-10 w-10 translate-x-2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-charcoal opacity-0 shadow-[0_6px_20px_rgba(32,32,30,0.12)] hover:bg-white transition duration-500 ease-out motion-reduce:transition-none focus-visible:translate-x-0 focus-visible:opacity-100 group-hover:translate-x-0 group-hover:opacity-100 pointer-coarse:translate-x-0 pointer-coarse:opacity-100"
+                                onClick={() => goMain(1)}
+                                aria-label="Next photograph"
+                            >
+                                <StepIcon direction="next" />
+                            </button>
+                        </>
+                    ) : null}
+                </div>
+
+                {many ? (
+                    <ul className="mt-3 flex flex-wrap justify-start gap-2" aria-label="Choose photograph">
+                        {images.map((item, index) => (
+                            <li key={`${item.src}-${index}`}>
+                                <button
+                                    type="button"
+                                    onClick={() => setActive(index)}
+                                    aria-label={`Show photograph ${index + 1} of ${images.length}`}
+                                    aria-current={index === active ? 'true' : undefined}
+                                    className={`relative block h-16 w-16 overflow-hidden transition md:h-20 md:w-20 ${
+                                        index === active ? 'ring-2 ring-white' : 'opacity-60 hover:opacity-100'
+                                    }`}
+                                >
+                                    <Image src={item.src} alt="" fill sizes="80px" className="object-cover" />
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                ) : null}
             </div>
 
             <AnimatePresence>

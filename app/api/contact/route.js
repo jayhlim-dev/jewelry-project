@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { inquiryTopics } from 'data/contact';
+import { getContent } from 'lib/content';
 import { sendContactEmail } from 'lib/mail';
+
+export const dynamic = 'force-dynamic';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -24,7 +26,8 @@ export async function POST(request) {
     if (!emailPattern.test(email)) {
         return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
     }
-    const topic = inquiryTopics.find((item) => item.id === topicId);
+    const { contact } = await getContent();
+    const topic = contact.inquiryTopics.find((item) => item.id === topicId);
     if (!topic) {
         return NextResponse.json({ error: 'Please choose a valid topic.' }, { status: 400 });
     }

@@ -1,8 +1,9 @@
 import Image from 'next/image';
-import { home } from 'data/home';
 import { Button } from 'components/ui/Button';
+import { getContent } from 'lib/content';
 
-export function DiamondFeature() {
+export async function DiamondFeature() {
+    const { home } = await getContent();
     const content = home.diamond;
 
     return (

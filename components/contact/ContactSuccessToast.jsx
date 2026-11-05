@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { contactPage } from 'data/contact';
+import { useContent } from 'components/layout/ContentProvider';
 
 export function ContactSuccessToast({ open, onClose }) {
+    const { contact: contactPage } = useContent();
     useEffect(() => {
         if (!open) return undefined;
 

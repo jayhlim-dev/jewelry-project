@@ -1,3 +1,5 @@
+import { nearestRingRow as nearestRingRowFromList, whatsappWithSize } from 'lib/sizeGuide';
+
 /**
  * Home ring chart in millimetres.
  * Inside diameter is the circumference divided by pi, rounded to 0.1 mm.
@@ -102,8 +104,7 @@ export const sizeGuide = {
         }
     },
     cta: {
-        whatsappWithSize: (mm) =>
-            `Good day. I measured ${mm} mm around my finger (home estimate). Please help me confirm the fit for a ring.`,
+        whatsappWithSize,
         whatsappGeneric: 'Good day. I would like help confirming ring or bracelet size.',
         shopRings: 'Shop rings',
         shopBracelets: 'Shop bracelets'
@@ -111,15 +112,5 @@ export const sizeGuide = {
 };
 
 export function nearestRingRow(measurement) {
-    if (!Number.isFinite(measurement)) return null;
-    let best = ringSizes[0];
-    let bestDelta = Math.abs(best.circumference - measurement);
-    for (const row of ringSizes) {
-        const delta = Math.abs(row.circumference - measurement);
-        if (delta < bestDelta) {
-            best = row;
-            bestDelta = delta;
-        }
-    }
-    return best;
+    return nearestRingRowFromList(ringSizes, measurement);
 }

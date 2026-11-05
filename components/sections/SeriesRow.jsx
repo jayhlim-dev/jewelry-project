@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { products } from 'data/products';
-import { paths } from 'data/site';
+import { getContent } from 'lib/content';
 
 const metals = ['White Gold', 'Yellow Gold', 'Rose Gold'];
 
-export function SeriesRow() {
+export async function SeriesRow() {
+    const { products, site } = await getContent();
+    const paths = site.paths;
     const series = metals
         .map((metal) => {
             const pieces = products.filter((product) => product.available && product.metal === metal);

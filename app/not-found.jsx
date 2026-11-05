@@ -1,8 +1,10 @@
 import Link from 'next/link';
-import { paths, site } from 'data/site';
 import { Container } from 'components/ui/Container';
+import { getContent } from 'lib/content';
 
-export default function NotFound() {
+export default async function NotFound() {
+    const { site } = await getContent();
+    const paths = site.paths;
     return (
         <Container className="py-24">
             <p className="eyebrow">404</p>

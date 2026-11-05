@@ -3,8 +3,8 @@
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { braceletSizes, nearestRingRow, ringSizes, sizeGuide } from 'data/size-guide';
-import { paths, site } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
+import { nearestRingRow, whatsappWithSize } from 'lib/sizeGuide';
 import { Button } from 'components/ui/Button';
 function parseMm(value) {
     const normalized = String(value).trim().replace(',', '.');
@@ -12,17 +12,24 @@ function parseMm(value) {
     return Number.isFinite(n) ? n : 0;
 }
 
-function whatsappHref(text) {
-    return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(text)}`;
+function whatsappHref(phone, text) {
+    return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
 
 export function SizeGuideExperience() {
+    const { site, sizeGuide } = useContent();
+    const paths = site.paths;
+    const ringSizes = sizeGuide.ringSizes;
+    const braceletSizes = sizeGuide.braceletSizes;
     const [aroundInput, setAroundInput] = useState('');
     const aroundMm = parseMm(aroundInput);
     const hasAround = aroundInput.trim() !== '' && aroundMm > 0;
-    const nearest = useMemo(() => (hasAround ? nearestRingRow(aroundMm) : null), [aroundMm, hasAround]);
+    const nearest = useMemo(
+        () => (hasAround ? nearestRingRow(ringSizes, aroundMm) : null),
+        [aroundMm, hasAround, ringSizes]
+    );
 
-    const whatsappMessage = hasAround ? sizeGuide.cta.whatsappWithSize(aroundMm) : sizeGuide.cta.whatsappGeneric;
+    const whatsappMessage = hasAround ? whatsappWithSize(aroundMm) : sizeGuide.cta.whatsappGeneric;
 
     return (
         <div className="space-y-14 md:space-y-16">
@@ -190,7 +197,7 @@ export function SizeGuideExperience() {
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                     <Button
-                        href={whatsappHref(whatsappMessage)}
+                        href={whatsappHref(site.contact.whatsapp, whatsappMessage)}
                         external
                         variant="primary"
                         className="w-full sm:w-auto"

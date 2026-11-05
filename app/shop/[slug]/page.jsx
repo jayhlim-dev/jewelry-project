@@ -1,21 +1,18 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { products } from 'data/products';
-import { paths, site } from 'data/site';
-import { getCollectionForCategory, getProduct, getRelatedProducts } from 'lib/catalog';
-import { ProductStage } from 'components/products/ProductStage';
 import { ProductDetailPanel } from 'components/products/ProductDetailPanel';
+import { ProductGrid } from 'components/products/ProductGrid';
+import { ProductStage } from 'components/products/ProductStage';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
-import { ProductGrid } from 'components/products/ProductGrid';
-
-export function generateStaticParams() {
-    return products.map((product) => ({ slug: product.slug }));
-}
+import { getCollectionForCategory, getProduct, getRelatedProducts } from 'lib/catalog';
+import { getContent } from 'lib/content';
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
-    const product = getProduct(slug);
+    const { site, products } = await getContent();
+    const paths = site.paths;
+    const product = getProduct(products, slug);
     if (!product) return { title: 'Piece' };
     const description = product.summary;
     return {
@@ -33,10 +30,12 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductPage({ params }) {
     const { slug } = await params;
-    const product = getProduct(slug);
+    const { site, products, collections } = await getContent();
+    const paths = site.paths;
+    const product = getProduct(products, slug);
     if (!product) notFound();
-    const related = getRelatedProducts(product);
-    const collection = getCollectionForCategory(product.category);
+    const related = getRelatedProducts(products, product);
+    const collection = getCollectionForCategory(collections, product.category);
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',

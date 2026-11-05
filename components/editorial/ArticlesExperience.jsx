@@ -3,11 +3,12 @@
 import { useMemo, useState } from 'react';
 import { ArticleCard } from 'components/editorial/ArticleCard';
 import { ArticleGrid } from 'components/editorial/ArticleGrid';
-import { articlesPage } from 'data/articlesPage';
+import { useContent } from 'components/layout/ContentProvider';
 
 const ALL = 'All';
 
 export function ArticlesExperience({ articles, categories }) {
+    const { articlesPage } = useContent();
     const [category, setCategory] = useState(ALL);
 
     const filtered = useMemo(() => {

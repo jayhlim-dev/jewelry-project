@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getDb } from 'lib/firebase-admin';
+import { getContent } from 'lib/content';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,11 +9,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET() {
     try {
-        const snapshot = await getDb().collection('products').get();
-        const products = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data()
-        }));
+        const { products } = await getContent();
 
         return NextResponse.json({
             source: 'firestore',

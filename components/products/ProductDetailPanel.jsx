@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { paths } from 'data/site';
+import { getContent } from 'lib/content';
 import { formatMetalLabel, formatStoneLine } from 'lib/format';
 import { productMaterialLines } from 'lib/productMaterials';
 import { hasSpecificationSheet, shouldShowSpecifications } from 'lib/productSpecs';
@@ -15,7 +15,7 @@ function SpecFact({ label, value }) {
     );
 }
 
-function InquiryStrip({ needsSize, compact = false }) {
+function InquiryStrip({ needsSize, compact = false, paths }) {
     const className = compact
         ? 'mt-6 flex flex-col gap-3 border-t border-charcoal/10 pt-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between'
         : '';
@@ -66,7 +66,9 @@ function descriptionAddsDetail(summary, description) {
     return b !== a && !b.startsWith(a);
 }
 
-export function ProductDetailPanel({ product }) {
+export async function ProductDetailPanel({ product }) {
+    const { site } = await getContent();
+    const paths = site.paths;
     const materials = productMaterialLines(product);
     const showSpecs = shouldShowSpecifications(product);
     const sheet = hasSpecificationSheet(product);
@@ -82,7 +84,7 @@ export function ProductDetailPanel({ product }) {
                 {extraDescription ? (
                     <p className="mt-6 max-w-2xl text-sm leading-7 text-charcoal/90">{extraDescription}</p>
                 ) : null}
-                <InquiryStrip needsSize={needsSize} compact />
+                <InquiryStrip needsSize={needsSize} compact paths={paths} />
             </section>
         );
     }
@@ -127,7 +129,7 @@ export function ProductDetailPanel({ product }) {
                     ) : null}
                 </div>
 
-                <InquiryStrip needsSize={needsSize} />
+                <InquiryStrip needsSize={needsSize} paths={paths} />
             </div>
         </section>
     );

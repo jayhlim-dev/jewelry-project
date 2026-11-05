@@ -1,19 +1,16 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { collections } from 'data/collections';
-import { paths } from 'data/site';
-import { getCollection, getProductsInCollection } from 'lib/catalog';
+import { ProductGrid } from 'components/products/ProductGrid';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
-import { ProductGrid } from 'components/products/ProductGrid';
-
-export function generateStaticParams() {
-    return collections.map((collection) => ({ slug: collection.slug }));
-}
+import { getCollection, getProductsInCollection } from 'lib/catalog';
+import { getContent } from 'lib/content';
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
-    const collection = getCollection(slug);
+    const { site, collections } = await getContent();
+    const paths = site.paths;
+    const collection = getCollection(collections, slug);
     if (!collection) return { title: 'Collection' };
     const url = `${paths.collections}/${collection.slug}`;
     return {
@@ -31,9 +28,11 @@ export async function generateMetadata({ params }) {
 
 export default async function CollectionPage({ params }) {
     const { slug } = await params;
-    const collection = getCollection(slug);
+    const { site, products, collections } = await getContent();
+    const paths = site.paths;
+    const collection = getCollection(collections, slug);
     if (!collection) notFound();
-    const pieces = getProductsInCollection(collection);
+    const pieces = getProductsInCollection(products, collection);
 
     return (
         <div className="pb-20">

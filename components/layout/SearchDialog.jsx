@@ -3,10 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { articles } from 'data/articles';
-import { collections } from 'data/collections';
-import { searchCopy, searchPopularArticleSlugs, searchQuickLinks } from 'data/search';
-import { paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { formatMetalLabel } from 'lib/format';
 import { isDColorDiamondEnabled } from 'lib/features';
 import { hasSearchResults, searchSite } from 'lib/siteSearch';
@@ -28,6 +25,9 @@ function ResultSection({ title, count, children }) {
 }
 
 export function SearchDialog({ open, onClose }) {
+    const content = useContent();
+    const { site, articles, collections, search } = content;
+    const paths = site.paths;
     const reduce = useReducedMotion();
     const inputRef = useRef(null);
     const [query, setQuery] = useState('');
@@ -39,10 +39,10 @@ export function SearchDialog({ open, onClose }) {
         else setQuery('');
     }, [open]);
 
-    const result = useMemo(() => searchSite(query), [query]);
+    const result = useMemo(() => searchSite(query, content), [query, content]);
     const popularArticles = useMemo(
-        () => searchPopularArticleSlugs.map((slug) => articles.find((article) => article.slug === slug)).filter(Boolean),
-        []
+        () => search.popularArticleSlugs.map((slug) => articles.find((article) => article.slug === slug)).filter(Boolean),
+        [articles, search.popularArticleSlugs]
     );
 
     const showEmpty = result.hasQuery && !hasSearchResults(result);
@@ -70,7 +70,7 @@ export function SearchDialog({ open, onClose }) {
                     >
                         <div className="flex items-center justify-between border-b border-charcoal/10 px-5 py-4">
                             <div>
-                                <h2 id="search-title" className="font-serif text-2xl">{searchCopy.title}</h2>
+                                <h2 id="search-title" className="font-serif text-2xl">{search.title}</h2>
                                 <p className="mt-1 hidden text-[11px] tracking-[0.12em] text-ash uppercase sm:block">
                                     <kbd className="rounded border border-charcoal/15 px-1.5 py-0.5 font-sans normal-case tracking-normal">⌘</kbd>
                                     <span className="mx-1">+</span>
@@ -82,13 +82,13 @@ export function SearchDialog({ open, onClose }) {
                             </button>
                         </div>
                         <div className="px-5 py-5">
-                            <label htmlFor="site-search" className="sr-only">{searchCopy.inputLabel}</label>
+                            <label htmlFor="site-search" className="sr-only">{search.inputLabel}</label>
                             <input
                                 ref={inputRef}
                                 id="site-search"
                                 value={query}
                                 onChange={(event) => setQuery(event.target.value)}
-                                placeholder={searchCopy.placeholder}
+                                placeholder={search.placeholder}
                                 autoComplete="off"
                                 className="w-full border-b border-charcoal/20 bg-transparent py-3 text-base outline-none placeholder:text-ash"
                             />
@@ -98,13 +98,13 @@ export function SearchDialog({ open, onClose }) {
                                 <>
                                     {showEmpty ? (
                                         <div className="border border-charcoal/10 bg-white p-5">
-                                            <p className="font-serif text-lg">{searchCopy.noResultsTitle}</p>
-                                            <p className="mt-2 text-sm leading-relaxed text-ash">{searchCopy.noResultsBody}</p>
+                                            <p className="font-serif text-lg">{search.noResultsTitle}</p>
+                                            <p className="mt-2 text-sm leading-relaxed text-ash">{search.noResultsBody}</p>
                                         </div>
                                     ) : null}
 
                                     {result.products.length ? (
-                                        <ResultSection title={searchCopy.sections.pieces} count={result.products.length}>
+                                        <ResultSection title={search.sections.pieces} count={result.products.length}>
                                             <ul className="space-y-4">
                                                 {result.products.map((product) => (
                                                     <li key={product.slug}>
@@ -129,7 +129,7 @@ export function SearchDialog({ open, onClose }) {
                                     ) : null}
 
                                     {result.articles.length ? (
-                                        <ResultSection title={searchCopy.sections.articles} count={result.articles.length}>
+                                        <ResultSection title={search.sections.articles} count={result.articles.length}>
                                             <ul className="space-y-4">
                                                 {result.articles.map((article) => (
                                                     <li key={article.slug}>
@@ -149,7 +149,7 @@ export function SearchDialog({ open, onClose }) {
                                     ) : null}
 
                                     {result.pages.length ? (
-                                        <ResultSection title={searchCopy.sections.pages} count={result.pages.length}>
+                                        <ResultSection title={search.sections.pages} count={result.pages.length}>
                                             <ul className="space-y-3">
                                                 {result.pages.map((page) => (
                                                     <li key={page.href}>
@@ -164,7 +164,7 @@ export function SearchDialog({ open, onClose }) {
                                     ) : null}
 
                                     {showEmpty ? (
-                                        <ResultSection title={searchCopy.sections.collections}>
+                                        <ResultSection title={search.sections.collections}>
                                             <ul className="mt-3 space-y-3">
                                                 {collections.map((collection) => (
                                                     <li key={collection.slug}>
@@ -179,9 +179,9 @@ export function SearchDialog({ open, onClose }) {
                                 </>
                             ) : (
                                 <>
-                                    <p className="text-sm leading-relaxed text-ash">{searchCopy.idleLead}</p>
+                                    <p className="text-sm leading-relaxed text-ash">{search.idleLead}</p>
 
-                                    <ResultSection title={searchCopy.sections.collections}>
+                                    <ResultSection title={search.sections.collections}>
                                         <ul className="space-y-3">
                                             {collections.map((collection) => (
                                                 <li key={collection.slug}>
@@ -194,16 +194,16 @@ export function SearchDialog({ open, onClose }) {
                                         </ul>
                                     </ResultSection>
 
-                                    <ResultSection title={searchCopy.sections.guides}>
+                                    <ResultSection title={search.sections.guides}>
                                         <ul className="space-y-3">
-                                            {searchQuickLinks.map((link) => (
+                                            {search.quickLinks.map((link) => (
                                                 <li key={link.href}>
                                                     <Link href={link.href} onClick={onClose} className="block font-serif text-xl hover:text-ash">
                                                         {link.label}
                                                     </Link>
                                                 </li>
                                             ))}
-                                            {isDColorDiamondEnabled() ? (
+                                            {isDColorDiamondEnabled(site.features) ? (
                                                 <li>
                                                     <Link href={paths.diamond} onClick={onClose} className="block font-serif text-xl hover:text-ash">
                                                         D color diamonds
@@ -214,7 +214,7 @@ export function SearchDialog({ open, onClose }) {
                                     </ResultSection>
 
                                     {popularArticles.length ? (
-                                        <ResultSection title={searchCopy.sections.reads}>
+                                        <ResultSection title={search.sections.reads}>
                                             <ul className="space-y-3">
                                                 {popularArticles.map((article) => (
                                                     <li key={article.slug}>

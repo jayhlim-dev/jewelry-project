@@ -1,17 +1,24 @@
 import { Suspense } from 'react';
-import { paths, site } from 'data/site';
+import { ShopBrowser } from 'components/products/ShopBrowser';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
-import { ShopBrowser } from 'components/products/ShopBrowser';
+import { getContent } from 'lib/content';
 
-export const metadata = {
-    title: 'The Collection',
-    description: site.seo.shop,
-    alternates: { canonical: paths.shop },
-    openGraph: { title: 'The Collection', description: site.seo.shop, url: paths.shop }
-};
+export async function generateMetadata() {
+    const { site } = await getContent();
+    const paths = site.paths;
+    return {
+        title: 'The Collection',
+        description: site.seo.shop,
+        alternates: { canonical: paths.shop },
+        openGraph: { title: 'The Collection', description: site.seo.shop, url: paths.shop }
+    };
+}
 
-export default function ShopPage() {
+export default async function ShopPage() {
+    const { site } = await getContent();
+    const paths = site.paths;
+
     return (
         <div className="pb-16">
             <Container className="pt-10 pb-6 md:pt-14">

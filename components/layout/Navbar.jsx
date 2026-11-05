@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { site, paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { BagIcon, MenuIcon, SearchIcon } from 'components/ui/Icons';
 import { cn } from 'lib/format';
 import { MobileMenu } from 'components/layout/MobileMenu';
@@ -12,6 +12,8 @@ import { BagDrawer } from 'components/layout/BagDrawer';
 import { useInquiry } from 'components/layout/InquiryProvider';
 
 export function Navbar() {
+    const { site } = useContent();
+    const paths = site.paths;
     const pathname = usePathname();
     const onHome = pathname === paths.home;
     const [scrolled, setScrolled] = useState(false);
@@ -21,7 +23,10 @@ export function Navbar() {
     const { items } = useInquiry();
     const solid = !onHome || scrolled || menuOpen;
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 12);
+        const onScroll = () => {
+            const next = window.scrollY > 12;
+            setScrolled((current) => (current === next ? current : next));
+        };
         onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
@@ -56,8 +61,10 @@ export function Navbar() {
             </a>
             <header
                 className={cn(
-                    'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
-                    solid ? 'border-b border-charcoal/10 bg-ivory/90 text-charcoal backdrop-blur-md' : 'bg-transparent text-ivory'
+                    'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,color] duration-500 ease-in-out',
+                    solid
+                        ? 'border-b border-charcoal/10 bg-ivory text-charcoal'
+                        : 'border-b border-transparent bg-transparent text-ivory'
                 )}
             >
                 <div className="mx-auto grid h-[4.5rem] w-full max-w-[90rem] grid-cols-[1fr_auto] items-center px-5 md:px-10 lg:grid-cols-[1fr_auto_1fr] lg:px-14">
@@ -76,7 +83,7 @@ export function Navbar() {
                                             href={link.href}
                                             aria-current={active ? 'page' : undefined}
                                             className={cn(
-                                                'relative text-[11px] tracking-[0.16em] uppercase transition-opacity hover:opacity-60',
+                                                'relative text-[11px] tracking-[0.16em] uppercase transition-[opacity,color] duration-500 ease-in-out hover:opacity-60',
                                                 active && 'after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:bg-current'
                                             )}
                                         >

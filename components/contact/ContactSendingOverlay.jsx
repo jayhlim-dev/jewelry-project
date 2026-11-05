@@ -1,9 +1,10 @@
 'use client';
 
-import { contactPage } from 'data/contact';
+import { useContent } from 'components/layout/ContentProvider';
 import { useLockBody } from 'components/layout/useOverlay';
 
 export function ContactSendingOverlay({ open }) {
+    const { contact: contactPage } = useContent();
     useLockBody(open);
 
     if (!open) return null;

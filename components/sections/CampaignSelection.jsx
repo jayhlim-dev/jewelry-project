@@ -1,20 +1,21 @@
 import Link from 'next/link';
-import { products } from 'data/products';
-import { home } from 'data/home';
-import { paths } from 'data/site';
 import { ProductCard } from 'components/products/ProductCard';
+import { getContent } from 'lib/content';
 
-export function CampaignSelection({
+export async function CampaignSelection({
     products: productList,
-    slugs = home.campaign.slugs,
-    showAllHref = paths.shop,
+    slugs,
+    showAllHref,
     label = 'Pieces',
     title = '',
     titleClassName = 'text-base font-medium',
     columns = 4
 }) {
+    const { products, home, site } = await getContent();
     const pieces =
-        productList || slugs.map((slug) => products.find((product) => product.slug === slug)).filter(Boolean);
+        productList ||
+        (slugs || home.campaign.slugs).map((slug) => products.find((product) => product.slug === slug)).filter(Boolean);
+    const href = showAllHref || site.paths.shop;
 
     if (!pieces.length) return null;
 
@@ -24,7 +25,7 @@ export function CampaignSelection({
                 {title ? (
                     <div className="mb-4 flex items-baseline justify-between">
                         <h2 className={titleClassName}>{title}</h2>
-                        <Link href={showAllHref} className="text-xs text-ash hover:text-charcoal">
+                        <Link href={href} className="text-xs text-ash hover:text-charcoal">
                             Show all
                         </Link>
                     </div>

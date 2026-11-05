@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import { collections } from 'data/collections';
-import { contactPage } from 'data/contact';
-import { paths, site } from 'data/site';
 import { Button } from 'components/ui/Button';
 import { Container } from 'components/ui/Container';
+import { getContent } from 'lib/content';
 
-const whatsappHref = `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(contactPage.whatsapp.draft)}`;
-const socialLinks = site.social.filter((item) => item.href);
-
-export function Footer() {
+export async function Footer() {
+    const { site, collections, contact } = await getContent();
+    const paths = site.paths;
+    const contactPage = contact;
+    const whatsappHref = `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(contactPage.whatsapp.draft)}`;
+    const socialLinks = site.social.filter((item) => item.href);
     return (
         <footer className="border-t border-charcoal/10 bg-ivory text-charcoal">
             <Container className="py-12 md:py-16">

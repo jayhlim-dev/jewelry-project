@@ -1,18 +1,24 @@
-import { paths, site } from 'data/site';
-import { story } from 'data/story';
 import { WhyPageContent } from 'components/sections/WhyPageContent';
+import { ContentScope } from 'components/layout/ContentProvider';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
 import { ImageReveal } from 'components/ui/ImageReveal';
+import { getContent } from 'lib/content';
 
-export const metadata = {
-    title: { absolute: `Why ${site.name}` },
-    description: site.seo.why,
-    alternates: { canonical: paths.why },
-    openGraph: { title: `Why ${site.name}`, description: site.seo.why, url: paths.why }
-};
+export async function generateMetadata() {
+    const { site } = await getContent();
+    const paths = site.paths;
+    return {
+        title: { absolute: `Why ${site.name}` },
+        description: site.seo.why,
+        alternates: { canonical: paths.why },
+        openGraph: { title: `Why ${site.name}`, description: site.seo.why, url: paths.why }
+    };
+}
 
-export default function WhyPage() {
+export default async function WhyPage() {
+    const { site, story } = await getContent();
+    const paths = site.paths;
     return (
         <article>
             <section className="relative min-h-[58svh] bg-charcoal text-ivory md:min-h-[62svh]">
@@ -37,7 +43,9 @@ export default function WhyPage() {
                 </Container>
             </section>
 
-            <WhyPageContent />
+            <ContentScope value={{ story }}>
+                <WhyPageContent />
+            </ContentScope>
         </article>
     );
 }

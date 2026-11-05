@@ -1,7 +1,8 @@
-import { home } from 'data/home';
 import { Container } from 'components/ui/Container';
+import { getContent } from 'lib/content';
 
-export function HomeFacts() {
+export async function HomeFacts() {
+    const { home } = await getContent();
     return (
         <section className="border-b border-charcoal/10" aria-label="How to read a piece">
             <Container className="grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10 lg:py-14">

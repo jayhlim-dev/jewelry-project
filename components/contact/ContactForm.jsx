@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
-import { contactPage, inquiryTopics, whatsappDraftForTopic } from 'data/contact';
-import { paths, site } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
+import { whatsappDraftForTopic } from 'lib/contactDraft';
 import { ContactSendingOverlay } from 'components/contact/ContactSendingOverlay';
 import { ContactSuccessToast } from 'components/contact/ContactSuccessToast';
 import { Button } from 'components/ui/Button';
@@ -16,6 +16,10 @@ export function ContactForm({
     showTopicSelect = true,
     showWhatsappButton = true
 }) {
+    const { site, contact } = useContent();
+    const contactPage = contact;
+    const inquiryTopics = contact.inquiryTopics;
+    const paths = site.paths;
     const [localTopicId, setLocalTopicId] = useState(topicIdProp ?? inquiryTopics[0].id);
     const topicId = topicIdProp ?? localTopicId;
     const [values, setValues] = useState({
@@ -28,7 +32,7 @@ export function ContactForm({
     const [showSuccess, setShowSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
 
-    const topic = useMemo(() => inquiryTopics.find((item) => item.id === topicId) ?? inquiryTopics[0], [topicId]);
+    const topic = useMemo(() => inquiryTopics.find((item) => item.id === topicId) ?? inquiryTopics[0], [inquiryTopics, topicId]);
     const whatsappHref = `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(whatsappDraftForTopic(topic))}`;
     const dismissSuccess = useCallback(() => setShowSuccess(false), []);
 

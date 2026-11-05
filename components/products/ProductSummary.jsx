@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { site } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { ProductRingSizePicker } from 'components/products/ProductRingSizePicker';
 import { Button } from 'components/ui/Button';
 import { formatMetalLabel, formatStoneLine, stoneFootnote } from 'lib/format';
@@ -22,6 +22,7 @@ function sizeLabel(size) {
 }
 
 export function ProductSummary({ product, metal, metalChoices = [], onMetalChange }) {
+    const { site } = useContent();
     const { add, items } = useInquiry();
     const showSpecifications = shouldShowSpecifications(product);
     const specificationSheet = hasSpecificationSheet(product);

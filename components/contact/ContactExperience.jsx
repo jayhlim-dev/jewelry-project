@@ -2,16 +2,20 @@
 
 import { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { contactPage, inquiryTopics, whatsappDraftForTopic } from 'data/contact';
-import { paths, site } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
+import { whatsappDraftForTopic } from 'lib/contactDraft';
 import { ContactForm } from 'components/contact/ContactForm';
 import { Button } from 'components/ui/Button';
 
 export function ContactExperience() {
+    const { site, contact } = useContent();
+    const contactPage = contact;
+    const inquiryTopics = contact.inquiryTopics;
+    const paths = site.paths;
     const [topicId, setTopicId] = useState(inquiryTopics[0].id);
     const formRef = useRef(null);
 
-    const topic = useMemo(() => inquiryTopics.find((item) => item.id === topicId) ?? inquiryTopics[0], [topicId]);
+    const topic = useMemo(() => inquiryTopics.find((item) => item.id === topicId) ?? inquiryTopics[0], [inquiryTopics, topicId]);
     const channel = contactPage.channelCopy[topic.channel] ?? contactPage.channelCopy.both;
     const whatsappHref = `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(whatsappDraftForTopic(topic))}`;
     const showWhatsappCta = topic.channel === 'whatsapp' || topic.channel === 'both';

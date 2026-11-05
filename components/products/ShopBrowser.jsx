@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { products, sortOptions } from 'data/products';
-import { paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { isCatalogPriceVisible } from 'lib/features';
 import { catalogPriceBounds, matchesPriceRange, sortProducts, uniqueValues } from 'lib/catalog';
 import { CategoryTabs, ProductFilters } from 'components/products/ProductFilters';
@@ -12,10 +11,6 @@ import { Container } from 'components/ui/Container';
 import { Button } from 'components/ui/Button';
 
 const PAGE_SIZE = 9;
-const bounds = catalogPriceBounds(products);
-const shopSortOptions = isCatalogPriceVisible()
-    ? sortOptions
-    : sortOptions.filter((option) => !option.id.startsWith('price-'));
 
 function readNumber(value, fallback) {
     if (value === null || value === undefined || value === '') return fallback;
@@ -24,13 +19,19 @@ function readNumber(value, fallback) {
 }
 
 export function ShopBrowser() {
+    const { products, catalog, site } = useContent();
+    const paths = site.paths;
+    const sortOptions = catalog.sortOptions;
+    const showPrices = isCatalogPriceVisible(site.features);
+    const bounds = catalogPriceBounds(products);
+    const shopSortOptions = showPrices ? sortOptions : sortOptions.filter((option) => !option.id.startsWith('price-'));
     const router = useRouter();
     const searchParams = useSearchParams();
     const category = searchParams.get('category') || 'All';
     const metal = searchParams.get('metal') || 'All';
     const sortParam = searchParams.get('sort') || 'featured';
     const sort =
-        !isCatalogPriceVisible() && sortParam.startsWith('price-') ? 'featured' : sortParam;
+        !showPrices && sortParam.startsWith('price-') ? 'featured' : sortParam;
     const stockTokens = (searchParams.get('stock') || 'in').split(',');
     const inStock = stockTokens.includes('in');
     const outStock = stockTokens.includes('out');
@@ -59,7 +60,7 @@ export function ShopBrowser() {
             return true;
         });
         return sortProducts(next, sort);
-    }, [category, metal, shape, inStock, outStock, priceMin, priceMax, sort]);
+    }, [products, category, metal, shape, inStock, outStock, priceMin, priceMax, sort]);
 
     function setParams(updates) {
         const params = new URLSearchParams(searchParams.toString());

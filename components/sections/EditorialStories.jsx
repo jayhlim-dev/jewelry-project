@@ -1,11 +1,11 @@
-import { articles } from 'data/articles';
-import { home } from 'data/home';
 import { Container } from 'components/ui/Container';
+import { getContent } from 'lib/content';
 import { ArticleCard } from 'components/editorial/ArticleCard';
 import { Button } from 'components/ui/Button';
 import { Reveal } from 'components/ui/Reveal';
 
-export function EditorialStories() {
+export async function EditorialStories() {
+    const { articles, home } = await getContent();
     const content = home.stories;
     const [lead, ...rest] = articles.slice(0, 3);
 

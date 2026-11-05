@@ -4,29 +4,32 @@ import { CategoryShowcase } from 'components/sections/CategoryShowcase';
 import { SignatureStory } from 'components/sections/SignatureStory';
 import { CampaignSelection } from 'components/sections/CampaignSelection';
 import { DiamondFeature } from 'components/sections/DiamondFeature';
-import { SeriesBanner } from 'components/sections/SeriesBanner';
-import { site } from 'data/site';
-import { isDColorDiamondEnabled } from 'lib/features';
 import { getCollection, getProductsInCollection } from 'lib/catalog';
+import { getContent } from 'lib/content';
+import { isDColorDiamondEnabled } from 'lib/features';
 
-const rings = getCollection('rings');
-const ringProducts = rings ? getProductsInCollection(rings) : [];
-
-export const metadata = {
-    title: { absolute: `${site.name} · Fine Jewelry` },
-    description: site.seo.home,
-    alternates: { canonical: '/' },
-    openGraph: {
-        title: `${site.name} · Fine Jewelry`,
+export async function generateMetadata() {
+    const { site } = await getContent();
+    return {
+        title: { absolute: `${site.name} · Fine Jewelry` },
         description: site.seo.home,
-        url: '/'
-    }
-};
+        alternates: { canonical: '/' },
+        openGraph: {
+            title: `${site.name} · Fine Jewelry`,
+            description: site.seo.home,
+            url: '/'
+        }
+    };
+}
 
-export default function Page() {
+export default async function Page() {
+    const { site, products, collections, home } = await getContent();
+    const rings = getCollection(collections, 'rings');
+    const ringProducts = rings ? getProductsInCollection(products, rings) : [];
+
     return (
         <>
-            <Hero />
+            <Hero hero={home.hero} />
             <HomeIntro />
             <div className="gap-4 flex flex-col bg-white">
                 <CategoryShowcase />
@@ -46,7 +49,7 @@ export default function Page() {
                     titleClassName="text-base font-medium"
                 />
                 {/* <SeriesBanner /> */}
-                {isDColorDiamondEnabled() ? <DiamondFeature /> : null}
+                {isDColorDiamondEnabled(site.features) ? <DiamondFeature /> : null}
             </div>
         </>
     );

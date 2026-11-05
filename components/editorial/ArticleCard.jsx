@@ -1,9 +1,13 @@
+'use client';
+
 import Link from 'next/link';
-import { paths } from 'data/site';
+import { useContent } from 'components/layout/ContentProvider';
 import { HoverImage } from 'components/ui/HoverImage';
 import { formatDate } from 'lib/format';
 
 export function ArticleCard({ article, featured = false }) {
+    const { site } = useContent();
+    const paths = site.paths;
     return (
         <article className={featured ? 'group' : 'group border-t border-charcoal/10 pt-6'}>
             <Link href={`${paths.articles}/${article.slug}`} className="block">

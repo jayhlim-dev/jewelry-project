@@ -1,17 +1,22 @@
-import { sizeGuide } from 'data/size-guide';
-import { paths, site } from 'data/site';
 import { SizeGuideExperience } from 'components/size-guide/SizeGuideExperience';
 import { Breadcrumb } from 'components/ui/Breadcrumb';
 import { Container } from 'components/ui/Container';
+import { getContent } from 'lib/content';
 
-export const metadata = {
-    title: 'Size guide',
-    description: site.seo.sizeGuide,
-    alternates: { canonical: paths.sizeGuide },
-    openGraph: { title: 'Size guide', description: site.seo.sizeGuide, url: paths.sizeGuide }
-};
+export async function generateMetadata() {
+    const { site } = await getContent();
+    const paths = site.paths;
+    return {
+        title: 'Size guide',
+        description: site.seo.sizeGuide,
+        alternates: { canonical: paths.sizeGuide },
+        openGraph: { title: 'Size guide', description: site.seo.sizeGuide, url: paths.sizeGuide }
+    };
+}
 
-export default function SizeGuidePage() {
+export default async function SizeGuidePage() {
+    const { site, sizeGuide } = await getContent();
+    const paths = site.paths;
     return (
         <Container className="max-w-3xl py-12 md:py-16">
             <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Size guide' }]} />

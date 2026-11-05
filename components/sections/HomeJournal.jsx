@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { articles } from 'data/articles';
-import { paths } from 'data/site';
+import { getContent } from 'lib/content';
 
 const noteSlugs = ['reading-a-piece-specification', 'understanding-diamond-color', 'caring-for-fine-jewelry'];
 
-export function HomeJournal() {
+export async function HomeJournal() {
+    const { articles, site } = await getContent();
+    const paths = site.paths;
     const notes = noteSlugs.map((slug) => articles.find((article) => article.slug === slug)).filter(Boolean);
 
     return (

@@ -3,8 +3,7 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { site, paths } from 'data/site';
-import { collections } from 'data/collections';
+import { useContent } from 'components/layout/ContentProvider';
 import { CloseIcon } from 'components/ui/Icons';
 import { ease } from 'lib/motion';
 import { useEscape, useLockBody } from 'components/layout/useOverlay';
@@ -20,6 +19,8 @@ const item = {
 };
 
 export function MobileMenu({ open, onClose }) {
+    const { site, collections } = useContent();
+    const paths = site.paths;
     const reduce = useReducedMotion();
     const closeRef = useRef(null);
     useLockBody(open);

@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { collections } from 'data/collections';
-import { paths } from 'data/site';
+import { getContent } from 'lib/content';
 
-export function CategoryShowcase() {
+export async function CategoryShowcase() {
+    const { collections, site } = await getContent();
+    const paths = site.paths;
     return (
         <section className="bg-white" aria-label="Collections">
             <div className="mx-auto w-full max-w-[90rem] px-5 md:px-10 lg:px-14">

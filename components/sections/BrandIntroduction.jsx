@@ -1,10 +1,11 @@
-import { home } from 'data/home';
 import { Container } from 'components/ui/Container';
+import { getContent } from 'lib/content';
 import { ImageReveal } from 'components/ui/ImageReveal';
 import { Reveal } from 'components/ui/Reveal';
 import { AnimatedText } from 'components/ui/AnimatedText';
 
-export function BrandIntroduction() {
+export async function BrandIntroduction() {
+    const { home } = await getContent();
     const content = home.introduction;
 
     return (
