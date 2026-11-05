@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useContent } from 'components/layout/ContentProvider';
 import { isCatalogPriceVisible } from 'lib/features';
 import { catalogPriceBounds, matchesPriceRange, sortProducts, uniqueValues } from 'lib/catalog';
@@ -18,20 +18,19 @@ function readNumber(value, fallback) {
     return Number.isFinite(next) ? next : fallback;
 }
 
-export function ShopBrowser() {
-    const { products, catalog, site } = useContent();
+export function ShopBrowser({ initialProducts }) {
+    const { catalog, site } = useContent();
+    const products = Array.isArray(initialProducts) ? initialProducts : [];
     const paths = site.paths;
     const sortOptions = catalog.sortOptions;
     const showPrices = isCatalogPriceVisible(site.features);
     const bounds = catalogPriceBounds(products);
     const shopSortOptions = showPrices ? sortOptions : sortOptions.filter((option) => !option.id.startsWith('price-'));
-    const router = useRouter();
     const searchParams = useSearchParams();
     const category = searchParams.get('category') || 'All';
     const metal = searchParams.get('metal') || 'All';
     const sortParam = searchParams.get('sort') || 'featured';
-    const sort =
-        !showPrices && sortParam.startsWith('price-') ? 'featured' : sortParam;
+    const sort = !showPrices && sortParam.startsWith('price-') ? 'featured' : sortParam;
     const stockTokens = (searchParams.get('stock') || 'in').split(',');
     const inStock = stockTokens.includes('in');
     const outStock = stockTokens.includes('out');
@@ -68,8 +67,13 @@ export function ShopBrowser() {
             if (value === null || value === undefined || value === '' || value === 'All') params.delete(key);
             else params.set(key, String(value));
         });
-        const query = params.toString();
-        router.replace(query ? `${paths.shop}?${query}` : paths.shop, { scroll: false });
+        replaceUrl(params.toString());
+    }
+
+    // Filtering runs in memory on the SSR products, so only the URL needs to change.
+    // history.replaceState updates useSearchParams without a server round trip.
+    function replaceUrl(query) {
+        window.history.replaceState(null, '', query ? `${paths.shop}?${query}` : paths.shop);
     }
 
     function onAvailability({ inStock: nextIn, outStock: nextOut }) {
@@ -94,7 +98,7 @@ export function ShopBrowser() {
     const count = filtered.length;
 
     function clearFilters() {
-        router.replace(paths.shop, { scroll: false });
+        replaceUrl('');
     }
 
     return (
@@ -151,7 +155,13 @@ export function ShopBrowser() {
 
                 <div className="pt-4 lg:pt-0">
                     <div className="pb-8 lg:pb-2">
-                        <ProductGrid products={shown} className="lg:grid-cols-3" onClearFilters={clearFilters} />
+                        {products.length === 0 ? (
+                            <p className="py-16 text-center text-ash">
+                                The collection is being updated. Please check back soon.
+                            </p>
+                        ) : (
+                            <ProductGrid products={shown} className="lg:grid-cols-3" onClearFilters={clearFilters} />
+                        )}
                         {visible < filtered.length ? (
                             <div className="mt-12 flex justify-center">
                                 <Button variant="secondary" onClick={() => setVisible((n) => n + PAGE_SIZE)}>

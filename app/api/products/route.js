@@ -15,6 +15,8 @@ export async function GET() {
             source: 'firestore',
             count: products.length,
             products
+        }, {
+            headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
         });
     } catch (error) {
         console.error('Firebase products GET failed:', error);

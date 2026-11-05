@@ -6,19 +6,19 @@ This is a Next.js jewelry storefront for the placeholder brand **XXXX**. Visitor
 
 **Main jewelry routes**
 
-| Route | Page |
-|---|---|
-| `/` | Homepage |
-| `/shop` | Full collection browser |
-| `/shop/[slug]` | Product detail |
-| `/collections/[slug]` | Category collection |
-| `/why-xxxx` | Brand story |
-| `/d-color-diamond` | Diamond color guide (feature-flagged; currently disabled) |
-| `/contact` | Contact / inquiry |
-| `/articles`, `/articles/[slug]` | Journal |
-| `/size-guide` | Ring size guide |
-| `/privacy`, `/terms` | Legal notes |
-| Custom 404 | `app/not-found.jsx` |
+| Route                           | Page                                                      |
+| ------------------------------- | --------------------------------------------------------- |
+| `/`                             | Homepage                                                  |
+| `/shop`                         | Full collection browser                                   |
+| `/shop/[slug]`                  | Product detail                                            |
+| `/collections/[slug]`           | Category collection                                       |
+| `/why-xxxx`                     | Brand story                                               |
+| `/d-color-diamond`              | Diamond color guide (feature-flagged; currently disabled) |
+| `/contact`                      | Contact / inquiry                                         |
+| `/articles`, `/articles/[slug]` | Journal                                                   |
+| `/size-guide`                   | Ring size guide                                           |
+| `/privacy`, `/terms`            | Legal notes                                               |
+| Custom 404                      | `app/not-found.jsx`                                       |
 
 The repo also retains **Netlify platform-starter demo routes** (`/blobs`, `/edge`, `/classics`, `/routing`, `/revalidation`, `/middleware`, `/image-cdn`, `/quotes/random`). Those are not part of the jewelry UX but remain reachable and share the jewelry root layout.
 
@@ -26,7 +26,7 @@ The repo also retains **Netlify platform-starter demo routes** (`/blobs`, `/edge
 
 **Data sources and integrations**
 
-- Runtime: Cloud Firestore via the Firebase Admin SDK (`lib/firebase-admin.js`, `lib/content.js`). Pages, nav, footer, search, and `/api/products`, `/api/contact`, and `/quotes/random` read on each request. A missing config or required document fails the request. There is no fallback to local files.
+- Runtime: Cloud Firestore via the Firebase Admin SDK (`lib/firebase-admin.js`, `lib/content.js`). Pages, nav, footer, search, and `/api/products`, `/api/contact`, and `/quotes/random` render on each request, but the Firestore reads behind them are cached for 5 minutes (`unstable_cache` in `lib/content.js`, tag `content`; quotes for 1 hour). After a seed, changes appear within that window, or immediately after `revalidateTag('content', 'max')`. A missing config or required document fails the request. There is no fallback to local files.
 - Seed only: `data/products.js`, `data/collections.js`, `data/articles.js`, `data/home.js`, `data/story.js`, `data/diamond.js`, `data/size-guide.js`, `data/contact.js`, `data/site.js`, `data/search.js`, `data/articlesPage.js`, `data/quotes.json`, and `config/siteFeatures.js`, written by `scripts/seed-firestore.mjs`
 - Contact email via Nodemailer SMTP (`lib/mail.js`, `POST /api/contact`)
 - WhatsApp deep links (`wa.me` + site contact number)
@@ -55,16 +55,16 @@ The repo also retains **Netlify platform-starter demo routes** (`/blobs`, `/edge
 **Purpose:**  
 Introduce the brand, surface collections, and highlight curated product groups. No commerce checkout.
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Hero | Full-bleed section `h-[72svh]` / `min-h-[26rem]`, charcoal overlay, parallax image when motion allowed | Same height rules; CTAs stack vertically below `sm` | Static `home.hero` in `data/home.js`; image `/images/hero/campaign.jpg` |
-| Brand intro | Centered title + short copy on white | Same, slightly tighter vertical padding | `home.intro` |
-| Collections grid | 4 columns (`md:grid-cols-4`), aspect `3/4` cards | 2 columns (`grid-cols-2`) | All entries in `data/collections.js` |
-| Popular products | Up to 4 products in a 4-column grid at `md+` | 2-column grid | Hardcoded slugs in `app/page.jsx`: `pearl-strand`, `halo-ring`, `linea-bracelet`, `ivy-drops` |
-| Signature carousel | Text + image side-by-side (`md` split); prev/next + dots | Stacked text then image | Hardcoded slides for `celeste-stack`, `orla-link`, `noor-collar` |
-| Must have | Up to 8 products, 4 columns at `md+` | 2-column grid | Hardcoded slugs in `app/page.jsx` (8 slugs) |
-| Series banner | Full-bleed `min-h-[78vh]` with product card overlay | Card stacks under copy; same height | Slugs `rosa-cushion`, `celeste-stack`, `orla-link` |
-| D color feature | Two-column image + copy when enabled | Stacked | `home.diamond`; rendered only if `showDColorDiamondPage === true` |
+| Feature            | Desktop Behavior                                                                                       | Mobile Behavior                                     | Data Source / Logic                                                                           |
+| ------------------ | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Hero               | Full-bleed section `h-[72svh]` / `min-h-[26rem]`, charcoal overlay, parallax image when motion allowed | Same height rules; CTAs stack vertically below `sm` | Static `home.hero` in `data/home.js`; image `/images/hero/campaign.jpg`                       |
+| Brand intro        | Centered title + short copy on white                                                                   | Same, slightly tighter vertical padding             | `home.intro`                                                                                  |
+| Collections grid   | 4 columns (`md:grid-cols-4`), aspect `3/4` cards                                                       | 2 columns (`grid-cols-2`)                           | All entries in `data/collections.js`                                                          |
+| Popular products   | Up to 4 products in a 4-column grid at `md+`                                                           | 2-column grid                                       | Hardcoded slugs in `app/page.jsx`: `pearl-strand`, `halo-ring`, `linea-bracelet`, `ivy-drops` |
+| Signature carousel | Text + image side-by-side (`md` split); prev/next + dots                                               | Stacked text then image                             | Hardcoded slides for `celeste-stack`, `orla-link`, `noor-collar`                              |
+| Must have          | Up to 8 products, 4 columns at `md+`                                                                   | 2-column grid                                       | Hardcoded slugs in `app/page.jsx` (8 slugs)                                                   |
+| Series banner      | Full-bleed `min-h-[78vh]` with product card overlay                                                    | Card stacks under copy; same height                 | Slugs `rosa-cushion`, `celeste-stack`, `orla-link`                                            |
+| D color feature    | Two-column image + copy when enabled                                                                   | Stacked                                             | `home.diamond`; rendered only if `showDColorDiamondPage === true`                             |
 
 **Interactions**
 
@@ -105,13 +105,13 @@ Introduce the brand, surface collections, and highlight curated product groups. 
 **Purpose:**  
 Browse the full sample catalog with category tabs, filters, sort, and load-more pagination.
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Header | Breadcrumb, “The Collection” title, intro copy | Same | Static copy in page |
-| Category tabs | Horizontal wrap | Horizontal scroll (`overflow-x-auto`) | `All` + collection names from `data/collections.js` |
-| Filters sidebar | Always visible sticky column (`lg`) | Collapsed behind “Filters” toggle | Client state + URL params |
-| Product grid | 3 columns (`lg:grid-cols-3`) | 2 columns | Filtered slice of `products` |
-| Load more | Button when more than visible count | Same | `PAGE_SIZE = 9` |
+| Feature         | Desktop Behavior                               | Mobile Behavior                       | Data Source / Logic                                 |
+| --------------- | ---------------------------------------------- | ------------------------------------- | --------------------------------------------------- |
+| Header          | Breadcrumb, “The Collection” title, intro copy | Same                                  | Static copy in page                                 |
+| Category tabs   | Horizontal wrap                                | Horizontal scroll (`overflow-x-auto`) | `All` + collection names from `data/collections.js` |
+| Filters sidebar | Always visible sticky column (`lg`)            | Collapsed behind “Filters” toggle     | Client state + URL params                           |
+| Product grid    | 3 columns (`lg:grid-cols-3`)                   | 2 columns                             | Filtered slice of `products`                        |
+| Load more       | Button when more than visible count            | Same                                  | `PAGE_SIZE = 9`                                     |
 
 **Interactions**
 
@@ -138,13 +138,17 @@ Browse the full sample catalog with category tabs, filters, sort, and load-more 
 
 **States and Edge Cases**
 
-- Suspense fallback: “Loading the collection…”
+- Products are read on the server in `app/shop/page.jsx` and passed to `ShopBrowser` as `initialProducts`; the first HTML already contains the cards (including any `?category=`/`?sort=` filters). No client fetch.
+- Filter, sort, and category changes filter that array in memory and update the URL with `history.replaceState` (no server round trip, no skeleton).
+- `app/shop/loading.jsx` shows the heading plus exactly 4 skeleton cards (`ProductGridSkeleton`) while the route is being fetched on client navigation. `app/loading.jsx` and `app/shop/[slug]/loading.jsx` use a generic `PageSkeleton`.
+- Empty catalog: “The collection is being updated.” No filter matches: “No pieces match these filters.” Server errors fall to `app/error.jsx`.
 - Unchecking both availability boxes sets `stock=any` (shows all)
 - Checking both in + out shows all
 
 **Relevant Source Files**
 
 - `app/shop/page.jsx`
+- `app/shop/loading.jsx`, `components/products/ShopSkeleton.jsx`, `ProductGridSkeleton.jsx`, `ShopHeader.jsx`
 - `components/products/ShopBrowser.jsx`
 - `components/products/ProductFilters.jsx` (`CategoryTabs`, `ProductFilters`)
 - `components/products/ProductGrid.jsx`, `ProductCard.jsx`
@@ -157,12 +161,12 @@ Browse the full sample catalog with category tabs, filters, sort, and load-more 
 **Purpose:**  
 Show one piece’s photographs and known materials, then inquire via WhatsApp or save for a later inquiry.
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Gallery | Vertical stack of full-width images; enlarge lightbox | Same | `product.images` or metal-specific `metalViews` |
-| Summary panel | Sticky column (`lg:col-span-4`) | Full width below gallery | Product fields from catalog |
-| Related products | Up to 4 same-category pieces in grid | 2-column grid | `getRelatedProducts(product)` default limit 4 |
-| Sticky inquire bar | Hidden | Shown on viewports `max-width: 1023px` when main inquire CTA scrolls out of view | IntersectionObserver |
+| Feature            | Desktop Behavior                                      | Mobile Behavior                                                                  | Data Source / Logic                             |
+| ------------------ | ----------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Gallery            | Vertical stack of full-width images; enlarge lightbox | Same                                                                             | `product.images` or metal-specific `metalViews` |
+| Summary panel      | Sticky column (`lg:col-span-4`)                       | Full width below gallery                                                         | Product fields from catalog                     |
+| Related products   | Up to 4 same-category pieces in grid                  | 2-column grid                                                                    | `getRelatedProducts(product)` default limit 4   |
+| Sticky inquire bar | Hidden                                                | Shown on viewports `max-width: 1023px` when main inquire CTA scrolls out of view | IntersectionObserver                            |
 
 **Interactions**
 
@@ -207,11 +211,11 @@ Show one piece’s photographs and known materials, then inquire via WhatsApp or
 **Purpose:**  
 List all products in one category (Rings, Necklaces, Earrings, Bracelets and Bangles).
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Header | Breadcrumb, eyebrow, title, description | Same | `data/collections.js` |
-| Product grid | Default grid → 4 cols at `lg` | 2 cols | `getProductsInCollection` matches `product.category === collection.name` |
-| Empty state | “No pieces in this collection yet.” | Same | When filter returns none |
+| Feature      | Desktop Behavior                        | Mobile Behavior | Data Source / Logic                                                      |
+| ------------ | --------------------------------------- | --------------- | ------------------------------------------------------------------------ |
+| Header       | Breadcrumb, eyebrow, title, description | Same            | `data/collections.js`                                                    |
+| Product grid | Default grid → 4 cols at `lg`           | 2 cols          | `getProductsInCollection` matches `product.category === collection.name` |
+| Empty state  | “No pieces in this collection yet.”     | Same            | When filter returns none                                                 |
 
 **Interactions**
 
@@ -237,14 +241,14 @@ List all products in one category (Rings, Necklaces, Earrings, Bracelets and Ban
 **Purpose:**  
 Brand philosophy, four standards (pillars), quality notes, and how shopping works online.
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Hero | Full-bleed `min-h-[78svh]` with overlay copy | `min-h-[72svh]` | `story.hero` |
-| Philosophy | 12-col text + image | Stacked | `story.philosophy` |
-| Four standards | Alternating image/text rows | Stacked | `pillars` in `data/story.js` |
-| Quality band | Bordered panel with points | Stacked | `story.quality`; D-color link only if feature enabled |
-| Visit / shopping steps | Sticky left column + numbered steps | Stacked | `story.shopping` |
-| Closing CTA | Title + Shop / Contact buttons | Stacked | `story.closing` |
+| Feature                | Desktop Behavior                             | Mobile Behavior | Data Source / Logic                                   |
+| ---------------------- | -------------------------------------------- | --------------- | ----------------------------------------------------- |
+| Hero                   | Full-bleed `min-h-[78svh]` with overlay copy | `min-h-[72svh]` | `story.hero`                                          |
+| Philosophy             | 12-col text + image                          | Stacked         | `story.philosophy`                                    |
+| Four standards         | Alternating image/text rows                  | Stacked         | `pillars` in `data/story.js`                          |
+| Quality band           | Bordered panel with points                   | Stacked         | `story.quality`; D-color link only if feature enabled |
+| Visit / shopping steps | Sticky left column + numbered steps          | Stacked         | `story.shopping`                                      |
+| Closing CTA            | Title + Shop / Contact buttons               | Stacked         | `story.closing`                                       |
 
 **Interactions**
 
@@ -273,11 +277,11 @@ Educational guide to diamond color grades and the Four Cs.
 
 **Current status:** Feature flag `showDColorDiamondPage` is `false`. The page component calls `notFound()`, so visitors currently see the 404 page. Nav and search guide links omit this route while disabled.
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Hero | `min-h-[78svh]` full-bleed | Same | `diamondPage.hero` |
-| Intro / scale groups / appearance / 4Cs / certification / FAQ | Multi-section editorial layout | Stacked grids | `data/diamond.js` |
-| Closing CTA | “Browse jewelry” → `/shop` | Same | Static button |
+| Feature                                                       | Desktop Behavior               | Mobile Behavior | Data Source / Logic |
+| ------------------------------------------------------------- | ------------------------------ | --------------- | ------------------- |
+| Hero                                                          | `min-h-[78svh]` full-bleed     | Same            | `diamondPage.hero`  |
+| Intro / scale groups / appearance / 4Cs / certification / FAQ | Multi-section editorial layout | Stacked grids   | `data/diamond.js`   |
+| Closing CTA                                                   | “Browse jewelry” → `/shop`     | Same            | Static button       |
 
 **Relevant Source Files**
 
@@ -292,13 +296,13 @@ Educational guide to diamond color grades and the Four Cs.
 **Purpose:**  
 Help visitors choose an inquiry topic and contact the house by WhatsApp or email form.
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Hero / highlights | Headline + 3 highlight cards | Highlights stack / 3-col at `sm` | `contactPage` |
-| Topic picker | Up to 4 columns (`xl`) | 1–3 columns | `inquiryTopics` (7 topics) |
-| Channel guide | Sticky aside with recommended channel | Full width above form | Channel copy keyed by `whatsapp` / `email` / `both` |
-| Email form | Name, email, message; topic from picker | Same | `POST /api/contact` → SMTP |
-| FAQ | Sticky title + accordion list | Stacked | `contactFaqs` |
+| Feature           | Desktop Behavior                        | Mobile Behavior                  | Data Source / Logic                                 |
+| ----------------- | --------------------------------------- | -------------------------------- | --------------------------------------------------- |
+| Hero / highlights | Headline + 3 highlight cards            | Highlights stack / 3-col at `sm` | `contactPage`                                       |
+| Topic picker      | Up to 4 columns (`xl`)                  | 1–3 columns                      | `inquiryTopics` (7 topics)                          |
+| Channel guide     | Sticky aside with recommended channel   | Full width above form            | Channel copy keyed by `whatsapp` / `email` / `both` |
+| Email form        | Name, email, message; topic from picker | Same                             | `POST /api/contact` → SMTP                          |
+| FAQ               | Sticky title + accordion list           | Stacked                          | `contactFaqs`                                       |
 
 **Interactions**
 
@@ -334,11 +338,11 @@ Help visitors choose an inquiry topic and contact the house by WhatsApp or email
 **Purpose:**  
 List journal articles.
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Featured article | Large card (`aspect-[16/10]`) | Same structure | First item in `articles` array |
-| Remaining grid | 3 columns at `lg` | 1 col → 2 at `md` | Remaining 4 articles |
-| Category labels | Uppercase list under intro | Same | Unique `category` values (display only; not filters) |
+| Feature          | Desktop Behavior              | Mobile Behavior   | Data Source / Logic                                  |
+| ---------------- | ----------------------------- | ----------------- | ---------------------------------------------------- |
+| Featured article | Large card (`aspect-[16/10]`) | Same structure    | First item in `articles` array                       |
+| Remaining grid   | 3 columns at `lg`             | 1 col → 2 at `md` | Remaining 4 articles                                 |
+| Category labels  | Uppercase list under intro    | Same              | Unique `category` values (display only; not filters) |
 
 **Data and Business Logic**
 
@@ -358,12 +362,12 @@ List journal articles.
 **Purpose:**  
 Render one editorial article and related reading.
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Header | Category, date, title, excerpt | Same | Article fields |
-| Hero image | `aspect-[16/9]` | Same | `article.image` |
-| Body | `h2`, paragraph, quote blocks | Same | `article.body[]` |
-| Related | Up to 3 cards in 3 columns | Stacked → 3 at `md` | `getRelatedArticles` (first other articles, limit 3) |
+| Feature    | Desktop Behavior               | Mobile Behavior     | Data Source / Logic                                  |
+| ---------- | ------------------------------ | ------------------- | ---------------------------------------------------- |
+| Header     | Category, date, title, excerpt | Same                | Article fields                                       |
+| Hero image | `aspect-[16/9]`                | Same                | `article.image`                                      |
+| Body       | `h2`, paragraph, quote blocks  | Same                | `article.body[]`                                     |
+| Related    | Up to 3 cards in 3 columns     | Stacked → 3 at `md` | `getRelatedArticles` (first other articles, limit 3) |
 
 **Interactions**
 
@@ -383,11 +387,11 @@ Render one editorial article and related reading.
 **Purpose:**  
 Home measuring instructions and millimetre ring chart (circumference 44–70).
 
-| Feature | Desktop Behavior | Mobile Behavior | Data Source / Logic |
-|---|---|---|---|
-| Methods | Two columns | Stacked | `sizeGuide.methods` |
-| Chart | Split into two columns of rows | Stacked columns | `ringSizes` (27 sizes) |
-| CTAs | Shop rings / All pieces | Same | Links to `/collections/rings` and `/shop` |
+| Feature | Desktop Behavior               | Mobile Behavior | Data Source / Logic                       |
+| ------- | ------------------------------ | --------------- | ----------------------------------------- |
+| Methods | Two columns                    | Stacked         | `sizeGuide.methods`                       |
+| Chart   | Split into two columns of rows | Stacked columns | `ringSizes` (27 sizes)                    |
+| CTAs    | Shop rings / All pieces        | Same            | Links to `/collections/rings` and `/shop` |
 
 **Relevant Source Files**
 
@@ -586,26 +590,26 @@ These exist under `components/` but are not imported by current routes (verified
 
 Firestore is the runtime source. The files under `data/` and `config/siteFeatures.js` are imported by `scripts/seed-firestore.mjs` and are not read by pages. `lib/content.js` loads products, collections, articles, quotes, and the `*/main` documents on each request (`dynamic = 'force-dynamic'`). React `cache()` dedupes those reads within one request. The root layout passes a slim snapshot from `lib/clientContent.js` (`pickClientContent`) into the client `ContentProvider` — shop/search/nav fields plus ring-size data and search-trimmed articles (no full article bodies, no home/story/contact/articlesPage blobs). Page-only copy is merged with `ContentScope` on `/contact`, `/why-xxxx`, and `/articles`. `Hero` receives `home.hero` as a prop from the homepage server component. Client components call `useContent()`. Code helpers that are not stored as data stay in the repo: ring-size lookup, WhatsApp draft text, metal views, and sort/filter helpers.
 
-| Dependency | What it controls | Used by |
-|---|---|---|
-| `data/products.js` | Seed for `products` docs | Seed script only |
-| `data/collections.js` | Seed for `collections` docs | Seed script only |
-| `data/articles.js` | Seed for `articles` docs | Seed script only |
-| `data/home.js` | Seed for `home/main` | Seed script only |
-| `data/story.js` | Seed for `story/main` | Seed script only |
-| `data/diamond.js` | Seed for `diamond/main` | Seed script only |
-| `data/size-guide.js` | Seed for `sizeGuide/main` | Seed script only. The WhatsApp-with-size function stays in `lib/sizeGuide.js` |
-| `data/contact.js` | Seed for `contact/main` | Seed script only |
-| `data/site.js` | Seed for `site/main` | Seed script only |
-| `data/quotes.json` | Seed for `quotes` | Seed script only. `/quotes/random` reads Firestore |
+| Dependency                        | What it controls                             | Used by                                                                                                                                |
+| --------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/products.js`                | Seed for `products` docs                     | Seed script only                                                                                                                       |
+| `data/collections.js`             | Seed for `collections` docs                  | Seed script only                                                                                                                       |
+| `data/articles.js`                | Seed for `articles` docs                     | Seed script only                                                                                                                       |
+| `data/home.js`                    | Seed for `home/main`                         | Seed script only                                                                                                                       |
+| `data/story.js`                   | Seed for `story/main`                        | Seed script only                                                                                                                       |
+| `data/diamond.js`                 | Seed for `diamond/main`                      | Seed script only                                                                                                                       |
+| `data/size-guide.js`              | Seed for `sizeGuide/main`                    | Seed script only. The WhatsApp-with-size function stays in `lib/sizeGuide.js`                                                          |
+| `data/contact.js`                 | Seed for `contact/main`                      | Seed script only                                                                                                                       |
+| `data/site.js`                    | Seed for `site/main`                         | Seed script only                                                                                                                       |
+| `data/quotes.json`                | Seed for `quotes`                            | Seed script only. `/quotes/random` reads Firestore                                                                                     |
 | `site/main.features` in Firestore | `showDColorDiamondPage`, `showCatalogPrices` | Nav, home diamond block, diamond page access, search guides, why-page price copy, shop price UI. Seeded from `config/siteFeatures.js`. |
-| SMTP env vars | Contact form delivery | `lib/mail.js` |
-| `NEXT_PUBLIC_DISABLE_UPLOADS` | Disables Blobs uploads on demo page | `/blobs` |
-| `CONTEXT` (Netlify) | Netlify runtime context helpers | Starter utils / some demo pages |
-| `localStorage` `xxxx-inquiry-bag` | Saved inquiry pieces | Navbar bag, product save |
-| Static `/public/images/**` | Product, hero, editorial assets | Image components |
-| Wikipedia API | Random article for revalidation demo | `/revalidation` only |
-| Netlify Blobs / Edge | Demo storage and geo rewrite | `/blobs`, `/edge` |
+| SMTP env vars                     | Contact form delivery                        | `lib/mail.js`                                                                                                                          |
+| `NEXT_PUBLIC_DISABLE_UPLOADS`     | Disables Blobs uploads on demo page          | `/blobs`                                                                                                                               |
+| `CONTEXT` (Netlify)               | Netlify runtime context helpers              | Starter utils / some demo pages                                                                                                        |
+| `localStorage` `xxxx-inquiry-bag` | Saved inquiry pieces                         | Navbar bag, product save                                                                                                               |
+| Static `/public/images/**`        | Product, hero, editorial assets              | Image components                                                                                                                       |
+| Wikipedia API                     | Random article for revalidation demo         | `/revalidation` only                                                                                                                   |
+| Netlify Blobs / Edge              | Demo storage and geo rewrite                 | `/blobs`, `/edge`                                                                                                                      |
 
 **Secrets:** Do not commit or document secret values. Contact delivery needs `SMTP_USER` / `SMTP_APP_PASSWORD` / `CONTACT_EMAIL` (and optional SMTP host/port/secure flags).
 
@@ -617,17 +621,17 @@ Firestore is the runtime source. The files under `data/` and `config/siteFeature
 
 Verified Tailwind breakpoints used throughout: `sm`, `md`, `lg`, `xl` (standard Tailwind defaults: 640 / 768 / 1024 / 1280).
 
-| Area | Desktop | Mobile / narrow |
-|---|---|---|
-| Navbar | Full primary links at `lg+` | Hamburger menu; search + bag always available |
-| Main padding | Non-home pages `pt-[4.5rem]` | Same |
-| Home collections | 4 columns | 2 columns |
-| Home product rows | 4 columns at `md+` | 2 columns |
-| Shop filters | Sticky sidebar | Toggle panel |
-| Shop / product / article grids | 3–4 columns at `lg` | 2 columns (products) or 1 (articles) |
-| Product sticky inquire bar | Hidden at `lg+` | Active below 1024px when CTA off-screen |
-| Container | `max-w-[90rem]` with `px-5` → `md:px-10` → `lg:px-14` | Same progression |
-| Hero heights | Homepage `72svh`; Why/Diamond ~`78svh` | Why uses `72svh` on smaller screens |
+| Area                           | Desktop                                               | Mobile / narrow                               |
+| ------------------------------ | ----------------------------------------------------- | --------------------------------------------- |
+| Navbar                         | Full primary links at `lg+`                           | Hamburger menu; search + bag always available |
+| Main padding                   | Non-home pages `pt-[4.5rem]`                          | Same                                          |
+| Home collections               | 4 columns                                             | 2 columns                                     |
+| Home product rows              | 4 columns at `md+`                                    | 2 columns                                     |
+| Shop filters                   | Sticky sidebar                                        | Toggle panel                                  |
+| Shop / product / article grids | 3–4 columns at `lg`                                   | 2 columns (products) or 1 (articles)          |
+| Product sticky inquire bar     | Hidden at `lg+`                                       | Active below 1024px when CTA off-screen       |
+| Container                      | `max-w-[90rem]` with `px-5` → `md:px-10` → `lg:px-14` | Same progression                              |
+| Hero heights                   | Homepage `72svh`; Why/Diamond ~`78svh`                | Why uses `72svh` on smaller screens           |
 
 **Image dimensions**
 
@@ -667,27 +671,27 @@ Verified Tailwind breakpoints used throughout: `sm`, `md`, `lg`, `xl` (standard 
 
 ## 7. Quick Reference
 
-| Page | Main Features | Main Data Sources | Important Configuration |
-|---|---|---|---|
-| `/` | Hero, intro, collections, popular, signature, must-have, series; optional diamond band | Firestore `home/main`, `products`, `collections` | `site.features.showDColorDiamondPage` |
-| `/shop` | Tabs, filters, sort, load more (9) | Firestore `products`, `catalog/main` | URL params; price UI follows `showCatalogPrices` |
-| `/shop/[slug]` | Gallery, metal/size, WhatsApp inquire, save, related | Firestore product doc + `metalViews` helper | WhatsApp number in Firestore `site.contact` |
-| `/collections/[slug]` | Category product grid | Firestore `collections` + category match | Unknown slug 404s from live data |
-| `/why-xxxx` | Hero, philosophy, pillars, quality, shopping steps | Firestore `story/main` | D-color CTA gated by `site.features` |
-| `/d-color-diamond` | Educational diamond guide | Firestore `diamond/main` | Flag false → 404 |
-| `/contact` | Topics, WhatsApp, email form, FAQ | Firestore `contact/main`, SMTP API | SMTP + `CONTACT_EMAIL` env vars |
-| `/articles` | Featured + grid | Firestore `articles`, `articlesPage/main` | First featured article leads the list |
-| `/articles/[slug]` | Body blocks + related | Firestore article doc | Unknown slug 404s from live data |
-| `/size-guide` | Measuring methods + mm chart | Firestore `sizeGuide/main` | Lookup and WhatsApp size text stay in code |
-| `/privacy` | Short privacy copy | Static JSX | Text partially outdated vs SMTP form |
-| `/terms` | Short terms copy | Static JSX | Inquiry-only commerce model |
-| 404 | Not-found message | Firestore `site/main` name | Also used for disabled diamond page |
-| `/blobs` | Netlify Blobs shape demo | `@netlify/blobs` | `NEXT_PUBLIC_DISABLE_UPLOADS` |
-| `/edge*` | Geo rewrite demo | Netlify Edge Function | Requires Netlify edge |
-| `/classics` | Netlify Forms demo | `FeedbackForm`, `__forms.html` | Netlify Forms enablement |
-| `/routing` | Redirect/rewrite explainer | `next.config.js` | Docs/GitHub/home redirects |
-| `/revalidation` | Tagged Wikipedia fetch | Wikipedia API | Tag `randomWiki`, TTL 60s |
-| `/middleware` | Middleware explainer | `middleware.js` | Site-wide headers / `/admin` block |
-| `/image-cdn` | Image CDN comparison | `/images/corgi.jpg` | Netlify Image CDN |
-| `/quotes/random` | Random JSON quote | `data/quotes.json` | Also `/api/health` rewrite |
-| `/api/contact` | Contact email endpoint | Nodemailer | SMTP env configuration |
+| Page                  | Main Features                                                                          | Main Data Sources                                | Important Configuration                          |
+| --------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------ |
+| `/`                   | Hero, intro, collections, popular, signature, must-have, series; optional diamond band | Firestore `home/main`, `products`, `collections` | `site.features.showDColorDiamondPage`            |
+| `/shop`               | Tabs, filters, sort, load more (9)                                                     | Firestore `products`, `catalog/main`             | URL params; price UI follows `showCatalogPrices` |
+| `/shop/[slug]`        | Gallery, metal/size, WhatsApp inquire, save, related                                   | Firestore product doc + `metalViews` helper      | WhatsApp number in Firestore `site.contact`      |
+| `/collections/[slug]` | Category product grid                                                                  | Firestore `collections` + category match         | Unknown slug 404s from live data                 |
+| `/why-xxxx`           | Hero, philosophy, pillars, quality, shopping steps                                     | Firestore `story/main`                           | D-color CTA gated by `site.features`             |
+| `/d-color-diamond`    | Educational diamond guide                                                              | Firestore `diamond/main`                         | Flag false → 404                                 |
+| `/contact`            | Topics, WhatsApp, email form, FAQ                                                      | Firestore `contact/main`, SMTP API               | SMTP + `CONTACT_EMAIL` env vars                  |
+| `/articles`           | Featured + grid                                                                        | Firestore `articles`, `articlesPage/main`        | First featured article leads the list            |
+| `/articles/[slug]`    | Body blocks + related                                                                  | Firestore article doc                            | Unknown slug 404s from live data                 |
+| `/size-guide`         | Measuring methods + mm chart                                                           | Firestore `sizeGuide/main`                       | Lookup and WhatsApp size text stay in code       |
+| `/privacy`            | Short privacy copy                                                                     | Static JSX                                       | Text partially outdated vs SMTP form             |
+| `/terms`              | Short terms copy                                                                       | Static JSX                                       | Inquiry-only commerce model                      |
+| 404                   | Not-found message                                                                      | Firestore `site/main` name                       | Also used for disabled diamond page              |
+| `/blobs`              | Netlify Blobs shape demo                                                               | `@netlify/blobs`                                 | `NEXT_PUBLIC_DISABLE_UPLOADS`                    |
+| `/edge*`              | Geo rewrite demo                                                                       | Netlify Edge Function                            | Requires Netlify edge                            |
+| `/classics`           | Netlify Forms demo                                                                     | `FeedbackForm`, `__forms.html`                   | Netlify Forms enablement                         |
+| `/routing`            | Redirect/rewrite explainer                                                             | `next.config.js`                                 | Docs/GitHub/home redirects                       |
+| `/revalidation`       | Tagged Wikipedia fetch                                                                 | Wikipedia API                                    | Tag `randomWiki`, TTL 60s                        |
+| `/middleware`         | Middleware explainer                                                                   | `middleware.js`                                  | Site-wide headers / `/admin` block               |
+| `/image-cdn`          | Image CDN comparison                                                                   | `/images/corgi.jpg`                              | Netlify Image CDN                                |
+| `/quotes/random`      | Random JSON quote                                                                      | `data/quotes.json`                               | Also `/api/health` rewrite                       |
+| `/api/contact`        | Contact email endpoint                                                                 | Nodemailer                                       | SMTP env configuration                           |

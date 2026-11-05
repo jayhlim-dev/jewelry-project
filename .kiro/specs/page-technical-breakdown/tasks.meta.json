@@ -1,0 +1,203 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Create the scratch workspace and record the baseline": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898068013
+      },
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898084120
+      },
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898238900
+      }
+    ],
+    "2.1 Read the Next.js 16 docs (design Group A, items A1 to A16)": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898068397
+      },
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898249991
+      },
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793899002013
+      }
+    ],
+    "2.2 Read the configuration, framework files, and root special files (design Groups B and C)": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898068514
+      },
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793899008876
+      }
+    ],
+    "3.1 Compute the route set, search for auth pages, and draft the route inventory part": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898068643
+      }
+    ],
+    "3.2 Draft the glossary and rendering definitions parts": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898068787
+      },
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793899009111
+      }
+    ],
+    "4.1 Read the Shared_Layout files and draft the Shared layout part (design Group E)": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898069057
+      }
+    ],
+    "5.1 Document `/`, `/shop`, and `/shop/[slug]`": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898069854
+      }
+    ],
+    "5.2 Document the remaining Jewelry_Pages": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898070589
+      }
+    ],
+    "5.3 Document the Starter_Demo_Pages": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898070939
+      }
+    ],
+    "6.1 Draft the Route_Handler breakdowns (design Group G)": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898071158
+      }
+    ],
+    "6.2 Draft the Special_File, middleware, redirect, rewrite, and edge function parts": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898071308
+      }
+    ],
+    "7. Checkpoint - Review drafted parts": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898071447
+      }
+    ],
+    "8.1 Build the call-site index and draft the API mapping part": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898071630
+      }
+    ],
+    "8.2 Draft the four data flow diagrams": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898071735
+      }
+    ],
+    "9.1 Read the Existing_Doc, compare it with the ledger, and record source findings": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898071832
+      }
+    ],
+    "10.1 Re-check the baseline, merge the ledger, and draft the Codebase references part": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898071939
+      }
+    ],
+    "10.2 Assemble `PAGE_TECHNICAL_BREAKDOWN.md`": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898072047
+      }
+    ],
+    "11.1 Write the check script (V1, V2, V4, V5, V6, V7)": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898072303
+      }
+    ],
+    "11.2 Set up the Mermaid parse attempt (V3)": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898072583
+      }
+    ],
+    "11.3 Fill the Final report and the Final validation section": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898072846
+      }
+    ],
+    "11.4 Run the checks once and record the results": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898073006
+      }
+    ],
+    "11.5 Run the final git status check and write the chat summary": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898073131
+      }
+    ],
+    "12. Final checkpoint - Confirm the deliverable": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898073218
+      }
+    ],
+    "1. Baseline snapshot": [
+      {
+        "executionId": "c7dea4f8-e326-4571-b4ab-2a481dbb0971",
+        "chatSessionId": "sess_e6494ae0-c97b-4a2e-8f87-98733ad9d455",
+        "timestamp": 1793898239146
+      }
+    ]
+  }
+}

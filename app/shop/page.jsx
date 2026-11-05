@@ -1,7 +1,5 @@
-import { Suspense } from 'react';
 import { ShopBrowser } from 'components/products/ShopBrowser';
-import { Breadcrumb } from 'components/ui/Breadcrumb';
-import { Container } from 'components/ui/Container';
+import { ShopHeader } from 'components/products/ShopHeader';
 import { getContent } from 'lib/content';
 
 export async function generateMetadata() {
@@ -16,21 +14,16 @@ export async function generateMetadata() {
 }
 
 export default async function ShopPage() {
-    const { site } = await getContent();
+    // getContent() is cached and shared with the root layout, so this adds no extra Firestore read.
+    const { site, products } = await getContent();
     const paths = site.paths;
 
     return (
         <div className="pb-16">
-            <Container className="pt-10 pb-6 md:pt-14">
-                <Breadcrumb items={[{ label: 'Home', href: paths.home }, { label: 'Shop' }]} />
-                <h1 className="type-headline mt-6">The Collection</h1>
-                <p className="mt-4 max-w-xl text-sm leading-relaxed text-ash md:text-base">
-                    Rings, earrings, necklaces, and bracelets. Filter by availability, gold tone, or shape.
-                </p>
-            </Container>
-            <Suspense fallback={<Container className="py-10 text-sm text-ash">Loading the collection…</Container>}>
-                <ShopBrowser />
-            </Suspense>
+            <ShopHeader paths={paths} />
+            {/* No Suspense/skeleton here: the root layout is force-dynamic, so this renders per request with the
+                products already in the HTML. If the route is ever made static, useSearchParams will need a Suspense boundary. */}
+            <ShopBrowser initialProducts={products} />
         </div>
     );
 }
