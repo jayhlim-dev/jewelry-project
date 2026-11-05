@@ -20,7 +20,7 @@ export const site = {
     tagline: 'Fine jewelry, considered slowly.',
     description:
         'Fine jewelry, considered slowly. Rings, earrings, necklaces, and bracelets, with a plain account of each piece.',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://xxxx.example',
+    url: process.env.NEXT_PUBLIC_SITE_URL,
     previewNote:
         'Sample collection for this design preview. Names, prices, metals, and photographs are temporary and are not an offer to sell.',
     placeholderNotice:

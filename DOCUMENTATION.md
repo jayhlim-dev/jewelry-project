@@ -599,7 +599,6 @@ Firestore is the runtime source. The files under `data/` and `config/siteFeature
 | `data/site.js` | Seed for `site/main` | Seed script only |
 | `data/quotes.json` | Seed for `quotes` | Seed script only. `/quotes/random` reads Firestore |
 | `site/main.features` in Firestore | `showDColorDiamondPage`, `showCatalogPrices` | Nav, home diamond block, diamond page access, search guides, why-page price copy, shop price UI. Seeded from `config/siteFeatures.js`. |
-| `NEXT_PUBLIC_SITE_URL` | Canonical/metadata base URL (fallback `https://xxxx.example`) | `site.url`, JSON-LD |
 | SMTP env vars | Contact form delivery | `lib/mail.js` |
 | `NEXT_PUBLIC_DISABLE_UPLOADS` | Disables Blobs uploads on demo page | `/blobs` |
 | `CONTEXT` (Netlify) | Netlify runtime context helpers | Starter utils / some demo pages |
