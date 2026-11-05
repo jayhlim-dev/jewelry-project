@@ -23,8 +23,8 @@ function InquiryStrip({ needsSize, compact = false, paths }) {
     const inner = (
         <>
             <p className={`text-sm leading-relaxed text-ash ${compact ? 'max-w-xl' : ''}`}>
-                Confirm metal, grades, size, and availability on WhatsApp before you decide. Nothing is reserved until we
-                reply.
+                Confirm metal, grades, size, and availability on WhatsApp before you decide. Nothing is reserved until
+                we reply.
             </p>
             <div className={`flex flex-wrap gap-x-5 gap-y-2 ${compact ? '' : 'mt-8'}`}>
                 {needsSize ? (
@@ -79,18 +79,32 @@ export async function ProductDetailPanel({ product }) {
 
     if (sheet) {
         return (
-            <section className="mt-10 border-t border-charcoal/10 pt-8 md:mt-12 md:pt-10" aria-labelledby="piece-specification-sheet-heading">
+            <section
+                className="mt-10 border-t border-charcoal/10 pt-8 md:mt-12 md:pt-10"
+                aria-labelledby="piece-specification-sheet-heading"
+            >
                 <ProductSpecificationSheet product={product} />
                 {extraDescription ? (
-                    <p className="mt-6 max-w-2xl text-sm leading-7 text-charcoal/90">{extraDescription}</p>
-                ) : null}
-                <InquiryStrip needsSize={needsSize} compact paths={paths} />
+                    <div className="mt-10 grid gap-8 border-t border-charcoal/10 pt-10 lg:grid-cols-12 lg:gap-10">
+                        <div className="lg:col-span-7">
+                            <p className="eyebrow mb-3">The piece</p>
+                            <h2 className="type-title text-balance">About this piece</h2>
+                            <p className="mt-5 max-w-2xl text-[17px] leading-8 text-charcoal/90">{extraDescription}</p>
+                        </div>
+                        <InquiryStrip needsSize={needsSize} paths={paths} />
+                    </div>
+                ) : (
+                    <InquiryStrip needsSize={needsSize} compact paths={paths} />
+                )}
             </section>
         );
     }
 
     return (
-        <section className="mt-10 border-t border-charcoal/10 pt-8 md:mt-12 md:pt-10" aria-labelledby="piece-detail-heading">
+        <section
+            className="mt-10 border-t border-charcoal/10 pt-8 md:mt-12 md:pt-10"
+            aria-labelledby="piece-detail-heading"
+        >
             <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
                 <div className="lg:col-span-7">
                     <p className="eyebrow mb-3">The piece</p>
