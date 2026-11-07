@@ -1,8 +1,6 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ProductGrid } from 'components/products/ProductGrid';
-import { Breadcrumb } from 'components/ui/Breadcrumb';
-import { Container } from 'components/ui/Container';
+import { CollectionPageHeader } from 'components/products/CollectionPageHeader';
+import { ShopBrowser } from 'components/products/ShopBrowser';
 import { getCollection, getProductsInCollection } from 'lib/catalog';
 import { getContent } from 'lib/content';
 
@@ -35,34 +33,13 @@ export default async function CollectionPage({ params }) {
     const pieces = getProductsInCollection(products, collection);
 
     return (
-        <div className="pb-20">
-            <Container className="pt-10 md:pt-14">
-                <Breadcrumb
-                    items={[
-                        { label: 'Home', href: paths.home },
-                        { label: 'Shop', href: paths.shop },
-                        { label: collection.name }
-                    ]}
-                />
-                <p className="eyebrow mt-8">Collection</p>
-                <h1 className="type-headline mt-4">{collection.name}</h1>
-                <p className="mt-4 max-w-xl text-sm leading-relaxed text-ash md:text-base">{collection.description}</p>
-                <p className="mt-8">
-                    <Link
-                        href={paths.shop}
-                        className="text-[11px] tracking-[0.18em] text-ash uppercase underline-offset-4 hover:text-charcoal hover:underline"
-                    >
-                        All pieces
-                    </Link>
-                </p>
-                <div className="mt-12">
-                    {pieces.length ? (
-                        <ProductGrid products={pieces} />
-                    ) : (
-                        <p className="py-16 text-ash">No pieces in this collection yet.</p>
-                    )}
-                </div>
-            </Container>
+        <div className="pb-14 md:pb-16">
+            <CollectionPageHeader collection={collection} paths={paths} />
+            <ShopBrowser
+                initialProducts={pieces}
+                basePath={`${paths.collections}/${collection.slug}`}
+                showCategoryTabs={false}
+            />
         </div>
     );
 }

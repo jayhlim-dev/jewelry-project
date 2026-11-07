@@ -5,17 +5,19 @@ import { useContent } from 'components/layout/ContentProvider';
 import { HoverImage } from 'components/ui/HoverImage';
 import { formatDate } from 'lib/format';
 
-export function ArticleCard({ article, featured = false }) {
+export function ArticleCard({ article, featured = false, layout = 'default' }) {
     const { site } = useContent();
     const paths = site.paths;
+    const articleClass =
+        featured || layout === 'grid' ? 'group' : 'group border-t border-charcoal/10 pt-6';
     return (
-        <article className={featured ? 'group' : 'group border-t border-charcoal/10 pt-6'}>
+        <article className={articleClass}>
             <Link href={`${paths.articles}/${article.slug}`} className="block">
                 <HoverImage
                     src={article.image.src}
                     alt={article.image.alt}
                     sizes={featured ? '(min-width: 1024px) 58vw, 100vw' : '(min-width: 1024px) 30vw, 100vw'}
-                    className={`relative ${featured ? 'aspect-[16/10]' : 'aspect-[4/3]'}`}
+                    className={`relative overflow-hidden rounded-md ${featured ? 'aspect-[16/10]' : 'aspect-[4/3]'}`}
                 />
                 <p className="mt-4 text-[11px] tracking-[0.16em] text-ash uppercase">
                     {article.category}

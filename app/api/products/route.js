@@ -11,13 +11,19 @@ export async function GET() {
     try {
         const { products } = await getContent();
 
-        return NextResponse.json({
-            source: 'firestore',
-            count: products.length,
-            products
-        }, {
-            headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
-        });
+        const cacheControl =
+            process.env.NODE_ENV === 'development'
+                ? 'no-store'
+                : 'public, s-maxage=300, stale-while-revalidate=600';
+
+        return NextResponse.json(
+            {
+                source: 'firestore',
+                count: products.length,
+                products
+            },
+            { headers: { 'Cache-Control': cacheControl } }
+        );
     } catch (error) {
         console.error('Firebase products GET failed:', error);
         return NextResponse.json(

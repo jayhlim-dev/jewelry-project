@@ -15,15 +15,16 @@ export async function generateMetadata() {
 
 export default async function ShopPage() {
     // getContent() is cached and shared with the root layout, so this adds no extra Firestore read.
-    const { site, products } = await getContent();
+    const { site, products, catalog, home } = await getContent();
     const paths = site.paths;
+    const bannerImage = catalog?.banner?.src ? catalog.banner : home?.hero?.image;
 
     return (
-        <div className="pb-16">
-            <ShopHeader paths={paths} />
+        <div className="pb-14 md:pb-16">
+            <ShopHeader paths={paths} bannerImage={bannerImage} />
             {/* No Suspense/skeleton here: the root layout is force-dynamic, so this renders per request with the
                 products already in the HTML. If the route is ever made static, useSearchParams will need a Suspense boundary. */}
-            <ShopBrowser initialProducts={products} />
+            <ShopBrowser initialProducts={products} denseTop />
         </div>
     );
 }

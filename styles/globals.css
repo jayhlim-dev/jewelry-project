@@ -12,11 +12,11 @@
 
 @layer base {
     html {
-        background: #f7f5f0;
+        background: #ffffff;
     }
 
     body {
-        background: #f7f5f0;
+        background: #ffffff;
         color: #20201e;
         font-family: var(--font-sans);
         text-rendering: optimizeLegibility;
@@ -121,5 +121,16 @@
     .dual-range input[type='range']::-moz-range-track {
         background: transparent;
         border: none;
+    }
+}
+
+@layer utilities {
+    .scrollbar-none {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-none::-webkit-scrollbar {
+        display: none;
     }
 }

@@ -18,10 +18,17 @@ function readNumber(value, fallback) {
     return Number.isFinite(next) ? next : fallback;
 }
 
-export function ShopBrowser({ initialProducts }) {
+export function ShopBrowser({
+    initialProducts,
+    basePath,
+    showCategoryTabs = true,
+    gridClassName = 'lg:grid-cols-3',
+    denseTop = false
+}) {
     const { catalog, site } = useContent();
     const products = Array.isArray(initialProducts) ? initialProducts : [];
     const paths = site.paths;
+    const listPath = basePath ?? paths.shop;
     const sortOptions = catalog.sortOptions;
     const showPrices = isCatalogPriceVisible(site.features);
     const bounds = catalogPriceBounds(products);
@@ -49,7 +56,7 @@ export function ShopBrowser({ initialProducts }) {
 
     const filtered = useMemo(() => {
         const next = products.filter((product) => {
-            if (category !== 'All' && product.category !== category) return false;
+            if (showCategoryTabs && category !== 'All' && product.category !== category) return false;
             if (metal !== 'All' && product.metal !== metal) return false;
             if (shape !== 'All' && product.diamondShape !== shape) return false;
             if (!matchesPriceRange(product, priceMin, priceMax)) return false;
@@ -59,7 +66,7 @@ export function ShopBrowser({ initialProducts }) {
             return true;
         });
         return sortProducts(next, sort);
-    }, [products, category, metal, shape, inStock, outStock, priceMin, priceMax, sort]);
+    }, [products, category, metal, shape, inStock, outStock, priceMin, priceMax, sort, showCategoryTabs]);
 
     function setParams(updates) {
         const params = new URLSearchParams(searchParams.toString());
@@ -73,7 +80,7 @@ export function ShopBrowser({ initialProducts }) {
     // Filtering runs in memory on the SSR products, so only the URL needs to change.
     // history.replaceState updates useSearchParams without a server round trip.
     function replaceUrl(query) {
-        window.history.replaceState(null, '', query ? `${paths.shop}?${query}` : paths.shop);
+        window.history.replaceState(null, '', query ? `${listPath}?${query}` : listPath);
     }
 
     function onAvailability({ inStock: nextIn, outStock: nextOut }) {
@@ -102,10 +109,22 @@ export function ShopBrowser({ initialProducts }) {
     }
 
     return (
-        <Container>
-            <CategoryTabs category={category} onCategory={(name) => setParams({ category: name })} />
+        <Container className={denseTop ? 'overflow-x-clip pt-5 md:pt-6' : 'overflow-x-clip'}>
+            {showCategoryTabs ? (
+                <CategoryTabs category={category} onCategory={(name) => setParams({ category: name })} />
+            ) : null}
 
-            <div className="mt-8 lg:mt-10 lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:items-start lg:gap-12 xl:grid-cols-[18rem_minmax(0,1fr)] xl:gap-16">
+            <div
+                className={`lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:items-start lg:gap-12 xl:grid-cols-[18rem_minmax(0,1fr)] xl:gap-16 ${
+                    showCategoryTabs
+                        ? denseTop
+                            ? 'mt-5 lg:mt-6'
+                            : 'mt-8 lg:mt-10'
+                        : denseTop
+                          ? 'mt-5 lg:mt-6'
+                          : 'mt-8 lg:mt-9'
+                }`}
+            >
                 <aside className="lg:pr-6 xl:pr-10">
                     <div className="flex items-center justify-between border-b border-charcoal/8 pb-4 lg:hidden">
                         <button
@@ -160,7 +179,7 @@ export function ShopBrowser({ initialProducts }) {
                                 The collection is being updated. Please check back soon.
                             </p>
                         ) : (
-                            <ProductGrid products={shown} className="lg:grid-cols-3" onClearFilters={clearFilters} />
+                            <ProductGrid products={shown} className={gridClassName} onClearFilters={clearFilters} />
                         )}
                         {visible < filtered.length ? (
                             <div className="mt-12 flex justify-center">

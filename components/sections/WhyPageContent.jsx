@@ -108,7 +108,8 @@ function HowToShop() {
 export function WhyPageContent() {
     return (
         <>
-            <Philosophy />
+            {/* Philosophy (“Beyond brilliance…”) — off for now; restore with <Philosophy /> */}
+            {/* <Philosophy /> */}
             <Standards />
             <HowToShop />
         </>

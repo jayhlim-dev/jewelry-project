@@ -87,7 +87,7 @@ export default async function ArticlePage({ params }) {
                     alt={article.image.alt}
                     priority
                     sizes="100vw"
-                    className="aspect-[20/9] min-h-56 md:min-h-72"
+                    className="aspect-[20/9] min-h-56 overflow-hidden rounded-md md:min-h-72"
                 />
             </Container>
             {article.keyTakeaways?.length ? (
@@ -117,7 +117,7 @@ export default async function ArticlePage({ params }) {
                 <ul className="mt-8 grid gap-10 md:grid-cols-3">
                     {related.map((item) => (
                         <li key={item.slug}>
-                            <ArticleCard article={item} />
+                            <ArticleCard article={item} layout="grid" />
                         </li>
                     ))}
                 </ul>

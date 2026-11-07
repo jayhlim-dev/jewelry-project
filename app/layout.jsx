@@ -61,7 +61,7 @@ export default async function RootLayout({ children }) {
 
     return (
         <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
-            <body className="overflow-x-clip bg-ivory font-sans text-charcoal antialiased">
+            <body className="overflow-x-clip bg-white font-sans text-charcoal antialiased">
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
                 <ContentProvider content={clientContent}>
                     <SmoothScroll />

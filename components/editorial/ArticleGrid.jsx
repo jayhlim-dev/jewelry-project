@@ -5,7 +5,7 @@ export function ArticleGrid({ articles }) {
         <ul className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => (
                 <li key={article.slug}>
-                    <ArticleCard article={article} />
+                    <ArticleCard article={article} layout="grid" />
                 </li>
             ))}
         </ul>

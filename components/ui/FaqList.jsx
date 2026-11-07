@@ -6,13 +6,13 @@ export function FaqList({ items }) {
     const [open, setOpen] = useState(0);
 
     return (
-        <div className="border-t border-charcoal/10">
+        <div>
             {items.map((item, index) => {
                 const expanded = open === index;
                 const panelId = `faq-panel-${index}`;
                 const buttonId = `faq-button-${index}`;
                 return (
-                    <div key={item.question} className="border-b border-charcoal/10">
+                    <div key={item.question} className="border-b border-charcoal/10 last:border-b-0">
                         <h3>
                             <button
                                 id={buttonId}

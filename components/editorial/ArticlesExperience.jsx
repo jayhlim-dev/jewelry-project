@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ArticleCard } from 'components/editorial/ArticleCard';
 import { ArticleGrid } from 'components/editorial/ArticleGrid';
 import { useContent } from 'components/layout/ContentProvider';
 
@@ -16,7 +15,6 @@ export function ArticlesExperience({ articles, categories }) {
         return articles.filter((article) => article.category === category);
     }, [articles, category]);
 
-    const [featured, ...rest] = filtered;
     const filterOptions = [ALL, ...categories];
 
     return (
@@ -37,10 +35,10 @@ export function ArticlesExperience({ articles, categories }) {
                                 role="tab"
                                 aria-selected={selected}
                                 onClick={() => setCategory(option)}
-                                className={`min-h-10 border px-4 text-[11px] tracking-[0.14em] uppercase transition-colors ${
+                                className={`min-h-10 rounded-md border px-4 text-[11px] tracking-[0.14em] uppercase transition-colors ${
                                     selected
                                         ? 'border-charcoal bg-charcoal text-ivory'
-                                        : 'border-charcoal/15 bg-ivory text-charcoal hover:border-charcoal/35'
+                                        : 'border-charcoal/15 bg-white text-charcoal hover:border-charcoal/35'
                                 }`}
                             >
                                 {option}
@@ -50,19 +48,12 @@ export function ArticlesExperience({ articles, categories }) {
                 </div>
             </div>
 
-            {!featured ? (
+            {filtered.length === 0 ? (
                 <p className="mt-12 text-sm text-ash">{articlesPage.emptyFilter}</p>
             ) : (
-                <>
-                    <div className="mt-12">
-                        <ArticleCard article={featured} featured />
-                    </div>
-                    {rest.length ? (
-                        <div className="mt-16">
-                            <ArticleGrid articles={rest} />
-                        </div>
-                    ) : null}
-                </>
+                <div className="mt-12">
+                    <ArticleGrid articles={filtered} />
+                </div>
             )}
         </div>
     );

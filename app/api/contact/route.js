@@ -17,7 +17,7 @@ export async function POST(request) {
 
     const name = String(body.name ?? '').trim();
     const email = String(body.email ?? '').trim();
-    const topicId = String(body.topicId ?? '').trim();
+    const topicId = String(body.topicId ?? 'other').trim() || 'other';
     const message = String(body.message ?? '').trim();
 
     if (name.length < 2) {
@@ -35,11 +35,15 @@ export async function POST(request) {
         return NextResponse.json({ error: 'Please write a message of at least 10 characters.' }, { status: 400 });
     }
 
+    const topicLabel =
+        topic.emailSubjectLabel ??
+        (topicId === 'other' ? contact.formEmailSubject ?? 'Contact enquiry' : topic.label);
+
     try {
         await sendContactEmail({
             name,
             email,
-            topicLabel: topic.label,
+            topicLabel,
             message
         });
         return NextResponse.json({ ok: true });

@@ -50,6 +50,7 @@ export const inquiryTopics = [
     {
         id: 'other',
         label: 'Something else',
+        emailSubjectLabel: 'Contact enquiry',
         summary: 'General',
         channel: 'both',
         hint: 'Write as much detail as you can — we will point you to the right channel.',
@@ -65,12 +66,16 @@ export const contactPage = {
     intro:
         'We attend clients online. You may browse the full collection here, then contact us regarding availability, specifications, orders, or partnerships.',
     note: 'A piece is reserved only after we confirm availability and terms with you, ordinarily via WhatsApp.',
-    stepsEyebrow: 'Optional',
-    stepsTitle: 'What is this about?',
-    stepsLead: 'Pick a subject to refine your WhatsApp message and email placeholder. You can message us first without choosing.',
-    quickReachTitle: 'Message on WhatsApp',
-    quickReachLead: 'Fastest for stock, a specific piece, and ring sizing.',
-    channelEyebrow: 'Recommended next step',
+    /** Simplified contact: no topic picker; aside + form copy. */
+    channelEyebrow: 'How to reach us',
+    asideTitle: 'WhatsApp or email',
+    asideBody:
+        'WhatsApp is fastest for stock, sizing, and piece-by-piece questions. Email suits longer notes and partnership enquiries — name the piece or reference when you can.',
+    asideHint: 'Replies during business hours.',
+    formEyebrow: 'By email',
+    formEmailSubject: 'Contact enquiry',
+    formMessagePlaceholder:
+        'Piece name, metal, ring size in mm, or your question…',
     whatsapp: {
         title: 'WhatsApp',
         lead: 'Best for quick, piece-by-piece questions.',
@@ -88,8 +93,8 @@ export const contactPage = {
         lead: 'Use the form when you want a longer message on record.',
         bullets: ['Partnership or press', 'Shipping after an order', 'Returns', 'Anything you prefer by email']
     },
-    formTitle: 'Email the house',
-    formLead: 'Send your enquiry below. We will receive it by email and reply to the address you provide.',
+    formTitle: 'Write to us',
+    formLead: 'Your note comes straight to the house. We reply to the email you leave below.',
     formSuccessTitle: 'Your message has been sent.',
     formSuccessLead: 'Thank you for writing. We will reply to your email as soon as we can.',
     formSending: 'Sending your enquiry…',
@@ -113,7 +118,7 @@ export const contactPage = {
         },
         both: {
             title: 'WhatsApp or email',
-            body: 'Either channel is welcome. Kindly include the piece name and any order reference.'
+            body: 'WhatsApp is fastest for stock, sizing, and piece-by-piece questions. Email suits longer notes and partnership enquiries — name the piece or reference when you can.'
         }
     }
 };
@@ -132,7 +137,7 @@ export const contactFaqs = [
     {
         question: 'What is partnership or press?',
         answer:
-            'Wholesale, collaborations, styled shoots, or media features. Choose “Partnership or press” in the form and include your company, timeline, and links.'
+            'Wholesale, collaborations, styled shoots, or media features. Write us by email using the form and include your company, timeline, and links.'
     },
     {
         question: 'How do I choose a ring size?',

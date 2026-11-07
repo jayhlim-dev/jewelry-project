@@ -180,8 +180,8 @@ export function CategoryTabs({ category, onCategory }) {
     const categories = ['All', ...collections.map((item) => item.name)];
 
     return (
-        <div className="-mx-5 overflow-x-auto px-5 md:mx-0 md:overflow-visible md:px-0">
-            <div className="flex w-max gap-x-6 py-1 md:w-auto md:flex-wrap" role="group" aria-label="Categories">
+        <div className="scrollbar-none overflow-x-auto overscroll-x-contain md:overflow-visible">
+            <div className="flex w-max min-w-0 gap-x-6 py-1 md:w-auto md:flex-wrap" role="group" aria-label="Categories">
                 {categories.map((name) => {
                     const active = category === name;
                     return (
@@ -290,10 +290,10 @@ export function ProductFilters({
                                 type="button"
                                 aria-pressed={selected}
                                 onClick={() => onShape(selected ? 'All' : item)}
-                                className={`min-h-8 border px-2.5 text-[12px] tracking-[0.06em] transition-colors ${
+                                className={`min-h-8 rounded-md border px-2.5 text-[12px] tracking-[0.06em] transition-colors ${
                                     selected
                                         ? 'border-charcoal bg-charcoal text-ivory'
-                                        : 'border-charcoal/12 bg-ivory text-ash hover:border-charcoal/30 hover:text-charcoal'
+                                        : 'border-charcoal/12 bg-white text-ash hover:border-charcoal/30 hover:text-charcoal'
                                 }`}
                             >
                                 {item}

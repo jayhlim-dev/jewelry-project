@@ -6,7 +6,7 @@ import { collections } from 'data/collections';
 import { contactFaqs, contactPage, inquiryTopics } from 'data/contact';
 import { diamondPage } from 'data/diamond';
 import { home } from 'data/home';
-import { priceBands, products, sortOptions } from 'data/products';
+import { catalogBanner, priceBands, products, sortOptions } from 'data/products';
 import { searchCopy, searchPopularArticleSlugs, searchQuickLinks } from 'data/search';
 import { site, paths } from 'data/site';
 import { siteFeatures } from 'config/siteFeatures';
@@ -104,6 +104,6 @@ counts.search = await writeOne(db, 'search', 'main', {
     quickLinks: searchQuickLinks,
     popularArticleSlugs: searchPopularArticleSlugs
 });
-counts.catalog = await writeOne(db, 'catalog', 'main', { priceBands, sortOptions });
+counts.catalog = await writeOne(db, 'catalog', 'main', { priceBands, sortOptions, banner: catalogBanner });
 
 console.log(JSON.stringify(counts, null, 2));

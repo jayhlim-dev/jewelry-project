@@ -673,3 +673,9 @@ export const sortOptions = [
     { id: 'newest', label: 'Newest' },
     { id: 'name', label: 'Name, A–Z' }
 ];
+
+/** Shop page hero — stored on Firestore doc `catalog/main` as `banner`. */
+export const catalogBanner = {
+    src: 'https://storage.googleapis.com/lilo-porto-picture/lilo-project/jewelry/banner-catalog.png',
+    alt: 'Jewelry worn in low light, ring and earring in focus'
+};

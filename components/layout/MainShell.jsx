@@ -9,7 +9,7 @@ export function MainShell({ children }) {
     const onHome = pathname === site.paths.home;
 
     return (
-        <main id="main" className={onHome ? '' : 'pt-[4.5rem]'}>
+        <main id="main" className={onHome ? '' : 'bg-white pt-[4.5rem]'}>
             {children}
         </main>
     );

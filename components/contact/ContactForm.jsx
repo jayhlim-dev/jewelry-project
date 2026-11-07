@@ -14,7 +14,8 @@ export function ContactForm({
     topicId: topicIdProp,
     onTopicIdChange,
     showTopicSelect = true,
-    showWhatsappButton = true
+    showWhatsappButton = true,
+    compact = false
 }) {
     const { site, contact } = useContent();
     const contactPage = contact;
@@ -50,7 +51,6 @@ export function ContactForm({
         const next = {};
         if (values.name.trim().length < 2) next.name = 'Enter your name.';
         if (!emailPattern.test(values.email.trim())) next.email = 'Enter a valid email address.';
-        if (!topic) next.topic = 'Choose a topic.';
         if (values.message.trim().length < 10) next.message = 'Write a message of at least 10 characters.';
         setErrors(next);
         setSubmitError('');
@@ -88,18 +88,22 @@ export function ContactForm({
             <ContactSendingOverlay open={sending} />
             <ContactSuccessToast open={showSuccess} onClose={dismissSuccess} />
             <div
-                className="relative border border-charcoal/12 bg-white p-5 sm:p-7 md:p-9 lg:min-h-[28rem]"
+                className={`relative flex h-full flex-col rounded-md border border-charcoal/12 bg-white ${compact ? 'p-5 sm:p-6 md:p-7' : 'p-5 sm:p-7 md:p-8'}`}
                 aria-busy={sending}
             >
-            <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-charcoal/8 pb-5 sm:pb-6">
-                <div>
-                    <h2 className="font-serif text-xl sm:text-2xl">{contactPage.formTitle}</h2>
-                    <p className="mt-2 max-w-md text-sm leading-relaxed text-ash">{contactPage.formLead}</p>
-                </div>
-                <p className="text-[11px] tracking-[0.12em] text-taupe uppercase">Topic: {topic.label}</p>
+            <div className="border-b border-charcoal/8 pb-4 sm:pb-5">
+                {compact ? (
+                    <p className="eyebrow mb-2">{contactPage.formEyebrow ?? 'By email'}</p>
+                ) : null}
+                <h2 className="font-serif text-xl leading-tight text-charcoal sm:text-2xl">{contactPage.formTitle}</h2>
+                <p className="mt-2 max-w-md text-sm leading-relaxed text-ash">{contactPage.formLead}</p>
             </div>
 
-            <form onSubmit={onSubmit} noValidate className={`mt-6 space-y-6 sm:mt-8 sm:space-y-7 ${sending ? 'pointer-events-none opacity-60' : ''}`}>
+            <form
+                onSubmit={onSubmit}
+                noValidate
+                className={`mt-5 flex flex-1 flex-col space-y-5 sm:mt-5 sm:space-y-5 ${sending ? 'pointer-events-none opacity-60' : ''}`}
+            >
                 {showTopicSelect ? (
                     <Field id="inquiry-topic" label="Topic" error={errors.topic}>
                         <select
@@ -118,7 +122,7 @@ export function ContactForm({
                     </Field>
                 ) : null}
 
-                <div className="grid gap-7 sm:grid-cols-2">
+                <div className="grid gap-6 sm:grid-cols-2">
                     <Field id="inquiry-name" label="Name" error={errors.name}>
                         <input
                             id="inquiry-name"
@@ -150,10 +154,12 @@ export function ContactForm({
                     <textarea
                         id="inquiry-message"
                         name="message"
-                        rows={7}
+                        rows={6}
                         value={values.message}
                         onChange={(event) => update('message', event.target.value)}
-                        placeholder={topic.placeholder}
+                        placeholder={
+                            contactPage.formMessagePlaceholder || topic?.placeholder || 'How can we help?'
+                        }
                         className={`${inputClass} resize-y`}
                         aria-invalid={errors.message ? 'true' : 'false'}
                         aria-describedby={errors.message ? 'inquiry-message-error' : undefined}
@@ -161,12 +167,12 @@ export function ContactForm({
                 </Field>
 
                 {submitError ? (
-                    <p role="alert" className="text-sm leading-relaxed text-charcoal">
+                    <p role="alert" className="text-sm leading-relaxed text-red-700">
                         {submitError}
                     </p>
                 ) : null}
 
-                <div className="flex flex-col gap-4 border-t border-charcoal/8 pt-8 sm:flex-row sm:flex-wrap sm:items-center">
+                <div className="mt-auto flex flex-col gap-3 border-t border-charcoal/8 pt-5 sm:flex-row sm:flex-wrap sm:items-center">
                     <Button type="submit" disabled={sending}>
                         Send email
                     </Button>
@@ -182,7 +188,7 @@ export function ContactForm({
                     ) : null}
                     <Link
                         href={paths.shop}
-                        className={`text-[11px] tracking-[0.16em] text-ash uppercase hover:text-charcoal ${showWhatsappButton ? 'sm:ml-auto' : ''}`}
+                        className={`text-[11px] tracking-[0.16em] text-ash uppercase hover:text-charcoal ${showWhatsappButton || compact ? 'sm:ml-auto' : ''}`}
                     >
                         Browse shop
                     </Link>
@@ -204,7 +210,7 @@ function Field({ id, label, error, children }) {
             </label>
             {children}
             {error ? (
-                <p id={`${id}-error`} role="alert" className="mt-2 text-xs text-charcoal">
+                <p id={`${id}-error`} role="alert" className="mt-2 text-xs text-red-700">
                     {error}
                 </p>
             ) : null}

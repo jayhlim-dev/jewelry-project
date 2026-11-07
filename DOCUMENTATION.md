@@ -294,21 +294,19 @@ Educational guide to diamond color grades and the Four Cs.
 ### Contact (`/contact`)
 
 **Purpose:**  
-Help visitors choose an inquiry topic and contact the house by WhatsApp or email form.
+Help visitors contact the house by WhatsApp or email form (no topic picker on the page).
 
 | Feature           | Desktop Behavior                        | Mobile Behavior                  | Data Source / Logic                                 |
 | ----------------- | --------------------------------------- | -------------------------------- | --------------------------------------------------- |
 | Hero / highlights | Headline + 3 highlight cards            | Highlights stack / 3-col at `sm` | `contactPage`                                       |
-| Topic picker      | Up to 4 columns (`xl`)                  | 1–3 columns                      | `inquiryTopics` (7 topics)                          |
-| Channel guide     | Sticky aside with recommended channel   | Full width above form            | Channel copy keyed by `whatsapp` / `email` / `both` |
-| Email form        | Name, email, message; topic from picker | Same                             | `POST /api/contact` → SMTP                          |
+| Reach guide       | Sticky aside: WhatsApp or email copy    | Full width above form            | `asideTitle`, `asideBody`, `asideHint` (fallbacks to `channelCopy.both`) |
+| Email form        | Name, email, message; fixed backend topic `other` | Same                     | `POST /api/contact` → SMTP                          |
 | FAQ               | Sticky title + accordion list           | Stacked                          | `contactFaqs`                                       |
 
 **Interactions**
 
-- Topic buttons sync form topic (form topic select hidden when used inside `ContactExperience`)
-- WhatsApp CTA uses draft: `Good day. I would like to enquire regarding: {topic.label}.`
-- Send email validates client-side then server-side (name ≥ 2, valid email, known topic, message ≥ 10)
+- WhatsApp CTA uses a short generic draft (collection enquiry), not topic-specific wording.
+- Send email validates client-side then server-side (name ≥ 2, valid email, known topic, message ≥ 10); `topicId` defaults to `other` when omitted.
 - Success state replaces form; “Edit the note” returns to form
 - Sending overlay while request in flight
 
