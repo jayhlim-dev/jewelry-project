@@ -180,8 +180,8 @@ export function CategoryTabs({ category, onCategory }) {
     const categories = ['All', ...collections.map((item) => item.name)];
 
     return (
-        <div className="scrollbar-none overflow-x-auto overscroll-x-contain md:overflow-visible">
-            <div className="flex w-max min-w-0 gap-x-6 py-1 md:w-auto md:flex-wrap" role="group" aria-label="Categories">
+        <div className="scrollbar-none -mx-5 overflow-x-auto overscroll-x-contain pl-5 md:mx-0 md:overflow-visible md:pl-0">
+            <div className="flex w-max gap-x-6 py-1 md:w-auto md:flex-wrap" role="group" aria-label="Categories">
                 {categories.map((name) => {
                     const active = category === name;
                     return (
@@ -219,7 +219,8 @@ export function ProductFilters({
     sort,
     onSort,
     sortOptions,
-    resultCount
+    resultCount,
+    inSheet = false
 }) {
     const availabilityDirty = !inStock || outStock;
     const priceDirty = priceMin !== priceBoundMin || priceMax !== priceBoundMax;
@@ -227,7 +228,7 @@ export function ProductFilters({
     const shapeDirty = shape !== 'All';
 
     return (
-        <div className="lg:sticky lg:top-24">
+        <div className={`lg:sticky lg:top-24 ${inSheet ? 'pt-6' : ''}`}>
             <Section
                 title="Availability"
                 onReset={availabilityDirty ? () => onAvailability({ inStock: true, outStock: false }) : undefined}
@@ -303,7 +304,7 @@ export function ProductFilters({
                 </div>
             </Section>
 
-            <section className="border-b border-charcoal/8 py-5">
+            <section className={inSheet ? 'pb-1 pt-5' : 'border-b border-charcoal/8 py-5'}>
                 <SortSelect sort={sort} sortOptions={sortOptions} onSort={onSort} />
             </section>
 

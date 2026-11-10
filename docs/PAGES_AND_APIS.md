@@ -89,9 +89,11 @@ These are **public HTTP routes**. No `PUT`, `PATCH`, or `DELETE` handlers exist 
 | Method | Path | Who calls it | Source | Request body |
 |---|---|---|---|---|
 | GET | `/api/products` | Nothing in the jewelry UI. Curl / tools only. | Server `getContent()` → Firestore `products` | none |
+| GET | `/api/products/:slug` | Curl / tools | Firestore `products/{slug}` | none |
+| PATCH | `/api/products/:slug` | Curl / tools (admin) | Firestore merge update | JSON partial product fields; `Authorization: Bearer` or `x-api-key` = `PRODUCTS_ADMIN_SECRET` |
 | POST | `/api/contact` | Jewelry `ContactForm` (`fetch` in the browser) | Firestore `contact/main.inquiryTopics` to validate `topicId`; then Nodemailer SMTP (`lib/mail.js`) | JSON `{ name, email, topicId, message }` |
 | GET | `/quotes/random` | Starter `RandomQuote` component (`fetch`). That component is **not imported by any page** today. Curl still works. | Server `getQuotes()` → Firestore `quotes` | none |
-| GET | `/api/health` | Rewrite in `next.config.js` to `/quotes/random`. Same JSON as above. | Same as `/quotes/random` | none |
+| GET | `/api/health` | Ops / monitoring (`curl`, load balancers) | Firestore `site/main` via Admin SDK | none |
 
 Jewelry catalog pages do **not** `fetch('/api/products')`.
 
@@ -249,7 +251,7 @@ These are leftovers from the Netlify Next starter. They still use the jewelry ro
 
 | Path | What it does |
 |---|---|
-| `/api/health` | Rewrite → `GET /quotes/random` |
+| `/api/health` | **GET** health JSON (`app/api/health/route.js`) |
 | `/blog` | Rewrite → `/classics` |
 | `/home` | Redirect → `/` |
 | `/old-blog/:slug` | Permanent redirect → `/classics` |

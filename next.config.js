@@ -3,6 +3,7 @@ const nextConfig = {
   reactCompiler: true,
 
   images: {
+    qualities: [75, 80],
     remotePatterns: [
       {
         protocol: 'https',
@@ -49,10 +50,6 @@ const nextConfig = {
 
   rewrites() {
     return [
-      {
-        source: '/api/health',
-        destination: '/quotes/random',
-      },
       {
         source: '/blog',
         destination: '/classics',

@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "clear-cache": "node -e \"require('fs').rmSync('.next/cache',{recursive:true,force:true});console.log('Cleared .next/cache')\"",
-    "seed:products": "node --env-file=.env --import ./scripts/register-alias.mjs scripts/seed-products.mjs"
+    "seed:products": "node --env-file=.env --import ./scripts/register-alias.mjs scripts/seed-products.mjs",
+    "api:health": "bash scripts/curl-api.sh health",
+    "api:products": "bash scripts/curl-api.sh products"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.13",

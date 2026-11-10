@@ -6,6 +6,7 @@ import { useContent } from 'components/layout/ContentProvider';
 import { isCatalogPriceVisible } from 'lib/features';
 import { catalogPriceBounds, matchesPriceRange, sortProducts, uniqueValues } from 'lib/catalog';
 import { CategoryTabs, ProductFilters } from 'components/products/ProductFilters';
+import { ShopFiltersSheet } from 'components/products/ShopFiltersSheet';
 import { ProductGrid } from 'components/products/ProductGrid';
 import { Container } from 'components/ui/Container';
 import { Button } from 'components/ui/Button';
@@ -108,14 +109,40 @@ export function ShopBrowser({
         replaceUrl('');
     }
 
+    function renderFilters({ inSheet = false } = {}) {
+        return (
+            <ProductFilters
+                inSheet={inSheet}
+                metal={metal}
+                onMetal={(name) => setParams({ metal: name })}
+                metals={metals}
+                shape={shape}
+                onShape={(name) => setParams({ shape: name })}
+                shapes={shapes}
+                inStock={inStock}
+                outStock={outStock}
+                onAvailability={onAvailability}
+                priceMin={priceMin}
+                priceMax={priceMax}
+                priceBoundMin={bounds.min}
+                priceBoundMax={bounds.max}
+                onPrice={onPrice}
+                sort={sort}
+                onSort={(value) => setParams({ sort: value === 'featured' ? null : value })}
+                sortOptions={shopSortOptions}
+                resultCount={count}
+            />
+        );
+    }
+
     return (
-        <Container className={denseTop ? 'overflow-x-clip pt-5 md:pt-6' : 'overflow-x-clip'}>
+        <Container className={denseTop ? 'pt-5 md:pt-6' : ''}>
             {showCategoryTabs ? (
                 <CategoryTabs category={category} onCategory={(name) => setParams({ category: name })} />
             ) : null}
 
             <div
-                className={`lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:items-start lg:gap-12 xl:grid-cols-[18rem_minmax(0,1fr)] xl:gap-16 ${
+                className={`overflow-x-clip lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:items-start lg:gap-12 xl:grid-cols-[18rem_minmax(0,1fr)] xl:gap-16 ${
                     showCategoryTabs
                         ? denseTop
                             ? 'mt-5 lg:mt-6'
@@ -129,48 +156,31 @@ export function ShopBrowser({
                     <div className="flex items-center justify-between border-b border-charcoal/8 pb-4 lg:hidden">
                         <button
                             type="button"
-                            onClick={() => setFiltersOpen((open) => !open)}
+                            onClick={() => setFiltersOpen(true)}
                             aria-expanded={filtersOpen}
+                            aria-haspopup="dialog"
                             className="flex items-center gap-2 text-[12px] tracking-[0.16em] uppercase"
                         >
-                            <svg
-                                viewBox="0 0 16 16"
-                                className={`h-3.5 w-3.5 transition-transform ${filtersOpen ? 'rotate-180' : ''}`}
-                                aria-hidden="true"
-                            >
+                            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden="true">
                                 <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.25" />
                             </svg>
-                            {filtersOpen ? 'Hide filters' : 'Filters'}
+                            Filters
                         </button>
                         <p className="text-[13px] text-ash tabular-nums" aria-live="polite">
                             {count} {count === 1 ? 'result' : 'results'}
                         </p>
                     </div>
-                    <div
-                        className={`${filtersOpen ? 'block' : 'hidden'} border-b border-charcoal/8 pt-5 pb-2 lg:block lg:border-0 lg:pt-0 lg:pb-0`}
-                    >
-                        <ProductFilters
-                            metal={metal}
-                            onMetal={(name) => setParams({ metal: name })}
-                            metals={metals}
-                            shape={shape}
-                            onShape={(name) => setParams({ shape: name })}
-                            shapes={shapes}
-                            inStock={inStock}
-                            outStock={outStock}
-                            onAvailability={onAvailability}
-                            priceMin={priceMin}
-                            priceMax={priceMax}
-                            priceBoundMin={bounds.min}
-                            priceBoundMax={bounds.max}
-                            onPrice={onPrice}
-                            sort={sort}
-                            onSort={(value) => setParams({ sort: value === 'featured' ? null : value })}
-                            sortOptions={shopSortOptions}
-                            resultCount={count}
-                        />
-                    </div>
+                    <div className="hidden lg:block">{renderFilters()}</div>
                 </aside>
+
+                <ShopFiltersSheet
+                    open={filtersOpen}
+                    onClose={() => setFiltersOpen(false)}
+                    onApply={() => setFiltersOpen(false)}
+                    resultCount={count}
+                >
+                    {renderFilters({ inSheet: true })}
+                </ShopFiltersSheet>
 
                 <div className="pt-4 lg:pt-0">
                     <div className="pb-8 lg:pb-2">

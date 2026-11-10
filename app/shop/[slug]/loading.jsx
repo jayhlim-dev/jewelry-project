@@ -1,6 +1,5 @@
-import { PageSkeleton } from 'components/layout/PageSkeleton';
+import { ProductPageSkeleton } from 'components/products/ProductPageSkeleton';
 
-// Overrides app/shop/loading.jsx, which only fits the product list.
 export default function ProductLoading() {
-    return <PageSkeleton />;
+    return <ProductPageSkeleton />;
 }

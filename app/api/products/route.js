@@ -4,8 +4,8 @@ import { getContent } from 'lib/content';
 export const dynamic = 'force-dynamic';
 
 /**
- * GET /api/products
- * Reads the Firestore `products` collection.
+ * GET /api/products — full catalog.
+ * PATCH one product: `/api/products/[slug]` with PRODUCTS_ADMIN_SECRET.
  */
 export async function GET() {
     try {

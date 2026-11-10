@@ -63,10 +63,6 @@ const rewritesSnippet = `
 rewrites() {
   return [
     {
-      source: '/api/health',
-      destination: '/quotes/random', // Proxies to the quotes API
-    },
-    {
       source: '/blog',
       destination: '/classics', // Shows classics content under /blog URL
     },
@@ -112,11 +108,6 @@ export default function Page() {
                 <Card title="Try Rewrites">
                     <p className="mb-4">These links use rewrites to show different content while keeping the URL (notice the URL stays the same):</p>
                     <ul className="space-y-2">
-                        <li>
-                            <Link href="/api/health" className="link">
-                                /api/health → Shows random quote
-                            </Link>
-                        </li>
                         <li>
                             <Link href="/blog" className="link">
                                 /blog → Shows classics page

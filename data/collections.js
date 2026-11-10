@@ -1,5 +1,10 @@
 import { paths } from 'data/site';
 
+/**
+ * Each `image` may include:
+ * - `src` / `alt` — desktop + collection page banner
+ * - `mobileSrc` (optional, Firebase) — homepage collection tiles only; leave null until GCS URL is ready
+ */
 export const collections = [
     {
         slug: 'rings',
@@ -9,7 +14,8 @@ export const collections = [
         description: 'Solitaires, bands, and stacks with a quiet profile.',
         image: {
             src: 'https://storage.googleapis.com/lilo-porto-picture/lilo-project/jewelry/banner-ring.png',
-            alt: 'Diamond solitaire ring in pale metal, close up'
+            alt: 'Diamond solitaire ring in pale metal, close up',
+            mobileSrc: null
         }
     },
     {
@@ -20,7 +26,8 @@ export const collections = [
         description: 'Chains and pendants drawn in fine lines.',
         image: {
             src: 'https://storage.googleapis.com/lilo-porto-picture/lilo-project/jewelry/banner-necklace.png',
-            alt: 'Gold chain necklace worn close to the neckline'
+            alt: 'Gold chain necklace worn close to the neckline',
+            mobileSrc: null
         }
     },
     {
@@ -31,7 +38,8 @@ export const collections = [
         description: 'Drops and studs meant to sit close to the face.',
         image: {
             src: 'https://storage.googleapis.com/lilo-porto-picture/lilo-project/jewelry/banner-earrings.png',
-            alt: 'Diamond stud earring worn on the ear'
+            alt: 'Diamond stud earring worn on the ear',
+            mobileSrc: null
         }
     },
     {
@@ -42,7 +50,8 @@ export const collections = [
         description: 'Lines of light for the wrist.',
         image: {
             src: 'https://storage.googleapis.com/lilo-porto-picture/lilo-project/jewelry/banner-bracelet.png',
-            alt: 'Diamond bracelet on the wrist'
+            alt: 'Diamond bracelet on the wrist',
+            mobileSrc: null
         }
     }
 ];

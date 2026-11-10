@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { getContent } from 'lib/content';
+import { CategoryTileImage } from 'components/sections/CategoryTileImage';
 
 export async function CategoryShowcase() {
     const { collections, site } = await getContent();
@@ -19,12 +19,11 @@ export async function CategoryShowcase() {
                         <li key={item.slug}>
                             <Link href={item.href} className="group relative block overflow-hidden rounded-lg">
                                 <div className="relative aspect-[3/4] overflow-hidden bg-[#f3f3f3]">
-                                    <Image
-                                        src={item.image.src}
-                                        alt={item.image.alt}
-                                        fill
+                                    <CategoryTileImage
+                                        image={item.image}
+                                        slug={item.slug}
                                         sizes="(min-width: 768px) 22vw, 46vw"
-                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                                        className="group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                                     />
                                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-charcoal/45 to-transparent" />
                                     <p className="absolute bottom-3 left-3 text-sm text-ivory md:bottom-4 md:left-4">

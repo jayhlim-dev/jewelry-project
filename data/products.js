@@ -676,6 +676,6 @@ export const sortOptions = [
 
 /** Shop page hero — stored on Firestore doc `catalog/main` as `banner`. */
 export const catalogBanner = {
-    src: 'https://storage.googleapis.com/lilo-porto-picture/lilo-project/jewelry/banner-catalog.png',
+    src: 'https://storage.googleapis.com/lilo-porto-picture/others/x2.png',
     alt: 'Jewelry worn in low light, ring and earring in focus'
 };
